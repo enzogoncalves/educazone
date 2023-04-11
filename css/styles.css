@@ -1,0 +1,89 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--deafult-box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+	--primary-color-hsl: 244;
+	--primary-color: hsl(var(--primary-color-hsl), 100%, 64%);
+	--header-height: 70px;
+	--body-background-color: #ebebeb;
+	--third-color: #c4c4c4;
+	--primary-color-lighter: hsl(var(--primary-color-hsl), 100%, 68%);
+}
+
+a {
+	text-decoration: none;
+}
+
+body {
+	font-family: "Roboto", sans-serif;
+	background-color: var(--body-background-color);
+	position: relative;
+}
+
+main {
+	padding-top: calc(var(--header-height) + 1rem);
+}
+
+header {
+	height: var(--header-height);
+	background-color: white;
+	box-shadow: var(--deafult-box-shadow);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+header nav {
+	height: var(--header-height);
+	padding: 0.5rem 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+header nav #title {
+	color: black;
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+header nav #title span {
+	color: var(--primary-color);
+}
+
+header nav ul {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+header nav ul a:nth-child(1) {
+	background-color: var(--primary-color);
+	padding: 0.5rem 0.75rem;
+	color: white;
+	border-radius: 2px;
+	transition: 0.2s;
+}
+
+header nav ul a:nth-child(1):hover {
+	background-color: var(--primary-color-lighter);
+}
+
+header nav ul a:nth-child(2) {
+	color: var(--primary-color);
+	padding: 0.5rem 0.75rem;
+	border-radius: 2px;
+	transition: 0.1s;
+}
+
+header nav ul a:nth-child(2):hover {
+	color: white;
+	background-color: var(--primary-color);
+}
