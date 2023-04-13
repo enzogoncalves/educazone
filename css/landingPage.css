@@ -1,0 +1,54 @@
+main section {
+	padding: 0 1.5rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+main section .prof-student-copy {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+main section .prof-student-copy ul {
+	padding-left: 1.2rem;
+}
+
+main section .prof-student-images {
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+	justify-content: flex-end;
+}
+
+main section .prof-student-images img {
+	display: inline-block;
+	width: 20rem;
+}
+
+main section .prof-student-images img:nth-child(1) {
+	margin-left: 10rem;
+}
+
+main section .prof-student-images img:nth-child(2) {
+	margin-top: -5rem;
+	margin-right: 10rem;
+}
+
+main section .prof-student-images:nth-child(1) img:nth-child(1) {
+	margin-left: 0;
+}
+
+main section .prof-student-images:nth-child(1) img:nth-child(2) {
+	margin-top: -5rem;
+	margin-left: 10rem;
+	margin-right: 0;
+}
+
+.strip {
+	height: 70px;
+	width: 100%;
+	background-color: var(--primary-color);
+	margin-bottom: 1.5rem;
+}

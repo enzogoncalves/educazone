@@ -14,6 +14,7 @@
 	--body-background-color: #ebebeb;
 	--third-color: #c4c4c4;
 	--primary-color-lighter: hsl(var(--primary-color-hsl), 100%, 68%);
+	--footer-background-color: #5e5e5e;
 }
 
 a {
@@ -86,4 +87,40 @@ header nav ul a:nth-child(2) {
 header nav ul a:nth-child(2):hover {
 	color: white;
 	background-color: var(--primary-color);
+}
+
+footer {
+	background-color: var(--footer-background-color);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 2rem;
+	margin-top: 1rem;
+}
+
+footer ul {
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+}
+
+footer ul a {
+	color: #e3e3e3;
+	font-size: 14px;
+}
+
+footer p {
+	color: white;
+}
+
+footer div {
+	color: rgb(255, 255, 255);
+}
+
+footer div a {
+	color: rgb(255, 255, 255);
+}
+
+footer div a:hover {
+	text-decoration: underline;
 }
