@@ -19,8 +19,8 @@
 		<link rel="stylesheet" href="../css/login.css" />
 
 		<!-- Javascript -->
-		<script src="../javascript/initializeFirebase.js" type="module"></script>
-		<script src="../javascript/signup.js" type="module"></script>
+		<script src="../js/initializeFirebase.js" type="module"></script>
+		<script src="../js/signup.js" type="module"></script>
 	</head>
 	<body>
 		<div>
@@ -43,22 +43,33 @@
 						id="password"
 						placeholder="Digite a sua senha"
 						minlength="6"
-						
 					/>
 				</div>
-                <div class="form-item">
-                    <input type="radio" name="student-or-professor" id="radio-professor" value="professor" required>    
-                    <label for="radio-professor">Sou professor</label>
-                </div>
-                <div class="form-item">
-                    <input type="radio" name="student-or-professor" id="radio-student" value="student" required>
-                    <label for="radio-student">Sou estudante</label>
-                </div>
-				<input type="submit" value="Entrar" id="signin" />
+				<div class="form-item">
+					<input
+						type="radio"
+						name="student-or-professor"
+						id="radio-professor"
+						value="professor"
+						required
+					/>
+					<label for="radio-professor">Sou professor</label>
+				</div>
+				<div class="form-item">
+					<input
+						type="radio"
+						name="student-or-professor"
+						id="radio-student"
+						value="student"
+						required
+					/>
+					<label for="radio-student">Sou estudante</label>
+				</div>
+				<input type="submit" value="Cadastrar" id="signin" />
 				<p>OU</p>
 				<button type="submit" id="signin-with-google">
 					<img src="../assets/img/google-logo.svg" />
-					Entrar com o Google
+					Cadastro com o Google
 				</button>
 			</form>
 			<p>Não tem uma conta? <a href="#">Crie uma aqui</a></p>
