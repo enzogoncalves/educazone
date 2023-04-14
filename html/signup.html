@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>EducaZone - Login</title>
+		<title>EducaZone - Signup</title>
 
 		<!-- FONTS: Roboto -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,11 +20,11 @@
 
 		<!-- Javascript -->
 		<script src="../javascript/initializeFirebase.js" type="module"></script>
-		<script src="../javascript/login.js" type="module"></script>
+		<script src="../javascript/signup.js" type="module"></script>
 	</head>
 	<body>
 		<div>
-			<h1>Login</h1>
+			<h1>Cadastro</h1>
 			<form>
 				<div class="form-item">
 					<label for="email">Email</label>
@@ -46,6 +46,14 @@
 						
 					/>
 				</div>
+                <div class="form-item">
+                    <input type="radio" name="student-or-professor" id="radio-professor" value="professor" required>    
+                    <label for="radio-professor">Sou professor</label>
+                </div>
+                <div class="form-item">
+                    <input type="radio" name="student-or-professor" id="radio-student" value="student" required>
+                    <label for="radio-student">Sou estudante</label>
+                </div>
 				<input type="submit" value="Entrar" id="signin" />
 				<p>OU</p>
 				<button type="submit" id="signin-with-google">
@@ -53,7 +61,7 @@
 					Entrar com o Google
 				</button>
 			</form>
-			<p>Não tem uma conta? <a href="/html/signup.html">Crie uma aqui</a></p>
+			<p>Não tem uma conta? <a href="#">Crie uma aqui</a></p>
 		</div>
 	</body>
 </html>
