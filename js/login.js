@@ -20,11 +20,12 @@ form.addEventListener("submit", (e) => {
 	if (submitter === "signin") {
 		signInWithEmailAndPassword(auth, email_input.value, password_input.value)
 			.then((userCredential) => {
-				alert("autorizado")
+				window.location = '/html/editProfile.html'
 			})
 			.catch((error) => {
 				const errorMessage = error.message
 
+				clearInputs()
 				alert(errorMessage)
 			})
 	} else if (submitter === "signin-with-google") {
@@ -32,15 +33,20 @@ form.addEventListener("submit", (e) => {
 
 		signInWithPopup(auth, provider)
 			.then((result) => {
-				const user = result.user
-
-				alert("Autenticado com sucesso!")
+				window.location = '/html/editProfile.html'
 			})
 			.catch((error) => {
 				const errorCode = error.code
 				const errorMessage = error.message
 
+				clearInputs()
 				alert(errorCode, errorMessage)
 			})
 	}
 })
+
+
+function clearInputs() {
+	document.querySelector('#email').value = '';
+	document.querySelector('#password').value = '';
+}

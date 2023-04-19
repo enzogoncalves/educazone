@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>EducaZone - Editar</title>
+
+		<!-- FONTS: Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="../css/styles.css" />
+		<link rel="stylesheet" href="../css/editProfile.css" />
+
+		<!-- Javascript -->
+		<script src="../js/initializeFirebase.js" type="module"></script>
+		<script src="../js/areUserConnected.js" type="module"></script>
+		<script src="../js/editProfile.js" type="module"></script>
+        
+	</head>
+	<body>
+        <header>
+			<nav>
+				<a href="/" id="title">Educa<span>Zone</span></a>
+				<ul role="navigation">
+					<a href="/html/signup.html">Cadastrar</a>
+					<a href="/html/login.html">Entrar</a>
+				</ul>
+			</nav>
+		</header>
+		<main>
+            <section id="user-profile">
+                <h2 id="user-name"></h2>
+                <p id="user-username"></p>
+            </section>
+            <section>
+                <div>
+                    <h2>Editar Perfil</h2>
+                </div>
+                <form>
+                    <div class="form-item">
+                        <input type="text" name="fullname" id="fullname">
+                        <label for="fullname" required></label>
+                    </div>
+                    <div class="form-item">
+                        <input type="text" name="username" id="username">
+                        <label for="username" required></label>
+                    </div>
+                    <div class="form-item">
+                        <input type="password" name="password" id="password">
+                        <label for="password" required></label>
+                    </div>
+                    <div class="form-item">
+                        <input type="password" name="confirm-password" id="confirm-password">
+                        <label for="confirm-password" required></label>
+                    </div>
+                    <div class="form-item">
+                        <input type="email" name="email" id="email">
+                        <label for="email" required></label>
+                    </div>
+                    <div class="form-item">
+                        <input type="email" name="confirm-email" id="confirm-email">
+                        <label for="confirm-email" required></label>
+                    </div>
+                    <div class="form-item">
+                        <input type="text" name="number-phone" id="number-phone">
+                        <label for="number-phone" required></label>
+                    </div>
+                    <div class="form-item">
+                        <input type="text" name="site" id="site">
+                        <label for="site" required></label>
+                    </div>
+                    <select name="" id="">
+                        <option value="Matemática">Matemática</option>
+                    </select>
+                    <div class="form-item">
+                        <input type="text" name="a" id="a">
+                        <label for="a" required></label>
+                    </div>
+                </form>
+            </section>
+        </main>
+        <footer>
+			<ul>
+				<a href="#">Perguntas Frequente</a>
+				<a href="#">Professores</a>
+				<a href="#">Atendimento ao caente</a>
+				<a href="#">Acessar Dashboard</a>
+			</ul>
+			<div>
+				<p>Todos os direitos reservados © a Enzo Mateus e Ulisses Duo</p>
+				<a href="#termos">Termos de Serviço</a>
+				|
+				<a href="#política">Política de Privavidade</a>
+			</div>
+		</footer>
+	</body>
+</html>

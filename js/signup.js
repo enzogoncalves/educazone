@@ -42,12 +42,14 @@ form.addEventListener("submit", (e) => {
 					set(ref(db, `students/${user.uid}/`), { student: true })
 				}
 
+				clearInputs()
 				alert("Conta criada com sucesso!")
 			})
 			.catch((error) => {
 				const errorMessage = error.message
 
 				if (error.code == "auth/email-already-in-use") {
+					clearInputs()
 					alert("Este email já está cadastrado na plataforma")
 				}
 			})
@@ -85,6 +87,8 @@ form.addEventListener("submit", (e) => {
 						)
 							? (window.location = "/html/login.html")
 							: undefined
+
+							clearInputs()
 					}
 				})
 			})
@@ -92,7 +96,15 @@ form.addEventListener("submit", (e) => {
 				const errorCode = error.code
 				const errorMessage = error.message
 
+				clearInputs()
 				alert(errorCode + errorMessage)
 			})
 	}
 })
+
+function clearInputs() {
+	document.querySelector('#email').value = '';
+	document.querySelector('#password').value = '';
+	document.querySelector('#radio-professor').checked = false;
+	document.querySelector('#radio-professor').checked = false;
+}
