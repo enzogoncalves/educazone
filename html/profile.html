@@ -1,0 +1,96 @@
+<<html lang="en">
+	<head>
+		<meta charset="UTF-8"></p>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"></p>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"></p>
+		<title>EducaZone - Editar</title>
+
+		<!-- FONTS: Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com"></p>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></p>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+			rel="stylesheet"
+	></p>
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="../css/styles.css"></p>
+		<link rel="stylesheet" href="../css/profile.css"></p>
+
+		<!-- Javascript -->
+		<script src="../js/initializeFirebase.js" type="module"></script>
+		<script src="../js/areUserConnected.js" type="module"></script>
+		<script src="../js/profile.js" type="module"></script>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="/" id="title">Educa<span>Zone</span></a>
+				<ul role="navigation">
+					<a href="/html/signup.html">Cadastrar</a>
+					<a href="/html/login.html">Entrar</a>
+				</ul>
+			</nav>
+		</header>
+		<main>
+			<section id="user-profile">
+				<h2 id="user-name"></h2>
+				<p id="user-username"></p>
+			</section>
+			<section id="edit-user-profile">
+				<div>
+					<h2>Meu Perfil</h2>
+				</div>
+                <div id="profile">
+                    <div class="profile-item">
+                        <p class="profile-label">Nome completo</p>
+                        <p class="profile-value" id="fullname"></p>
+                    </div>
+                    <div class="profile-item">
+                        <p class="profile-label" >Email</p>
+                        <p class="profile-value" id="email"></p>
+                    </div>
+                    <div class="profile-item">
+                        <p class="profile-label">Número de telefone</p>
+                        <p class="profile-value" id="number-phone"></p>
+                    </div>
+                    <div class="profile-item">
+                        <p class="profile-label">Site</p>
+                        <p class="profile-value" id="site"></p>
+                    </div>
+                    <div class="profile-item">
+                        <p class="profile-label">Disciplina</p>
+                        <p class="profile-value" id="class"></p>
+                    </div>
+                    <div class="profile-item">
+                        <p class="profile-label">Valor mensal</p>
+                        <p class="profile-value" id="value"></p>
+                    </div>
+                    <div class="profile-item span-2">
+                        <p class="label" >Sobre mim</p>
+                        <textarea id="about" readonly></textarea>
+                    </div>
+                    <div class="profile-item span-2">
+                        <p class="label">Minha didática</p>
+                        <textarea id="didatica" readonly></textarea>
+                    </div>
+                    <a href="./editProfile.html">Editar perfil</a>
+                </div>
+			</section>
+		</main>
+		<footer>
+			<ul>
+				<a href="#">Perguntas Frequente</a>
+				<a href="#">Professores</a>
+				<a href="#">Atendimento ao caente</a>
+				<a href="#">Acessar Dashboard</a>
+			</ul>
+			<div>
+				<p>Todos os direitos reservados © a Enzo Mateus e Ulisses Duo</p>
+				<a href="#termos">Termos de Serviço</a>
+				|
+				<a href="#política">Política de Privavidade</a>
+			</div>
+		</footer>
+	</body>
+</html>

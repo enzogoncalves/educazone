@@ -89,6 +89,24 @@ header nav ul a:nth-child(2):hover {
 	background-color: var(--primary-color);
 }
 
+header#user-header nav ul a:nth-child(2) {
+	background-color: transparent;
+	padding: 0;
+	border-radius: 0;
+}
+
+header#user-header nav ul a:nth-child(2):hover {
+	background-color: transparent;
+}
+
+header#user-header nav ul a:nth-child(2) img {
+	height: 50px;
+	width: 50px;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 50%;
+}
+
 footer {
 	background-color: var(--footer-background-color);
 	display: flex;

@@ -39,51 +39,65 @@
                 <h2 id="user-name"></h2>
                 <p id="user-username"></p>
             </section>
-            <section>
+            <section id="edit-user-profile">
                 <div>
                     <h2>Editar Perfil</h2>
                 </div>
                 <form>
                     <div class="form-item">
+                        <label for="fullname">Nome completo</label>
                         <input type="text" name="fullname" id="fullname">
-                        <label for="fullname" required></label>
                     </div>
                     <div class="form-item">
+                        <label for="username">Nome de usuário</label>
                         <input type="text" name="username" id="username">
-                        <label for="username" required></label>
                     </div>
                     <div class="form-item">
+                        <label for="password">Senha</label>
                         <input type="password" name="password" id="password">
-                        <label for="password" required></label>
                     </div>
                     <div class="form-item">
+                        <label for="confirm-password">Confirmar senha</label>
                         <input type="password" name="confirm-password" id="confirm-password">
-                        <label for="confirm-password" required></label>
                     </div>
                     <div class="form-item">
+                        <label for="email">Email</label>
                         <input type="email" name="email" id="email">
-                        <label for="email" required></label>
                     </div>
                     <div class="form-item">
+                        <label for="confirm-email">Confirmar email</label>
                         <input type="email" name="confirm-email" id="confirm-email">
-                        <label for="confirm-email" required></label>
                     </div>
                     <div class="form-item">
+                        <label for="number-phone">Número de telefone</label>
                         <input type="text" name="number-phone" id="number-phone">
-                        <label for="number-phone" required></label>
                     </div>
                     <div class="form-item">
+                        <label for="site">Site</label>
                         <input type="text" name="site" id="site">
-                        <label for="site" required></label>
                     </div>
-                    <select name="" id="">
-                        <option value="Matemática">Matemática</option>
-                    </select>
                     <div class="form-item">
-                        <input type="text" name="a" id="a">
-                        <label for="a" required></label>
+                        <label for="class">Disciplina</label>
+                        <select name="class" id="class">
+                            <option value="Matemática">Matemática</option>
+                        </select>
                     </div>
-                </form>
+                    <div class="form-item">
+                        <label for="value">Valor</label>
+                        <select name="value" id="value">
+                            <option value="a">Matemática</option>
+                        </select>
+                    </div>
+                    <div class="form-item span-2">
+                        <label for="about">Sobre mim</label>
+                        <textarea name="about" id="about" rows="3"></textarea>
+                    </div>
+                    <div class="form-item span-2">
+                        <label for="didatica">Minha didática</label>
+                        <textarea name="didatica" id="didatica" rows="3"></textarea>
+                    </div>
+                    <input type="submit" id="editUser" value="Editar">
+                </form> 
             </section>
         </main>
         <footer>
