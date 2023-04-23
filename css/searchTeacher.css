@@ -1,0 +1,77 @@
+main {
+	display: flex;
+}
+
+/* Filter */
+
+#filter {
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	gap: 1rem;
+	background-color: white;
+	border-right: 1px solid var(--grey);
+}
+
+#filter > div:first-child {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid var(--grey);
+	padding-bottom: 0.5rem;
+}
+
+#filter > div:first-child p {
+	font-weight: 700;
+}
+
+#filter > div:first-child span {
+	color: var(--primary-color);
+}
+
+#classes,
+#prices {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+#classes > p,
+#prices p {
+	text-transform: uppercase;
+	color: var(--grey);
+	font-weight: 700;
+}
+
+#classes .filter-item,
+#prices .filter-item {
+	display: flex;
+	gap: 0.75rem;
+}
+
+#classes .filter-item input[type="checkbox"],
+#prices .filter-item input[type="checkbox"] {
+	height: 1.25rem;
+	width: 1.25rem;
+	accent-color: var(--primary-color);
+}
+
+#classes .filter-item input[type="radio"],
+#prices .filter-item input[type="radio"] {
+	height: 1rem;
+	width: 1rem;
+	accent-color: var(--primary-color);
+}
+
+/* Teachers */
+#results {
+	padding: 1rem;
+}
+
+#results #professors {
+	padding-top: 1rem;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1rem;
+}

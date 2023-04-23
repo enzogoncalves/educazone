@@ -5,7 +5,6 @@ import {
 import {
 	getDatabase,
 	ref,
-	onValue,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 const auth = getAuth()
@@ -18,11 +17,11 @@ onAuthStateChanged(auth, (user) => {
 		createHeader(user.photoURL)
 	} else {
 		// Caso não tiver um usuário conectado, ele vai para a página inicial
-		window.location.pathname = "/"
+		redirectToLoginPage()
 	}
 })
 
-export default function getUserData(snapshot, userUid) {
+export function getUserData(snapshot, userUid) {
 	let userData
 
 	for (const i in snapshot) {
@@ -52,4 +51,8 @@ function createHeader(imageUrl) {
 
 	body.childNodes[1].remove()
 	body.appendChild(header)
+}
+
+export function redirectToLoginPage() {
+	window.location = "/html/login.html"
 }

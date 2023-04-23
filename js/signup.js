@@ -59,8 +59,8 @@ form.addEventListener("submit", (e) => {
 		signInWithPopup(auth, provider)
 			.then((result) => {
 				const user = result.user
-				const dbRef = ref(getDatabase())
 				const db = getDatabase()
+				const dbRef = ref(db)
 
 				onValue(dbRef, (snapshot) => {
 					let usersId = []
@@ -88,7 +88,7 @@ form.addEventListener("submit", (e) => {
 							? (window.location = "/html/login.html")
 							: undefined
 
-							clearInputs()
+						clearInputs()
 					}
 				})
 			})
@@ -103,8 +103,8 @@ form.addEventListener("submit", (e) => {
 })
 
 function clearInputs() {
-	document.querySelector('#email').value = '';
-	document.querySelector('#password').value = '';
-	document.querySelector('#radio-professor').checked = false;
-	document.querySelector('#radio-professor').checked = false;
+	document.querySelector("#email").value = ""
+	document.querySelector("#password").value = ""
+	document.querySelector("#radio-professor").checked = false
+	document.querySelector("#radio-professor").checked = false
 }
