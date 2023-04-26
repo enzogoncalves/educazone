@@ -21,16 +21,16 @@ function handleProfessorsData(professors) {
 		const professorElement = document.createElement("div")
 		professorElement.innerHTML = `
 			<div class="professor">
-				<div>
-					<img sr="${professor.pictureUrl}">
+				<div class="picture-price">
+					<img sr="${professor.pictureUrl}" alt="Foto do professor">
 					<span>R$ ${professor.price}</span>
 				</div>
-				<div>
+				<div class="info">
 					<p>
 						<span>${professor.name}</span>
 						<span>${professor.class}</span>
 					</p>
-					<p>${professor.aboutme}</span>
+					<p>${professor.aboutme}</p>
 					<button type="submit" id="${professorId}">Mostrar detalhes</button>
 				</div>
 			</div>
@@ -39,4 +39,12 @@ function handleProfessorsData(professors) {
 		professorsSection.appendChild(professorElement)
 		console.log(professors[professorId])
 	}
+
+	document.querySelectorAll(".professor .info button").forEach((button) => {
+		button.addEventListener("click", () => {
+			console.log("a")
+			localStorage.setItem("professorId", button.getAttribute("id"))
+			window.location = "/html/hireTeacher.html"
+		})
+	})
 }

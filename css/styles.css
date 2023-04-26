@@ -7,7 +7,7 @@
 }
 
 :root {
-	--deafult-box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+	--default-box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
 	--primary-color-hsl: 244;
 	--primary-color: hsl(var(--primary-color-hsl), 100%, 64%);
 	--header-height: 70px;
@@ -34,7 +34,7 @@ main {
 header {
 	height: var(--header-height);
 	background-color: white;
-	box-shadow: var(--deafult-box-shadow);
+	box-shadow: var(--default-box-shadow);
 	position: fixed;
 	top: 0;
 	left: 0;

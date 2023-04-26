@@ -19,7 +19,7 @@ body > div {
 	background-color: white;
 	padding: 2rem;
 	gap: 1rem;
-	box-shadow: var(--deafult-box-shadow);
+	box-shadow: var(--default-box-shadow);
 }
 
 body > div h1 {
