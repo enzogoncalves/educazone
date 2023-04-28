@@ -21,18 +21,6 @@ onAuthStateChanged(auth, (user) => {
 	}
 })
 
-export function getUserData(snapshot, userUid) {
-	let userData
-
-	for (const i in snapshot) {
-		for (const j in snapshot[i]) {
-			if (j === userUid) userData = snapshot[i][j]
-		}
-	}
-
-	return userData
-}
-
 function createHeader(imageUrl) {
 	const body = document.querySelector("body")
 	const header = document.createElement("header")
