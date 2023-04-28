@@ -5,14 +5,11 @@ import {
 import {
 	getDatabase,
 	ref,
-	get,
-	child,
 	onValue,
-	updateProfile
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-// importo uma função de pegar os dados do usuário dado o id dele
-import { getUserData } from "./areUserConnected.js"
+import { findUserData } from "./modules.js"
+import { redirectToLoginPage } from "./areUserConnected.js"
 
 const auth = getAuth()
 
@@ -24,15 +21,11 @@ onAuthStateChanged(auth, (user) => {
 		const dbRef = ref(db)
 
 		onValue(dbRef, (snapshot) => {
-			// snapshot.val() -> dados do usuário no banco de dados
-			// user -> dados do usuário no authentication
-
-			dbUserData = getUserData(snapshot.val(), user.uid)
+			dbUserData = findUserData(snapshot.val(), user.uid)
 			handleUserData(dbUserData, user)
 		})
 	} else {
-		// Caso não tiver um usuário conectado, ele vai para a página inicial
-		window.location.pathname = "/"
+		redirectToLoginPage()
 	}
 })
 
@@ -49,15 +42,13 @@ const didactic_label = document.querySelector("#didatica")
 function handleUserData(dbUserData, authUserData) {
 	// fullname_label.value = authUserData.displayName
 	email_label.value = authUserData.email
-		fullname_label.value = dbUserData.name
-		username_label.value = dbUserData.username
-		phoneNumber_label.value = dbUserData.phoneNumber
-		site_label.value = dbUserData.site
-		about_label.value = dbUserData.aboutme
-		conf_email_label.value = dbUserData.confEmail
-		didactic_label.value = dbUserData.didactic
-		
-	console.log(authUserData)
+	fullname_label.value = dbUserData.name
+	username_label.value = dbUserData.username
+	phoneNumber_label.value = dbUserData.phoneNumber
+	site_label.value = dbUserData.site
+	about_label.value = dbUserData.aboutme
+	conf_email_label.value = dbUserData.confEmail
+	didactic_label.value = dbUserData.didactic
 }
 
 // eu aconselho a fazer um update no banco de dados de todos os campos exceto: nome completo, senha e email, pois terá que usar uma função para cada um do próprio firebase.

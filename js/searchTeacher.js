@@ -37,12 +37,10 @@ function handleProfessorsData(professors) {
 		`
 
 		professorsSection.appendChild(professorElement)
-		console.log(professors[professorId])
 	}
 
 	document.querySelectorAll(".professor .info button").forEach((button) => {
 		button.addEventListener("click", () => {
-			console.log("a")
 			localStorage.setItem("professorId", button.getAttribute("id"))
 			window.location = "/html/hireTeacher.html"
 		})

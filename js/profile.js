@@ -39,5 +39,4 @@ const site_label = document.querySelector("#site")
 function handleUserData(dbUserData, authUserData) {
 	fullname_label.textContent = authUserData.displayName
 	email_label.textContent = authUserData.email
-	console.log(authUserData)
 }

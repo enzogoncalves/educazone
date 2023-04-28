@@ -1,5 +1,30 @@
+import {
+	getDatabase,
+	ref,
+	get,
+} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-export default function getUserData(snapshot, userUid) {
+import {
+	getAuth,
+	signOut,
+} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
+
+export async function getUserData(userUid) {
+	const db = getDatabase()
+	const dbRef = ref(db)
+
+	const promise = await get(dbRef)
+		.then((snapshot) => {
+			return findUserData(snapshot.val(), userUid)
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+
+	return promise
+}
+
+export function findUserData(snapshot, userUid) {
 	let userData
 
 	for (const i in snapshot) {
@@ -9,4 +34,17 @@ export default function getUserData(snapshot, userUid) {
 	}
 
 	return userData
+}
+
+export function logOut() {
+	const auth = getAuth()
+
+	signOut(auth)
+		.then(() => {
+			alert("deslogado")
+			window.location = "/html/login.html"
+		})
+		.catch((error) => {
+			console.error(error)
+		})
 }

@@ -71,6 +71,7 @@ header nav ul a:nth-child(1) {
 	color: white;
 	border-radius: 2px;
 	transition: 0.2s;
+	cursor: pointer;
 }
 
 header nav ul a:nth-child(1):hover {

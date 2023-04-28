@@ -12,6 +12,8 @@ import {
 	onValue,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
+import { getUserData } from "./modules.js"
+
 const auth = getAuth()
 
 const form = document.querySelector("form")
@@ -38,8 +40,10 @@ form.addEventListener("submit", (e) => {
 
 				if (professorChecked) {
 					set(ref(db, `professors/${user.uid}/`), { professor: true })
+					window.location = "/html/login.html"
 				} else {
 					set(ref(db, `students/${user.uid}/`), { student: true })
+					window.location = "/html/login.html"
 				}
 
 				clearInputs()
@@ -57,40 +61,34 @@ form.addEventListener("submit", (e) => {
 		const provider = new GoogleAuthProvider()
 
 		signInWithPopup(auth, provider)
-			.then((result) => {
-				const user = result.user
-				const db = getDatabase()
-				const dbRef = ref(db)
+			.then((userCredential) => {
+				const user = userCredential.user
 
-				onValue(dbRef, (snapshot) => {
-					let usersId = []
+				getUserData(user.uid)
+					.then((snapshot) => {
+						const userAlreadyInDb = snapshot !== undefined
 
-					for (const i in snapshot.val()) {
-						for (const j in snapshot.val()[i]) {
-							usersId.push(j)
+						const db = getDatabase()
+
+						if (professorChecked && !userAlreadyInDb) {
+							set(ref(db, `professors/${user.uid}/`), { professor: true })
+							window.location = "/html/login.html"
+							return
+						} else if (!professorChecked && !userAlreadyInDb) {
+							set(ref(db, `students/${user.uid}/`), { student: true })
+							window.location = "/html/login.html"
+							return
+						} else if (userAlreadyInDb) {
+							confirm(
+								"Você já possui uma conta.\nClique em OK para ir para a página de login."
+							)
+								? (window.location = "/html/login.html")
+								: undefined
+
+							clearInputs()
 						}
-					}
-
-					const userAlreadyInDb = usersId.some((el) => el == user.uid)
-
-					if (professorChecked && !userAlreadyInDb) {
-						set(ref(db, `professors/${user.uid}/`), { student: true })
-						console.log("professor criado")
-						return
-					} else if (!professorChecked && !userAlreadyInDb) {
-						set(ref(db, `students/${user.uid}/`), { student: true })
-						console.log("estudante criado")
-						return
-					} else if (userAlreadyInDb) {
-						confirm(
-							"Você já possui uma conta.\nClique em OK para ir para a página de login."
-						)
-							? (window.location = "/html/login.html")
-							: undefined
-
-						clearInputs()
-					}
-				})
+					})
+					.catch((error) => console.error(error))
 			})
 			.catch((error) => {
 				const errorCode = error.code

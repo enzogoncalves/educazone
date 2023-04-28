@@ -6,8 +6,6 @@ import {
 
 const professorId = localStorage.getItem("professorId")
 
-console.log(professorId)
-
 if (professorId === null) {
 	window.location = "/html/searchTeacher.html"
 }
