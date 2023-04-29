@@ -46,6 +46,49 @@ function handleUserData(dbUserData, authUserData) {
 	phoneNumber_label.value = dbUserData.phoneNumber
 }
 
+function handleUserData(dbUserData, authUserData) {
+	// fullname_label.value = authUserData.displayName
+	email_label.value = authUserData.email
+	fullname_label.value = dbUserData.name
+	username_label.value = dbUserData.username
+	phoneNumber_label.value = dbUserData.phoneNumber
+	conf_email_label.value = dbUserData.confEmail
+
+	console.log(authUserData)
+	fullname_label.value = dbUserData.name
+	username_label.value = dbUserData.username
+	phoneNumber_label.value = dbUserData.phoneNumber
+}
+
+//update
+
+// Update the data of the selected row with the new values
+function writeNewPostStudent() {
+	const db = getDatabase()
+	console.log(idUser)
+	let name = "Ulisses 2asdat"
+	let email = "email2@gmail.sd"
+	let username = "German"
+
+	// A post entry.
+	const postData = {
+		name: name,
+		email: email,
+		username: username,
+	}
+	// Write the new post's data simultaneously in the posts list and the user's post list.
+	set(ref(db, "students/" + idUser), postData)
+		.then(() => {
+			// Data saved successfully!
+		})
+		.catch((error) => {
+			// The write failed...
+		})
+}
+
+const updatesUser = document.getElementById("editUser")
+updatesUser.addEventListener("click", writeNewPostStudent)
+
 // eu aconselho a fazer um update no banco de dados de todos os campos exceto: nome completo, senha e email, pois terá que usar uma função para cada um do próprio firebase.
 
 document.querySelector("form").addEventListener("submit", (e) => {
