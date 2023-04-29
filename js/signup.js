@@ -9,7 +9,6 @@ import {
 	getDatabase,
 	ref,
 	set,
-	onValue,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 import { getUserData } from "./modules.js"
@@ -25,6 +24,8 @@ form.addEventListener("submit", (e) => {
 
 	const email_input = document.querySelector("#email")
 	const password_input = document.querySelector("#password")
+	const firstName_input = document.querySelector("#firstName")
+	const lastName_input = document.querySelector("#lastName")
 
 	const submitter = e.submitter.getAttribute("id")
 
@@ -38,11 +39,16 @@ form.addEventListener("submit", (e) => {
 				const user = userCredential.user
 				const db = getDatabase()
 
+				const userData = {
+					firstName: firstName_input.value,
+					lastName: lastName_input.value
+				}
+
 				if (professorChecked) {
-					set(ref(db, `professors/${user.uid}/`), { professor: true })
+					set(ref(db, `professors/${user.uid}`), { ...userData, professor: true })
 					window.location = "/html/login.html"
 				} else {
-					set(ref(db, `students/${user.uid}/`), { student: true })
+					set(ref(db, `students/${user.uid}/`), { ...userData, student: true })
 					window.location = "/html/login.html"
 				}
 
@@ -68,16 +74,19 @@ form.addEventListener("submit", (e) => {
 					.then((snapshot) => {
 						const userAlreadyInDb = snapshot !== undefined
 
+						const userData = {
+							firstName: firstName_input.value,
+							lastName: lastName_input.value
+						}
+
 						const db = getDatabase()
 
 						if (professorChecked && !userAlreadyInDb) {
-							set(ref(db, `professors/${user.uid}/`), { professor: true })
+							set(ref(db, `professors/${user.uid}/`), { ...userData, professor: true })
 							window.location = "/html/login.html"
-							return
 						} else if (!professorChecked && !userAlreadyInDb) {
-							set(ref(db, `students/${user.uid}/`), { student: true })
+							set(ref(db, `students/${user.uid}/`), { ...userData, student: true })
 							window.location = "/html/login.html"
-							return
 						} else if (userAlreadyInDb) {
 							confirm(
 								"Você já possui uma conta.\nClique em OK para ir para a página de login."

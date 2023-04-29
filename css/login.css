@@ -31,7 +31,6 @@ form {
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
-	width: 300px;
 }
 
 form .form-item {
@@ -55,6 +54,12 @@ form .form-item input {
 
 form .form-item input:focus {
 	border-bottom-color: black;
+}
+
+form .form-item-flex {
+	display: flex;
+	justify-content: space-between;
+	gap: 2rem;
 }
 
 form input[type="submit"] {

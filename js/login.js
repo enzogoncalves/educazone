@@ -23,10 +23,15 @@ form.addEventListener("submit", (e) => {
 		signInWithEmailAndPassword(auth, email_input.value, password_input.value)
 			.then((userCredential) => {
 				getUserData(userCredential.user.uid).then((userData) => {
-					if (userData.student) {
-						window.location = "/html/editProfileStudent.html"
+					if (userData !== undefined) {
+						if(userData.student) {
+							window.location = "/html/editProfileStudent.html"
+						} else {
+							window.location = "/html/editProfile.html"
+						}
 					} else {
-						window.location = "/html/editProfile.html"
+						alert('Houve um erro. Tente novamente')
+						clearInputs()
 					}
 				})
 			})

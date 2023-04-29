@@ -18,7 +18,7 @@ export async function getUserData(userUid) {
 			return findUserData(snapshot.val(), userUid)
 		})
 		.catch((error) => {
-			console.error(error)
+			return error;
 		})
 
 	return promise

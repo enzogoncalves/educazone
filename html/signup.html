@@ -26,6 +26,58 @@
 		<div>
 			<h1>Cadastro</h1>
 			<form>
+				<div class="form-item-flex">
+					<div class="form-item">
+						<input
+							type="radio"
+							name="student-or-professor"
+							id="radio-professor"
+							value="professor"
+							required
+						/>
+						<label for="radio-professor">Sou professor</label>
+					</div>
+					<div class="form-item">
+						<input
+							type="radio"
+							name="student-or-professor"
+							id="radio-student"
+							value="student"
+							required
+						/>
+						<label for="radio-student">Sou estudante</label>
+					</div>
+				</div>
+
+				
+				<button type="submit" id="signin-with-google">
+					<img src="../assets/img/google-logo.svg" />
+					Cadastro com o Google
+				</button>
+				
+				<p>OU</p>
+
+				<div class="form-item-flex">
+					<div class="form-item">
+						<label for="firstName">Primeiro nome</label>
+						<input
+							type="text"
+							name="firstName"
+							id="firstName"
+							placeholder="Digite o seu primeiro nome"
+						/>
+					</div>
+					<div class="form-item">
+						<label for="lastName">Último nome</label>
+						<input
+							type="text"
+							name="lastName"
+							id="lastName"
+							placeholder="Digite o seu último nome"
+						/>
+					</div>
+				</div>
+				
 				<div class="form-item">
 					<label for="email">Email</label>
 					<input
@@ -45,32 +97,8 @@
 						minlength="6"
 					/>
 				</div>
-				<div class="form-item">
-					<input
-						type="radio"
-						name="student-or-professor"
-						id="radio-professor"
-						value="professor"
-						required
-					/>
-					<label for="radio-professor">Sou professor</label>
-				</div>
-				<div class="form-item">
-					<input
-						type="radio"
-						name="student-or-professor"
-						id="radio-student"
-						value="student"
-						required
-					/>
-					<label for="radio-student">Sou estudante</label>
-				</div>
+
 				<input type="submit" value="Cadastrar" id="signin" />
-				<p>OU</p>
-				<button type="submit" id="signin-with-google">
-					<img src="../assets/img/google-logo.svg" />
-					Cadastro com o Google
-				</button>
 			</form>
 			<p>Já tem uma conta? <a href="login.html">Fazer login</a></p>
 		</div>
