@@ -6,6 +6,7 @@ import {
 	getDatabase,
 	ref,
 	onValue,
+	update
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 // importo uma função de pegar os dados do usuário dado o id dele
@@ -13,9 +14,10 @@ import { findUserData } from "./modules.js"
 import { redirectToLoginPage } from "./areUserConnected.js"
 
 const auth = getAuth()
-
+let ids;
 onAuthStateChanged(auth, (user) => {
 	let dbUserData
+	ids = user.uid
 
 	if (user) {
 		const db = getDatabase()
@@ -46,48 +48,27 @@ function handleUserData(dbUserData, authUserData) {
 	phoneNumber_label.value = dbUserData.phoneNumber
 }
 
-function handleUserData(dbUserData, authUserData) {
-	// fullname_label.value = authUserData.displayName
-	email_label.value = authUserData.email
-	fullname_label.value = dbUserData.name
-	username_label.value = dbUserData.username
-	phoneNumber_label.value = dbUserData.phoneNumber
-	conf_email_label.value = dbUserData.confEmail
-
-	console.log(authUserData)
-	fullname_label.value = dbUserData.name
-	username_label.value = dbUserData.username
-	phoneNumber_label.value = dbUserData.phoneNumber
-}
-
 //update
 
-// Update the data of the selected row with the new values
-function writeNewPostStudent() {
+function updateEmailStudent() {
 	const db = getDatabase()
-	console.log(idUser)
-	let name = "Ulisses 2asdat"
-	let email = "email2@gmail.sd"
-	let username = "German"
+	console.log(ids)
 
-	// A post entry.
 	const postData = {
-		name: name,
-		email: email,
-		username: username,
+		firstName: fullname_label.value,
+		//coloquei firstName pq o email não altera. Deve ter método específico para alterar o email da autenticação
 	}
-	// Write the new post's data simultaneously in the posts list and the user's post list.
-	set(ref(db, "students/" + idUser), postData)
+	update(ref(db, "students/" + ids), postData)
 		.then(() => {
-			// Data saved successfully!
+			// Cadastrado com sucesso
 		})
 		.catch((error) => {
-			// The write failed...
+			// Algo deu errado...
 		})
 }
 
 const updatesUser = document.getElementById("editUser")
-updatesUser.addEventListener("click", writeNewPostStudent)
+updatesUser.addEventListener("click", updateEmailStudent)
 
 // eu aconselho a fazer um update no banco de dados de todos os campos exceto: nome completo, senha e email, pois terá que usar uma função para cada um do próprio firebase.
 

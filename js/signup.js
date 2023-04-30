@@ -30,31 +30,42 @@ form.addEventListener("submit", (e) => {
 	const submitter = e.submitter.getAttribute("id")
 
 	if (submitter === "signin") {
-		createUserWithEmailAndPassword(
-			auth,
-			email_input.value,
-			password_input.value
-		)
-			.then((userCredential) => {
-				const user = userCredential.user
-				const db = getDatabase()
-
+		
+		const auth = getAuth();
+		createUserWithEmailAndPassword(auth, email_input.value, password_input.value)
+		  .then((userCredential) => {
+			// Signed in
+			const user = userCredential.user;
+			const db = getDatabase()
+			if(professorChecked)
+			{
+				// set(ref(db, 'professors/' + user.uid), {
+				// 	username: 'testar',
+				// 	email: 'testar',
+				// 	subject : 'testar'
+				//   });
 				const userData = {
-					firstName: firstName_input.value,
-					lastName: lastName_input.value
+					firstName: 'professor',
+					lastName: 'teste'
 				}
-
-				if (professorChecked) {
-					set(ref(db, `professors/${user.uid}`), { ...userData, professor: true })
-					window.location = "/html/login.html"
-				} else {
-					set(ref(db, `students/${user.uid}/`), { ...userData, student: true })
-					window.location = "/html/login.html"
+				set(ref(db, `professors/${user.uid}`), { ...userData, professor: true })
+			}
+			else
+			{
+				// set(ref(db, 'students/' + user.uid), {
+				// 	username: 'testestd',
+				// 	email: 'testestd',
+				// 	subject : 'testestd'
+				//   });
+				const userData = {
+					firstName: 'student',
+					lastName: 'teste'
 				}
-
-				clearInputs()
-				alert("Conta criada com sucesso!")
-			})
+				set(ref(db, `students/${user.uid}/`), { ...userData, student: true })
+			}
+			console.log(user)
+			// ...
+		  })
 			.catch((error) => {
 				const errorMessage = error.message
 

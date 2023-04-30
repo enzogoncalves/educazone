@@ -26,11 +26,17 @@ form.addEventListener("submit", (e) => {
 					if (userData !== undefined) {
 						if(userData.student) {
 							window.location = "/html/editProfileStudent.html"
+							console.log(userCredential)
+							console.log(userData)
 						} else {
 							window.location = "/html/editProfile.html"
+							console.log(userCredential)
+							console.log(userData)
 						}
 					} else {
 						alert('Houve um erro. Tente novamente')
+						console.log(userData)
+						console.log(userCredential.user.uid)
 						clearInputs()
 					}
 				})
