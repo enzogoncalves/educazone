@@ -6,7 +6,7 @@ import {
 	getDatabase,
 	ref,
 	onValue,
-	update
+	update,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 // importo uma função de pegar os dados do usuário dado o id dele
@@ -14,7 +14,7 @@ import { findUserData } from "./modules.js"
 import { redirectToLoginPage } from "./areUserConnected.js"
 
 const auth = getAuth()
-let ids;
+let ids
 onAuthStateChanged(auth, (user) => {
 	let dbUserData
 	ids = user.uid
@@ -33,19 +33,17 @@ onAuthStateChanged(auth, (user) => {
 	}
 })
 
-const fullname_label = document.querySelector("#fullname")
-const username_label = document.querySelector("#username")
+const firstName_label = document.querySelector("#firstName")
+const lastName_label = document.querySelector("#lastName")
 const email_label = document.querySelector("#email")
 const conf_email_label = document.querySelector("#confirm-email")
 const phoneNumber_label = document.querySelector("#number-phone")
 
 // função para carregar o dado do usuário na página
 function handleUserData(dbUserData, authUserData) {
-	// fullname_label.value = authUserData.displayName
+	firstName_label.value = dbUserData.firstName
+	lastName_label.value = dbUserData.lastName
 	email_label.value = authUserData.email
-	fullname_label.value = dbUserData.name
-	username_label.value = dbUserData.username
-	phoneNumber_label.value = dbUserData.phoneNumber
 }
 
 //update

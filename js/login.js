@@ -5,7 +5,7 @@ import {
 	signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import { getUserData } from "./modules.js"
+import { getIsStudent } from "./modules.js"
 
 const auth = getAuth()
 
@@ -22,21 +22,15 @@ form.addEventListener("submit", (e) => {
 	if (submitter === "signin") {
 		signInWithEmailAndPassword(auth, email_input.value, password_input.value)
 			.then((userCredential) => {
-				getUserData(userCredential.user.uid).then((userData) => {
-					if (userData !== undefined) {
-						if(userData.student) {
+				getIsStudent(userCredential.user.uid).then((isStudent) => {
+					if (isStudent !== undefined) {
+						if (isStudent) {
 							window.location = "/html/editProfileStudent.html"
-							console.log(userCredential)
-							console.log(userData)
 						} else {
 							window.location = "/html/editProfile.html"
-							console.log(userCredential)
-							console.log(userData)
 						}
 					} else {
-						alert('Houve um erro. Tente novamente')
-						console.log(userData)
-						console.log(userCredential.user.uid)
+						alert("Não conseguimos encontrar o usuário no banco de dados.")
 						clearInputs()
 					}
 				})
@@ -57,10 +51,10 @@ form.addEventListener("submit", (e) => {
 
 		signInWithPopup(auth, provider)
 			.then((userCredential) => {
-				getUserData(userCredential.user.uid).then((userData) => {
-					if (userData === undefined) {
+				getIsStudent(userCredential.user.uid).then((isStudent) => {
+					if (isStudent === undefined) {
 						alert("Você precisa criar uma conta primeiro.")
-					} else if (userData.student) {
+					} else if (isStudent) {
 						window.location = "/html/editProfileStudent.html"
 					} else {
 						window.location = "/html/editProfile.html"

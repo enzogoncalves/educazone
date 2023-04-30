@@ -28,9 +28,12 @@ function createHeader(imageUrl) {
 	signOutBtn.textContent = "Sair"
 
 	const userPictureLink = document.createElement("a")
-	userPictureLink.innerHTML = imageUrl
-		? `<img src="${imageUrl}" alt="Foto de perfil">`
-		: `<img src="${imageUrl}" alt="Foto de perfil">`
+
+	if (imageUrl !== null) {
+		userPictureLink.innerHTML = `<img src="${imageUrl}" alt="Foto de perfil">`
+	} else {
+		userPictureLink.innerHTML = `<img alt="Foto">`
+	}
 
 	header.innerHTML = `
 		<nav>

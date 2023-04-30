@@ -18,7 +18,22 @@ export async function getUserData(userUid) {
 			return findUserData(snapshot.val(), userUid)
 		})
 		.catch((error) => {
-			return error;
+			return error
+		})
+
+	return promise
+}
+
+export async function getIsStudent(userUid) {
+	const db = getDatabase()
+	const dbRef = ref(db)
+
+	const promise = await get(dbRef)
+		.then((snapshot) => {
+			return isStudent(snapshot.val(), userUid)
+		})
+		.catch((error) => {
+			return error
 		})
 
 	return promise
@@ -34,6 +49,18 @@ export function findUserData(snapshot, userUid) {
 	}
 
 	return userData
+}
+
+export function isStudent(snapshot, userUid) {
+	let studentKnot
+
+	for (const i in snapshot) {
+		for (const j in snapshot[i]) {
+			if (j === userUid) studentKnot = i
+		}
+	}
+
+	return studentKnot == "students"
 }
 
 export function logOut() {

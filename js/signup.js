@@ -13,8 +13,6 @@ import {
 
 import { getUserData } from "./modules.js"
 
-const auth = getAuth()
-
 const form = document.querySelector("form")
 
 form.addEventListener("submit", (e) => {
@@ -30,51 +28,73 @@ form.addEventListener("submit", (e) => {
 	const submitter = e.submitter.getAttribute("id")
 
 	if (submitter === "signin") {
-		
-		const auth = getAuth();
-		createUserWithEmailAndPassword(auth, email_input.value, password_input.value)
-		  .then((userCredential) => {
-			// Signed in
-			const user = userCredential.user;
-			const db = getDatabase()
-			if(professorChecked)
-			{
-				// set(ref(db, 'professors/' + user.uid), {
-				// 	username: 'testar',
-				// 	email: 'testar',
-				// 	subject : 'testar'
-				//   });
+		const auth = getAuth()
+
+		if (
+			email_input.value === "" ||
+			password_input.value === "" ||
+			firstName_input.value === "" ||
+			lastName_input.value === ""
+		) {
+			alert("Preencha todos os campos corretamente.")
+			return
+		}
+
+		createUserWithEmailAndPassword(
+			auth,
+			email_input.value,
+			password_input.value
+		)
+			.then((userCredential) => {
+				const user = userCredential.user
+				const db = getDatabase()
+
 				const userData = {
-					firstName: 'professor',
-					lastName: 'teste'
+					firstName: firstName_input.value,
+					lastName: lastName_input.value,
 				}
-				set(ref(db, `professors/${user.uid}`), { ...userData, professor: true })
-			}
-			else
-			{
-				// set(ref(db, 'students/' + user.uid), {
-				// 	username: 'testestd',
-				// 	email: 'testestd',
-				// 	subject : 'testestd'
-				//   });
-				const userData = {
-					firstName: 'student',
-					lastName: 'teste'
+
+				if (professorChecked) {
+					set(ref(db, `professors/${user.uid}/`), userData)
+						.then((data) => {
+							alert("Conta criada com sucesso!")
+							window.location = "/html/login.html"
+						})
+						.catch((error) =>
+							console.error(
+								"Houve um erro ao adicionar no banco de dados",
+								error
+							)
+						)
+				} else {
+					set(ref(db, `students/${user.uid}/`), userData)
+						.then((data) => {
+							alert("Conta criada com sucesso!")
+							window.location = "/html/login.html"
+						})
+						.catch((error) =>
+							console.error(
+								"Houve um erro ao adicionar no banco de dados",
+								error
+							)
+						)
 				}
-				set(ref(db, `students/${user.uid}/`), { ...userData, student: true })
-			}
-			console.log(user)
-			// ...
-		  })
+
+				clearInputs()
+			})
 			.catch((error) => {
 				const errorMessage = error.message
 
 				if (error.code == "auth/email-already-in-use") {
 					clearInputs()
 					alert("Este email já está cadastrado na plataforma")
+				} else {
+					alert(errorMessage)
 				}
 			})
 	} else if (submitter === "signin-with-google") {
+		const auth = getAuth()
+
 		const provider = new GoogleAuthProvider()
 
 		signInWithPopup(auth, provider)
@@ -85,19 +105,39 @@ form.addEventListener("submit", (e) => {
 					.then((snapshot) => {
 						const userAlreadyInDb = snapshot !== undefined
 
+						const userCompleteName = userCredential.user.displayName.split(" ")
+
 						const userData = {
-							firstName: firstName_input.value,
-							lastName: lastName_input.value
+							firstName: userCompleteName[0],
+							lastName: userCompleteName[userCompleteName.length - 1],
 						}
 
 						const db = getDatabase()
 
 						if (professorChecked && !userAlreadyInDb) {
-							set(ref(db, `professors/${user.uid}/`), { ...userData, professor: true })
-							window.location = "/html/login.html"
+							set(ref(db, `professors/${user.uid}/`), userData)
+								.then((data) => {
+									alert("Conta criada com sucesso!")
+									window.location = "/html/login.html"
+								})
+								.catch((error) =>
+									console.error(
+										"Houve um erro ao adicionar no banco de dados",
+										error
+									)
+								)
 						} else if (!professorChecked && !userAlreadyInDb) {
-							set(ref(db, `students/${user.uid}/`), { ...userData, student: true })
-							window.location = "/html/login.html"
+							set(ref(db, `students/${user.uid}/`), userData)
+								.then((data) => {
+									alert("Conta criada com sucesso!")
+									window.location = "/html/login.html"
+								})
+								.catch((error) =>
+									console.error(
+										"Houve um erro ao adicionar no banco de dados",
+										error
+									)
+								)
 						} else if (userAlreadyInDb) {
 							confirm(
 								"Você já possui uma conta.\nClique em OK para ir para a página de login."
@@ -121,8 +161,10 @@ form.addEventListener("submit", (e) => {
 })
 
 function clearInputs() {
+	document.querySelector("#radio-professor").checked = false
+	document.querySelector("#radio-professor").checked = false
 	document.querySelector("#email").value = ""
 	document.querySelector("#password").value = ""
-	document.querySelector("#radio-professor").checked = false
-	document.querySelector("#radio-professor").checked = false
+	document.querySelector("#firstName").value = ""
+	document.querySelector("#lastName").value = ""
 }
