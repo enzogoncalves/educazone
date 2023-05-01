@@ -6,70 +6,38 @@ import {
 	getDatabase,
 	ref,
 	onValue,
-	update,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-// importo uma função de pegar os dados do usuário dado o id dele
 import { findUserData } from "./modules.js"
 import { redirectToLoginPage } from "./areUserConnected.js"
+import { openEditModal, showUserData } from "./editProfile.js"
 
 const auth = getAuth()
-let ids
+
+let userId
+
+const fields = ["firstName", "lastName", "email", "phoneNumber"]
+
 onAuthStateChanged(auth, (user) => {
 	let dbUserData
-	ids = user.uid
-
+	userId = user.uid
 	if (user) {
 		const db = getDatabase()
 		const dbRef = ref(db)
 
 		onValue(dbRef, (snapshot) => {
-			dbUserData = findUserData(snapshot.val(), user.uid)
-			handleUserData(dbUserData, user)
+			dbUserData = findUserData(snapshot.val(), userId)
+			showUserData(dbUserData, user, fields)
 		})
 	} else {
-		// Caso não tiver um usuário conectado, ele vai para a página de login
 		redirectToLoginPage()
 	}
 })
 
-const firstName_label = document.querySelector("#firstName")
-const lastName_label = document.querySelector("#lastName")
-const email_label = document.querySelector("#email")
-const conf_email_label = document.querySelector("#confirm-email")
-const phoneNumber_label = document.querySelector("#number-phone")
-
-// função para carregar o dado do usuário na página
-function handleUserData(dbUserData, authUserData) {
-	firstName_label.value = dbUserData.firstName
-	lastName_label.value = dbUserData.lastName
-	email_label.value = authUserData.email
-}
-
-//update
-
-function updateEmailStudent() {
-	const db = getDatabase()
-	console.log(ids)
-
-	const postData = {
-		firstName: fullname_label.value,
-		//coloquei firstName pq o email não altera. Deve ter método específico para alterar o email da autenticação
-	}
-	update(ref(db, "students/" + ids), postData)
-		.then(() => {
-			// Cadastrado com sucesso
-		})
-		.catch((error) => {
-			// Algo deu errado...
-		})
-}
-
-const updatesUser = document.getElementById("editUser")
-updatesUser.addEventListener("click", updateEmailStudent)
-
-// eu aconselho a fazer um update no banco de dados de todos os campos exceto: nome completo, senha e email, pois terá que usar uma função para cada um do próprio firebase.
-
 document.querySelector("form").addEventListener("submit", (e) => {
-	e.preventDefault() // impede que o evento padrão aconteça
+	e.preventDefault()
+
+	const submitter = e.submitter
+
+	openEditModal(submitter, "students")
 })

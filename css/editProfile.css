@@ -1,3 +1,12 @@
+.pageShadow.active {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(56, 56, 56, 0.788);
+}
+
 #edit-user-profile {
 	display: flex;
 	flex-direction: column;
@@ -20,34 +29,84 @@
 	row-gap: 1rem;
 }
 
-#edit-user-profile .form-item {
+#edit-user-profile .form-item,
+.editModal .form-item {
 	display: flex;
 	flex-direction: column;
 	gap: 0.25rem;
 }
 
 #edit-user-profile form .form-item input,
-textarea,
+.editModal .form-item input,
 select {
 	padding: 0.5rem;
 	font-size: 1rem;
+	border: 1px solid #444;
+	border-radius: 2px;
+	outline: none;
 }
 
-#edit-user-profile form .form-item.span-2 {
+#edit-user-profile form .form-item input:focus,
+.editModal .form-item input:focus,
+select:focus {
+	outline: 1px solid var(--primary-color);
+	border-color: var(--primary-color);
+}
+
+#edit-user-profile form .form-item button[type="submit"],
+.editModal .form-item button[type="submit"] {
+	border: none;
+	outline: none;
+	color: var(--primary-color);
+	width: fit-content;
+	cursor: pointer;
+}
+
+#edit-user-profile form .form-item button[type="submit"]:hover,
+.editModal .form-item button[type="submit"]:hover {
+	text-decoration: underline;
+}
+
+#edit-user-profile form .form-item.span-2,
+.editModal .form-item.span-2 {
 	grid-column: 1/3;
 }
 
-#edit-user-profile form .form-item.span-2 textarea {
+#edit-user-profile form .form-item.span-2 textarea,
+.editModal .form-item.span-2 textarea {
 	resize: vertical;
+	padding: 0.5rem;
+	font-family: "Roboto", sans-serif;
 }
 
-#edit-user-profile form input[type="submit"] {
-	width: fit-content;
-	padding: 0.5rem 5rem;
+.editModal {
+	display: none;
+}
+
+.editModal.active {
+	display: block;
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 1.5rem;
+	box-shadow: var(--default-box-shadow);
+	width: 300px;
+}
+
+.editModal button {
+	margin-top: 1rem;
+	padding: 0.5rem 0;
 	border: none;
+	border-radius: 3px;
 	outline: none;
 	color: white;
 	background-color: var(--primary-color);
 	font-weight: 700;
-	border-radius: 3px;
+	cursor: pointer;
+}
+
+.editModal button:last-child {
+	background-color: #dd2f2f;
 }

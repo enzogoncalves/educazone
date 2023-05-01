@@ -6,7 +6,6 @@ import {
 	getDatabase,
 	ref,
 	onValue,
-	set,
 	update,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
@@ -14,7 +13,20 @@ import { findUserData } from "./modules.js"
 import { redirectToLoginPage } from "./areUserConnected.js"
 
 const auth = getAuth()
+
 let userId
+
+const fields = [
+	"firstName",
+	"lastName",
+	"email",
+	"phoneNumber",
+	"site",
+	"about",
+	"didactic",
+	"class",
+]
+
 onAuthStateChanged(auth, (user) => {
 	let dbUserData
 	userId = user.uid
@@ -24,57 +36,111 @@ onAuthStateChanged(auth, (user) => {
 
 		onValue(dbRef, (snapshot) => {
 			dbUserData = findUserData(snapshot.val(), userId)
-			handleUserData(dbUserData, user)
+			showUserData(dbUserData, user, fields)
 		})
 	} else {
 		redirectToLoginPage()
 	}
 })
 
-const firstName_label = document.querySelector("#firstName")
-const lastName_label = document.querySelector("#lastName")
-const email_label = document.querySelector("#email")
-const conf_email_label = document.querySelector("#confirm-email")
-const phoneNumber_label = document.querySelector("#number-phone")
-const site_label = document.querySelector("#site")
-const about_label = document.querySelector("#about")
-const didactic_label = document.querySelector("#didatica")
+const body = document.querySelector("body")
+const pageShadow = document.querySelector(".pageShadow")
+const editModal = document.createElement("div")
+editModal.classList.add("editModal")
+body.appendChild(editModal)
 
 // função para carregar o dado do usuário na página
-function handleUserData(dbUserData, authUserData) {
-	firstName_label.value = dbUserData.firstName
-	lastName_label.value = dbUserData.lastName
-	email_label.value = authUserData.email
-	// fullname_label.value = dbUserData.name
-	// phoneNumber_label.value = dbUserData.phoneNumber
-	// site_label.value = dbUserData.site
-	// about_label.value = dbUserData.aboutme
-	// didactic_label.value = dbUserData.didactic
+export function showUserData(dbUserData, authUserData, fields) {
+	fields.forEach((field) => {
+		if (dbUserData[field] === undefined) {
+			if (authUserData[field] === undefined) return
+			// pega o dado do authentication
+			document.querySelector(`#${field}`).value = authUserData[field]
+			return
+		}
+
+		// pega o dado do banco de dados
+		document.querySelector(`#${field}`).value = dbUserData[field]
+	})
 }
 
-function updateEmailStudent() {
+export function updateUser(professorOrStudent, field, dataField) {
 	const db = getDatabase()
-	console.log(ids)
-	let emails = email_label.value
 
-	const postData = {
-		email: emails,
-	}
+	let updatedUserData = {}
+	updatedUserData[field] = dataField
 
 	// Update the email field
-	update(ref(db, "professors/" + ids), postData)
+	update(ref(db, `${professorOrStudent}/` + userId), updatedUserData)
 		.then(() => {
-			// editado com sucesso
+			alert("editado com sucesso")
+			pageShadow.classList.remove("active")
+			editModal.classList.remove("active")
 		})
 		.catch((error) => {
-			// Algo deu errado...
+			console.log(error)
+			pageShadow.classList.remove("active")
+			editModal.classList.remove("active")
 		})
 }
 
-const updatesUser = document.getElementById("editUser")
-updatesUser.addEventListener("click", updateEmailStudent)
-// eu aconselho a fazer um update no banco de dados de todos os campos exceto: nome completo, senha e email, pois terá que usar uma função para cada um do próprio firebase.
+export function openEditModal(submitter, professorOrStudent) {
+	editModal.innerHTML = ""
+	editModal.classList.add("active")
+
+	pageShadow.classList.add("active")
+
+	const submitterId = submitter.getAttribute("id")
+	const submitterParent = submitter.parentElement.cloneNode(true)
+
+	submitterParent.children[submitterParent.children.length - 1].remove()
+
+	const input = submitterParent.children[1]
+
+	input.removeAttribute("readonly")
+	input.setAttribute("placeholder", input.value)
+	const previousDataField = input.value
+	input.value = ""
+
+	const editBtn = document.createElement("button")
+	editBtn.textContent = "Confirmar edição"
+
+	editBtn.addEventListener("click", () => {
+		const dataField = input.value
+		if (dataField == "") {
+			alert("Campo vazio")
+			return
+		} else if (dataField === previousDataField) {
+			alert("Não pode editar se não alterou nada")
+			return
+		} else {
+			editUserInfo(professorOrStudent, submitterId, dataField)
+		}
+	})
+
+	const cancelBtn = document.createElement("button")
+	cancelBtn.textContent = "Cancelar"
+	cancelBtn.addEventListener("click", closeEditModal)
+
+	submitterParent.appendChild(editBtn)
+	submitterParent.appendChild(cancelBtn)
+
+	editModal.appendChild(submitterParent)
+}
+
+export function editUserInfo(professorOrStudent, field, dataField) {
+	updateUser(professorOrStudent, field, dataField)
+}
+
+export function closeEditModal() {
+	editModal.classList.remove("active")
+	pageShadow.classList.remove("active")
+}
 
 document.querySelector("form").addEventListener("submit", (e) => {
-	e.preventDefault() // impede que o evento padrão aconteça
+	e.preventDefault()
+
+	const submitter = e.submitter
+
+	openEditModal(submitter, "professors")
 })
