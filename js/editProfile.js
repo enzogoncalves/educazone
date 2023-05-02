@@ -22,9 +22,10 @@ const fields = [
 	"email",
 	"phoneNumber",
 	"site",
-	"about",
+	"aboutMe",
 	"didactic",
 	"class",
+	"price",
 ]
 
 onAuthStateChanged(auth, (user) => {
@@ -33,6 +34,7 @@ onAuthStateChanged(auth, (user) => {
 	if (user) {
 		const db = getDatabase()
 		const dbRef = ref(db)
+		console.log(user)
 
 		onValue(dbRef, (snapshot) => {
 			dbUserData = findUserData(snapshot.val(), userId)
@@ -61,7 +63,26 @@ export function showUserData(dbUserData, authUserData, fields) {
 
 		// pega o dado do banco de dados
 		document.querySelector(`#${field}`).value = dbUserData[field]
+
+		createEditButton(field)
 	})
+}
+
+function createEditButton(field) {
+	const el = document.querySelector(`#${field}`)
+	const parentEl = el.parentElement
+
+	const existFieldBtn =
+		parentEl.children[parentEl.children.length - 1].dataset.field
+
+	if (existFieldBtn !== undefined) return
+
+	const editFieldBtn = document.createElement("button")
+	editFieldBtn.setAttribute("type", "submit")
+	editFieldBtn.dataset.field = field
+	editFieldBtn.textContent = "Editar"
+
+	parentEl.appendChild(editFieldBtn)
 }
 
 export function updateUser(professorOrStudent, field, dataField) {
@@ -90,7 +111,7 @@ export function openEditModal(submitter, professorOrStudent) {
 
 	pageShadow.classList.add("active")
 
-	const submitterId = submitter.getAttribute("id")
+	const submitterId = submitter.dataset.field
 	const submitterParent = submitter.parentElement.cloneNode(true)
 
 	submitterParent.children[submitterParent.children.length - 1].remove()
@@ -98,6 +119,7 @@ export function openEditModal(submitter, professorOrStudent) {
 	const input = submitterParent.children[1]
 
 	input.removeAttribute("readonly")
+	input.removeAttribute("id")
 	input.setAttribute("placeholder", input.value)
 	const previousDataField = input.value
 	input.value = ""
