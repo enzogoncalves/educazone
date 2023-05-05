@@ -3,24 +3,44 @@ import {
 	onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
+import {
+	getDatabase,
+	ref,
+	onValue,
+} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+
 import { logOut } from "./modules.js"
+import { findUserData } from "./modules.js"
 
 const auth = getAuth()
 
+const body = document.querySelector("body");
+
 onAuthStateChanged(auth, (user) => {
 	if (user) {
-		createHeader(user.photoURL)
+		const db = getDatabase()
+		const dbRef = ref(db)
+		
+		onValue(dbRef, (snapshot) => {
+			const userData = findUserData(snapshot.val(), user.uid)
+			createHeader(user.photoURL, userData.firstName, userData.lastName)
+		})
 	} else {
 		// Caso não tiver um usuário conectado, ele vai para a página de login
 		redirectToLoginPage()
 	}
 })
 
-function createHeader(imageUrl) {
-	const body = document.querySelector("body")
+function createHeader(imageUrl, firstName, lastName) {
+	document.querySelector('.page-skeleton').classList.remove('active')
+	body.style.overflowY = "visible"
+	body.style.pointerEvents = "all"
 
-	const header = document.createElement("header")
+	const header = document.querySelector('header')
 	header.setAttribute("id", "user-header")
+
+	const navigationUl = document.querySelector('header nav ul')
+	navigationUl.innerHTML = ''
 
 	const signOutBtn = document.createElement("a")
 	signOutBtn.setAttribute("id", "logout")
@@ -31,23 +51,40 @@ function createHeader(imageUrl) {
 
 	if (imageUrl !== null) {
 		userPictureLink.innerHTML = `<img src="${imageUrl}" alt="Foto de perfil">`
+		navigationUl.append(signOutBtn, userPictureLink)
 	} else {
-		userPictureLink.innerHTML = `<img alt="Foto">`
+		const image = createProfilePicture(firstName, lastName)
+		navigationUl.append(signOutBtn, image)
 	}
-
-	header.innerHTML = `
-		<nav>
-				<a href="/" id="title">Educa<span>Zone</span></a>
-				<ul role="navigation">
-				</ul>
-		</nav>
-	`
-
-	body.childNodes[1].remove()
-	body.appendChild(header)
-	document.querySelector("header nav ul").append(signOutBtn, userPictureLink)
 }
 
 export function redirectToLoginPage() {
 	window.location = "/html/login.html"
 }
+
+function createProfilePicture(firstName, lastName) {
+	const firstLetterOfTheFirstName = firstName.split('')[0].toUpperCase()
+	const firstLetterOfTheLastName = lastName.split('')[0].toUpperCase()
+	
+	const image = document.createElement('div')
+	image.classList.add('profilePicture')
+	
+	image.textContent = `${firstLetterOfTheFirstName}${firstLetterOfTheLastName}`
+	
+	return image;
+}
+
+function createPageSkeleton() {
+	const skeleton = document.createElement('div')
+	skeleton.classList.add('page-skeleton', 'active')
+
+	skeleton.innerHTML = `
+		<div class="loading"></div>
+	`
+
+	body.style.overflowY = "hidden"
+	body.style.pointerEvents = "none"
+	body.appendChild(skeleton)
+}	
+
+createPageSkeleton()

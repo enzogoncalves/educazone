@@ -14,6 +14,7 @@
 	--body-background-color: #ebebeb;
 	--grey: #c4c4c4;
 	--primary-color-lighter: hsl(var(--primary-color-hsl), 100%, 68%);
+	--primary-color-more-lighter: hsl(var(--primary-color-hsl), 100%, 90%);
 	--footer-background-color: #5e5e5e;
 }
 
@@ -39,6 +40,7 @@ header {
 	top: 0;
 	left: 0;
 	right: 0;
+	z-index: 999;
 }
 
 header nav {
@@ -108,6 +110,15 @@ header#user-header nav ul a:nth-child(2) img {
 	border-radius: 50%;
 }
 
+header#user-header nav ul .profilePicture {
+	padding: .5rem;
+	font-size: 1.5rem;
+	color: black;
+	border: 1px solid var(--primary-color);
+	border-radius: 50%;
+	cursor: pointer;
+}
+
 footer {
 	background-color: var(--footer-background-color);
 	display: flex;
@@ -142,4 +153,34 @@ footer div a {
 
 footer div a:hover {
 	text-decoration: underline;
+}
+
+.page-skeleton {
+	display: none;
+}
+
+.page-skeleton.active {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100vh;
+	background-color: white;
+	display: grid;
+	place-items: center;
+}
+
+.loading {
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+	border: 15px solid var(--primary-color-more-lighter);
+	border-top: 15px solid var(--primary-color);
+	animation: spin 2s infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

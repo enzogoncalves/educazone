@@ -34,7 +34,6 @@ onAuthStateChanged(auth, (user) => {
 	if (user) {
 		const db = getDatabase()
 		const dbRef = ref(db)
-		console.log(user)
 
 		onValue(dbRef, (snapshot) => {
 			dbUserData = findUserData(snapshot.val(), userId)
