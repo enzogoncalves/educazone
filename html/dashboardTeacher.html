@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    	<!-- FONTS: Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="../css/styles.css" />
+    <script src="../js/initializeFirebase.js" type="module"></script>
+    <script type="module" src="../js/dashboardTeacher.js"></script>
+    <script src="../js/profile.js" type="module"></script>
+
+    <script type="module" src="../js/financies.js"></script>
+    
+</head>
+<body>
+    
+    <div class="activities">
+
+    </div>
+
+    <div class="group-student-financies">
+        <div class="myStudents">
+            <h4>Meus Estudantes</h4>
+            <a href="#">Ver todos</a>
+            <table id="studentTable">
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Nome</th>
+                        <th>Sobrenome</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+        </div>
+    
+        <div>
+            <h4>Extrato financeiro</h4>
+            <a href="#">Ver mais</a>
+            <table id="financies">
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Nome</th>
+                        <th>Sobrenome</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsfinancies">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+ 
+</body>
+</html>
