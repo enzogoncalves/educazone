@@ -54,7 +54,10 @@ body.appendChild(editModal)
 export function showUserData(dbUserData, authUserData, fields) {
 	fields.forEach((field) => {
 		if (dbUserData[field] === undefined) {
-			if (authUserData[field] === undefined) return
+			if (authUserData[field] === undefined) {
+				createEditButton(field)
+				return
+			}
 			// pega o dado do authentication
 			document.querySelector(`#${field}`).value = authUserData[field]
 			return
@@ -62,7 +65,6 @@ export function showUserData(dbUserData, authUserData, fields) {
 
 		// pega o dado do banco de dados
 		document.querySelector(`#${field}`).value = dbUserData[field]
-
 		createEditButton(field)
 	})
 }
@@ -71,10 +73,10 @@ function createEditButton(field) {
 	const el = document.querySelector(`#${field}`)
 	const parentEl = el.parentElement
 
-	const existFieldBtn =
+	const existFieldEditBtn =
 		parentEl.children[parentEl.children.length - 1].dataset.field
 
-	if (existFieldBtn !== undefined) return
+	if (existFieldEditBtn !== undefined) return
 
 	const editFieldBtn = document.createElement("button")
 	editFieldBtn.setAttribute("type", "submit")
@@ -118,7 +120,9 @@ export function openEditModal(submitter, professorOrStudent) {
 	const input = submitterParent.children[1]
 
 	input.removeAttribute("readonly")
+	console.log(input)
 	input.removeAttribute("id")
+	input.removeAttribute("disabled")
 	input.setAttribute("placeholder", input.value)
 	const previousDataField = input.value
 	input.value = ""
@@ -128,8 +132,21 @@ export function openEditModal(submitter, professorOrStudent) {
 
 	editBtn.addEventListener("click", () => {
 		const dataField = input.value
+
 		if (dataField == "") {
 			alert("Campo vazio")
+			return
+		} else if (
+			input.nodeName === "SELECT" &&
+			dataField === "Selecione uma disciplina"
+		) {
+			alert("Selecione uma disciplina válida")
+			return
+		} else if (
+			input.nodeName === "SELECT" &&
+			dataField === "Selecione um valor"
+		) {
+			alert("Selecione um valor válido")
 			return
 		} else if (dataField === previousDataField) {
 			alert("Não pode editar se não alterou nada")

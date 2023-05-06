@@ -18,13 +18,14 @@ onValue(teacherRef, (snapshot) => {
 })
 
 function loadTeacherData(teacherData) {
+	console.log(teacherData.pictureUrl)
 	const hireSection = document.querySelector("#hire")
 
 	hireSection.innerHTML = `
     <div class="picture-price">
       ${
 				teacherData.picture
-					? `<img src="${teacherData.picture}" alt="Foto do professor" />`
+					? `<img src="${teacherData.pictureUrl}" alt="Foto do professor" />`
 					: "sem imagem"
 			}
       

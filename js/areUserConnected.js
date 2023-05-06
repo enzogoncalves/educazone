@@ -14,13 +14,13 @@ import { findUserData } from "./modules.js"
 
 const auth = getAuth()
 
-const body = document.querySelector("body");
+const body = document.querySelector("body")
 
 onAuthStateChanged(auth, (user) => {
 	if (user) {
 		const db = getDatabase()
 		const dbRef = ref(db)
-		
+
 		onValue(dbRef, (snapshot) => {
 			const userData = findUserData(snapshot.val(), user.uid)
 			createHeader(user.photoURL, userData.firstName, userData.lastName)
@@ -32,15 +32,15 @@ onAuthStateChanged(auth, (user) => {
 })
 
 function createHeader(imageUrl, firstName, lastName) {
-	document.querySelector('.page-skeleton').classList.remove('active')
+	document.querySelector(".page-skeleton").classList.remove("active")
 	body.style.overflowY = "visible"
 	body.style.pointerEvents = "all"
 
-	const header = document.querySelector('header')
+	const header = document.querySelector("header")
 	header.setAttribute("id", "user-header")
 
-	const navigationUl = document.querySelector('header nav ul')
-	navigationUl.innerHTML = ''
+	const navigationUl = document.querySelector("header nav ul")
+	navigationUl.innerHTML = ""
 
 	const signOutBtn = document.createElement("a")
 	signOutBtn.setAttribute("id", "logout")
@@ -63,20 +63,20 @@ export function redirectToLoginPage() {
 }
 
 function createProfilePicture(firstName, lastName) {
-	const firstLetterOfTheFirstName = firstName.split('')[0].toUpperCase()
-	const firstLetterOfTheLastName = lastName.split('')[0].toUpperCase()
-	
-	const image = document.createElement('div')
-	image.classList.add('profilePicture')
-	
+	const firstLetterOfTheFirstName = firstName.split("")[0].toUpperCase()
+	const firstLetterOfTheLastName = lastName.split("")[0].toUpperCase()
+
+	const image = document.createElement("div")
+	image.classList.add("profilePicture")
+
 	image.textContent = `${firstLetterOfTheFirstName}${firstLetterOfTheLastName}`
-	
-	return image;
+
+	return image
 }
 
 function createPageSkeleton() {
-	const skeleton = document.createElement('div')
-	skeleton.classList.add('page-skeleton', 'active')
+	const skeleton = document.createElement("div")
+	skeleton.classList.add("page-skeleton", "active")
 
 	skeleton.innerHTML = `
 		<div class="loading"></div>
@@ -85,6 +85,6 @@ function createPageSkeleton() {
 	body.style.overflowY = "hidden"
 	body.style.pointerEvents = "none"
 	body.appendChild(skeleton)
-}	
+}
 
 createPageSkeleton()

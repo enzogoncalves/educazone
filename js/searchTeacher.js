@@ -19,20 +19,19 @@ function handleProfessorsData(professors) {
 		const professor = professors[professorId]
 
 		const professorElement = document.createElement("div")
+		professorElement.classList.add("professor")
 		professorElement.innerHTML = `
-			<div class="professor">
-				<div class="picture-price">
-					<img sr="${professor.pictureUrl}" alt="Foto do professor">
-					<span>R$ ${professor.price}</span>
-				</div>
-				<div class="info">
-					<p>
-						<span>${professor.name}</span>
-						<span>${professor.class}</span>
-					</p>
-					<p>${professor.aboutme}</p>
-					<button type="submit" id="${professorId}">Mostrar detalhes</button>
-				</div>
+			<div class="picture-price">
+				<img src="${professor.pictureUrl}" alt="Foto do professor">
+				<span>R$ ${professor.price}</span>
+			</div>
+			<div class="info">
+				<p>
+					<span>${professor.firstName}</span>
+					<span>${professor.class}</span>
+				</p>
+				<p>${professor.aboutMe}</p>
+				<button type="submit" id="${professorId}">Mostrar detalhes</button>
 			</div>
 		`
 
