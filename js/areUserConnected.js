@@ -9,7 +9,7 @@ import {
 	onValue,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { logOut } from "./modules.js"
+import { getIsStudent, logOut } from "./modules.js"
 import { findUserData } from "./modules.js"
 
 const auth = getAuth()
@@ -40,6 +40,7 @@ function createHeader(imageUrl, firstName, lastName) {
 	header.setAttribute("id", "user-header")
 
 	const navigationUl = document.querySelector("header nav ul")
+	navigationUl.classList.add("profile-links")
 	navigationUl.innerHTML = ""
 
 	const signOutBtn = document.createElement("a")
@@ -47,15 +48,40 @@ function createHeader(imageUrl, firstName, lastName) {
 	signOutBtn.addEventListener("click", logOut)
 	signOutBtn.textContent = "Sair"
 
-	const userPictureLink = document.createElement("a")
-
 	if (imageUrl !== null) {
+		const userPictureLink = document.createElement("a")
 		userPictureLink.innerHTML = `<img src="${imageUrl}" alt="Foto de perfil">`
 		navigationUl.append(signOutBtn, userPictureLink)
 	} else {
 		const image = createProfilePicture(firstName, lastName)
 		navigationUl.append(signOutBtn, image)
 	}
+
+	const links = document.createElement("ul")
+	links.setAttribute("role", "navigation")
+	links.classList.add("links")
+
+	getIsStudent().then((isStudent) => {
+		if (isStudent) {
+			links.innerHTML = `
+			<li><a href="/dashboardStudent.html">Home</a></li>
+			<li><a href="/html/myTeachers.html">Meus professores</a></li>
+			<li><a href="/html/studentAssignments.html">Tarefas</a></li>
+			<li><a href="/html/financial.html">Encontrar um professor</a></li>
+		`
+			const navigation = document.querySelector("header nav")
+			navigation.appendChild(links)
+		} else {
+			links.innerHTML = `
+			<li><a href="/html/dashboardTeacher.html">Home</a></li>
+			<li><a href="/html/myStudents.html">Meus Alunos</a></li>
+			<li><a href="/html/financial.html">Financeiro</a></li>
+			<li><a href="/html/assignments.html">Tarefas</a></li>
+		`
+			const navigation = document.querySelector("header nav")
+			navigation.appendChild(links)
+		}
+	})
 }
 
 export function redirectToLoginPage() {
