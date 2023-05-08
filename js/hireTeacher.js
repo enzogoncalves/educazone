@@ -14,26 +14,15 @@ const db = getDatabase()
 const teacherRef = ref(db, "professors/" + professorId)
 
 onValue(teacherRef, (snapshot) => {
+	console.log(snapshot.val())
 	loadTeacherData(snapshot.val())
 })
 
 function loadTeacherData(teacherData) {
 	console.log(teacherData.pictureUrl)
-	const hireSection = document.querySelector("#hire")
 
-	hireSection.innerHTML = `
-    <div class="picture-price">
-      ${
-				teacherData.picture
-					? `<img src="${teacherData.pictureUrl}" alt="Foto do professor" />`
-					: "sem imagem"
-			}
-      
-      <span></span>
-    </div>
-    <p class="name">Nome</p>
-    <button id="${professorId}">Contratar</button>
-    <button data-sendMessage="${professorId}">Mandar mensagem</button>
-    <button data-reportTeacher="${professorId}">Denunciar</button>
-  `
+	document.querySelector("#profile-picture").src = teacherData.pictureUrl
+	document.querySelector("#price").textContent = teacherData.price
+	document.querySelector(".name").textContent =
+		teacherData.firstName + " " + teacherData.lastName
 }

@@ -1,0 +1,76 @@
+main {
+	display: flex;
+}
+
+#hire {
+	width: 250px;
+	display: flex;
+	gap: 0.5rem;
+	flex-direction: column;
+	padding: 0 1rem;
+	align-items: center;
+}
+
+#hire .picture-price {
+	position: relative;
+	width: fit-content;
+}
+
+#hire .picture-price img#profile-picture {
+	width: 150px;
+	display: block;
+	border-bottom-right-radius: 7px;
+}
+
+#hire .picture-price #price {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 0.5rem;
+	border-radius: 7px;
+	background-color: var(--primary-color);
+	color: white;
+	font-weight: 500;
+}
+
+#hire .name {
+	font-size: 1.2rem;
+}
+
+#hire .btn-actions {
+	margin-top: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+#hire .btn-actions button {
+	padding: 0.75rem 1rem;
+	color: white;
+	text-align: center;
+	border: none;
+	outline: none;
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+#hire .btn-actions button:hover {
+	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+}
+
+#hire .btn-actions button:nth-child(1) {
+	background-color: var(--primary-color);
+}
+
+#hire .btn-actions button:nth-child(2) {
+	background-color: var(--dark-grey);
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+#hire .btn-actions button:nth-child(3) {
+	background-color: var(--dark-grey);
+}
