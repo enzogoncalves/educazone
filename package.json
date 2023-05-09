@@ -3,6 +3,9 @@
 	"version": "1.0.0",
 	"description": "TCC - Educa Zone",
 	"main": "src/server.js",
+	"engines": {
+		"node": "14.x"
+	},
 	"scripts": {
 		"start": "nodemon ."
 	},
