@@ -53,11 +53,12 @@ main section .prof-student-images:nth-child(1) img:nth-child(2) {
 	margin-bottom: 1.5rem;
 }
 
-.prof-itens{
-	text-decoration: none;
+.prof-itens {
 	list-style-type: none;
 }
-.prof-itens-line{
-	text-decoration: dashed;
+
+.prof-itens-line {
 	font-style: italic;
+	display: flex;
+	gap: 0.25rem;
 }

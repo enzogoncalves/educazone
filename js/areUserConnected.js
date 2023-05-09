@@ -1,13 +1,6 @@
-import {
-	getAuth,
-	onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import {
-	getDatabase,
-	ref,
-	onValue,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 import { getIsStudent, logOut } from "./modules.js"
 import { findUserData } from "./modules.js"
@@ -16,12 +9,12 @@ const auth = getAuth()
 
 const body = document.querySelector("body")
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, user => {
 	if (user) {
 		const db = getDatabase()
 		const dbRef = ref(db)
 
-		onValue(dbRef, (snapshot) => {
+		onValue(dbRef, snapshot => {
 			const userData = findUserData(snapshot.val(), user.uid)
 			createHeader(user.photoURL, userData.firstName, userData.lastName)
 		})
@@ -61,7 +54,7 @@ function createHeader(imageUrl, firstName, lastName) {
 	links.setAttribute("role", "navigation")
 	links.classList.add("links")
 
-	getIsStudent().then((isStudent) => {
+	getIsStudent().then(isStudent => {
 		if (isStudent) {
 			links.innerHTML = `
 			<li><a href="/dashboardStudent.html">Home</a></li>
@@ -88,7 +81,7 @@ export function redirectToLoginPage() {
 	window.location = "/html/login.html"
 }
 
-function createProfilePicture(firstName, lastName) {
+export function createProfilePicture(firstName, lastName) {
 	const firstLetterOfTheFirstName = firstName.split("")[0].toUpperCase()
 	const firstLetterOfTheLastName = lastName.split("")[0].toUpperCase()
 

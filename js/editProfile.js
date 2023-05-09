@@ -1,41 +1,23 @@
-import {
-	getAuth,
-	onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
-import {
-	getDatabase,
-	ref,
-	onValue,
-	update,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 import { findUserData } from "./modules.js"
-import { redirectToLoginPage } from "./areUserConnected.js"
+import { createProfilePicture, redirectToLoginPage } from "./areUserConnected.js"
 
 const auth = getAuth()
 
 let userId
 
-const fields = [
-	"firstName",
-	"lastName",
-	"email",
-	"phoneNumber",
-	"site",
-	"aboutMe",
-	"didactic",
-	"class",
-	"price",
-]
+const fields = ["fullname", "firstName", "lastName", "email", "phoneNumber", "site", "aboutMe", "didactic", "class", "price"]
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, user => {
 	let dbUserData
 	userId = user.uid
 	if (user) {
 		const db = getDatabase()
 		const dbRef = ref(db)
 
-		onValue(dbRef, (snapshot) => {
+		onValue(dbRef, snapshot => {
 			dbUserData = findUserData(snapshot.val(), userId)
 			showUserData(dbUserData, user, fields)
 		})
@@ -52,7 +34,12 @@ body.appendChild(editModal)
 
 // função para carregar o dado do usuário na página
 export function showUserData(dbUserData, authUserData, fields) {
-	fields.forEach((field) => {
+	fields.forEach(field => {
+		if (field == "fullname") {
+			document.querySelector(`#${field}`).textContent = `${dbUserData.firstName} ${dbUserData.lastName}`
+			return
+		}
+
 		if (dbUserData[field] === undefined) {
 			if (authUserData[field] === undefined) {
 				createEditButton(field)
@@ -67,14 +54,21 @@ export function showUserData(dbUserData, authUserData, fields) {
 		document.querySelector(`#${field}`).value = dbUserData[field]
 		createEditButton(field)
 	})
+
+	if (dbUserData.pictureUrl === undefined) {
+		document.querySelector("#user-profile").appendChild(createProfilePicture(dbUserData.firstName, dbUserData.lastName))
+	} else {
+		document.querySelector("#user-profile").innerHTML += `
+			<img src="${dbUserData.pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
+		`
+	}
 }
 
 function createEditButton(field) {
 	const el = document.querySelector(`#${field}`)
 	const parentEl = el.parentElement
 
-	const existFieldEditBtn =
-		parentEl.children[parentEl.children.length - 1].dataset.field
+	const existFieldEditBtn = parentEl.children[parentEl.children.length - 1].dataset.field
 
 	if (existFieldEditBtn !== undefined) return
 
@@ -99,7 +93,7 @@ export function updateUser(professorOrStudent, field, dataField) {
 			pageShadow.classList.remove("active")
 			editModal.classList.remove("active")
 		})
-		.catch((error) => {
+		.catch(error => {
 			console.log(error)
 			pageShadow.classList.remove("active")
 			editModal.classList.remove("active")
@@ -136,16 +130,10 @@ export function openEditModal(submitter, professorOrStudent) {
 		if (dataField == "") {
 			alert("Campo vazio")
 			return
-		} else if (
-			input.nodeName === "SELECT" &&
-			dataField === "Selecione uma disciplina"
-		) {
+		} else if (input.nodeName === "SELECT" && dataField === "Selecione uma disciplina") {
 			alert("Selecione uma disciplina válida")
 			return
-		} else if (
-			input.nodeName === "SELECT" &&
-			dataField === "Selecione um valor"
-		) {
+		} else if (input.nodeName === "SELECT" && dataField === "Selecione um valor") {
 			alert("Selecione um valor válido")
 			return
 		} else if (dataField === previousDataField) {
@@ -175,7 +163,7 @@ export function closeEditModal() {
 	pageShadow.classList.remove("active")
 }
 
-document.querySelector("form").addEventListener("submit", (e) => {
+document.querySelector("form").addEventListener("submit", e => {
 	e.preventDefault()
 
 	const submitter = e.submitter

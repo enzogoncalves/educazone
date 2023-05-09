@@ -1,21 +1,12 @@
-import {
-	getAuth,
-	createUserWithEmailAndPassword,
-	GoogleAuthProvider,
-	signInWithPopup,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import {
-	getDatabase,
-	ref,
-	set,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 import { getUserData } from "./modules.js"
 
 const form = document.querySelector("form")
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", e => {
 	e.preventDefault()
 
 	const professorChecked = document.getElementById("radio-professor").checked
@@ -30,59 +21,41 @@ form.addEventListener("submit", (e) => {
 	if (submitter === "signin") {
 		const auth = getAuth()
 
-		if (
-			email_input.value === "" ||
-			password_input.value === "" ||
-			firstName_input.value === "" ||
-			lastName_input.value === ""
-		) {
+		if (email_input.value === "" || password_input.value === "" || firstName_input.value === "" || lastName_input.value === "") {
 			alert("Preencha todos os campos corretamente.")
 			return
 		}
 
-		createUserWithEmailAndPassword(
-			auth,
-			email_input.value,
-			password_input.value
-		)
-			.then((userCredential) => {
+		createUserWithEmailAndPassword(auth, email_input.value, password_input.value)
+			.then(userCredential => {
 				const user = userCredential.user
 				const db = getDatabase()
 
 				const userData = {
 					firstName: firstName_input.value,
 					lastName: lastName_input.value,
+					email: email_input.value,
 				}
 
 				if (professorChecked) {
 					set(ref(db, `professors/${user.uid}/`), userData)
-						.then((data) => {
+						.then(data => {
 							alert("Conta criada com sucesso!")
 							window.location = "/html/login.html"
 						})
-						.catch((error) =>
-							console.error(
-								"Houve um erro ao adicionar no banco de dados",
-								error
-							)
-						)
+						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 				} else {
 					set(ref(db, `students/${user.uid}/`), userData)
-						.then((data) => {
+						.then(data => {
 							alert("Conta criada com sucesso!")
 							window.location = "/html/login.html"
 						})
-						.catch((error) =>
-							console.error(
-								"Houve um erro ao adicionar no banco de dados",
-								error
-							)
-						)
+						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 				}
 
 				clearInputs()
 			})
-			.catch((error) => {
+			.catch(error => {
 				const errorMessage = error.message
 
 				if (error.code == "auth/email-already-in-use") {
@@ -98,11 +71,11 @@ form.addEventListener("submit", (e) => {
 		const provider = new GoogleAuthProvider()
 
 		signInWithPopup(auth, provider)
-			.then((userCredential) => {
+			.then(userCredential => {
 				const user = userCredential.user
 
 				getUserData(user.uid)
-					.then((snapshot) => {
+					.then(snapshot => {
 						const userAlreadyInDb = snapshot !== undefined
 
 						const userCompleteName = userCredential.user.displayName.split(" ")
@@ -110,47 +83,34 @@ form.addEventListener("submit", (e) => {
 						const userData = {
 							firstName: userCompleteName[0],
 							lastName: userCompleteName[userCompleteName.length - 1],
+							email: user.email,
 						}
 
 						const db = getDatabase()
 
 						if (professorChecked && !userAlreadyInDb) {
 							set(ref(db, `professors/${user.uid}/`), userData)
-								.then((data) => {
+								.then(data => {
 									alert("Conta criada com sucesso!")
 									window.location = "/html/login.html"
 								})
-								.catch((error) =>
-									console.error(
-										"Houve um erro ao adicionar no banco de dados",
-										error
-									)
-								)
+								.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 						} else if (!professorChecked && !userAlreadyInDb) {
 							set(ref(db, `students/${user.uid}/`), userData)
-								.then((data) => {
+								.then(data => {
 									alert("Conta criada com sucesso!")
 									window.location = "/html/login.html"
 								})
-								.catch((error) =>
-									console.error(
-										"Houve um erro ao adicionar no banco de dados",
-										error
-									)
-								)
+								.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 						} else if (userAlreadyInDb) {
-							confirm(
-								"Você já possui uma conta.\nClique em OK para ir para a página de login."
-							)
-								? (window.location = "/html/login.html")
-								: undefined
+							confirm("Você já possui uma conta.\nClique em OK para ir para a página de login.") ? (window.location = "/html/login.html") : undefined
 
 							clearInputs()
 						}
 					})
-					.catch((error) => console.error(error))
+					.catch(error => console.error(error))
 			})
-			.catch((error) => {
+			.catch(error => {
 				const errorCode = error.code
 				const errorMessage = error.message
 

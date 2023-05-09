@@ -3,7 +3,7 @@ main {
 }
 
 #hire {
-	width: 250px;
+	min-width: 250px;
 	display: flex;
 	gap: 0.5rem;
 	flex-direction: column;
@@ -73,4 +73,28 @@ main {
 
 #hire .btn-actions button:nth-child(3) {
 	background-color: var(--dark-grey);
+}
+
+#info {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding-right: 1.5rem;
+}
+
+#info .contact {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+#info .contact > div {
+	display: grid;
+	grid-template-columns: 75px 1fr;
+	gap: 1.5rem;
+}
+
+#info .contact > div p:nth-child(2) {
+	color: var(--primary-color);
+	font-weight: 500;
 }
