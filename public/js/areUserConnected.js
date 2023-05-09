@@ -57,19 +57,19 @@ function createHeader(imageUrl, firstName, lastName) {
 	getIsStudent().then(isStudent => {
 		if (isStudent) {
 			links.innerHTML = `
-			<li><a href="/dashboardStudent.html">Home</a></li>
-			<li><a href="/html/myTeachers.html">Meus professores</a></li>
-			<li><a href="/html/studentAssignments.html">Tarefas</a></li>
-			<li><a href="/html/financial.html">Encontrar um professor</a></li>
+			<li><a href="/dashboardStudent">Home</a></li>
+			<li><a href="myTeachers">Meus professores</a></li>
+			<li><a href="studentAssignments">Tarefas</a></li>
+			<li><a href="financial">Encontrar um professor</a></li>
 		`
 			const navigation = document.querySelector("header nav")
 			navigation.appendChild(links)
 		} else {
 			links.innerHTML = `
-			<li><a href="/html/dashboardTeacher.html">Home</a></li>
-			<li><a href="/html/myStudents.html">Meus Alunos</a></li>
-			<li><a href="/html/financial.html">Financeiro</a></li>
-			<li><a href="/html/assignments.html">Tarefas</a></li>
+			<li><a href="dashboardTeacher">Home</a></li>
+			<li><a href="myStudents">Meus Alunos</a></li>
+			<li><a href="financial">Financeiro</a></li>
+			<li><a href="assignments">Tarefas</a></li>
 		`
 			const navigation = document.querySelector("header nav")
 			navigation.appendChild(links)
@@ -78,7 +78,7 @@ function createHeader(imageUrl, firstName, lastName) {
 }
 
 export function redirectToLoginPage() {
-	window.location = "/html/login.html"
+	window.location = "/login"
 }
 
 export function createProfilePicture(firstName, lastName) {

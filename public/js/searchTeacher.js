@@ -1,13 +1,9 @@
-import {
-	getDatabase,
-	ref,
-	onValue,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 const db = getDatabase()
 const professorsRef = ref(db, "professors/")
 
-onValue(professorsRef, (snapshot) => {
+onValue(professorsRef, snapshot => {
 	handleProfessorsData(snapshot.val())
 })
 
@@ -38,10 +34,10 @@ function handleProfessorsData(professors) {
 		professorsSection.appendChild(professorElement)
 	}
 
-	document.querySelectorAll(".professor .info button").forEach((button) => {
+	document.querySelectorAll(".professor .info button").forEach(button => {
 		button.addEventListener("click", () => {
 			localStorage.setItem("professorId", button.getAttribute("id"))
-			window.location = "/html/hireTeacher.html"
+			window.location = "/hireTeacher"
 		})
 	})
 }

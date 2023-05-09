@@ -41,14 +41,14 @@ form.addEventListener("submit", e => {
 					set(ref(db, `professors/${user.uid}/`), userData)
 						.then(data => {
 							alert("Conta criada com sucesso!")
-							window.location = "/html/login.html"
+							window.location = "/login"
 						})
 						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 				} else {
 					set(ref(db, `students/${user.uid}/`), userData)
 						.then(data => {
 							alert("Conta criada com sucesso!")
-							window.location = "/html/login.html"
+							window.location = "/login"
 						})
 						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 				}
@@ -92,18 +92,18 @@ form.addEventListener("submit", e => {
 							set(ref(db, `professors/${user.uid}/`), userData)
 								.then(data => {
 									alert("Conta criada com sucesso!")
-									window.location = "/html/login.html"
+									window.location = "/login"
 								})
 								.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 						} else if (!professorChecked && !userAlreadyInDb) {
 							set(ref(db, `students/${user.uid}/`), userData)
 								.then(data => {
 									alert("Conta criada com sucesso!")
-									window.location = "/html/login.html"
+									window.location = "/login"
 								})
 								.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 						} else if (userAlreadyInDb) {
-							confirm("Você já possui uma conta.\nClique em OK para ir para a página de login.") ? (window.location = "/html/login.html") : undefined
+							confirm("Você já possui uma conta.\nClique em OK para ir para a página de login.") ? (window.location = "/login") : undefined
 
 							clearInputs()
 						}

@@ -9,18 +9,15 @@
 		<!-- FONTS: Roboto -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
-			rel="stylesheet"
-		/>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
 
 		<!-- Styles -->
-		<link rel="stylesheet" href="../css/styles.css" />
-		<link rel="stylesheet" href="../css/login.css" />
+		<link rel="stylesheet" href="/css/styles.css" />
+		<link rel="stylesheet" href="/css/login.css" />
 
 		<!-- Javascript -->
-		<script src="../js/initializeFirebase.js" type="module"></script>
-		<script src="../js/login.js" type="module"></script>
+		<script src="/js/initializeFirebase.js" type="module"></script>
+		<script src="/js/login.js" type="module"></script>
 	</head>
 	<body>
 		<div>
@@ -28,31 +25,20 @@
 			<form>
 				<div class="form-item">
 					<label for="email">Email</label>
-					<input
-						type="email"
-						name="email"
-						id="email"
-						placeholder="Digite o seu email"
-					/>
+					<input type="email" name="email" id="email" placeholder="Digite o seu email" />
 				</div>
 				<div class="form-item">
 					<label for="password">Senha</label>
-					<input
-						type="password"
-						name="password"
-						id="password"
-						placeholder="Digite a sua senha"
-						minlength="6"
-					/>
+					<input type="password" name="password" id="password" placeholder="Digite a sua senha" minlength="6" />
 				</div>
 				<input type="submit" value="Entrar" id="signin" />
 				<p>OU</p>
 				<button type="submit" id="signin-with-google">
-					<img src="../assets/img/google-logo.svg" />
+					<img src="/img/google-logo.svg" />
 					Entrar com o Google
 				</button>
 			</form>
-			<p>Não tem uma conta? <a href="signup.html">Crie uma aqui</a></p>
+			<p>Não tem uma conta? <a href="signup">Crie uma aqui</a></p>
 		</div>
 	</body>
 </html>

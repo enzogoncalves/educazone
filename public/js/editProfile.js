@@ -47,6 +47,7 @@ export function showUserData(dbUserData, authUserData, fields) {
 			}
 			// pega o dado do authentication
 			document.querySelector(`#${field}`).value = authUserData[field]
+			createEditButton(field)
 			return
 		}
 

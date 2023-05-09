@@ -9,18 +9,15 @@
 		<!-- FONTS: Roboto -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
-			rel="stylesheet"
-		/>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
 
 		<!-- Styles -->
-		<link rel="stylesheet" href="../css/styles.css" />
-		<link rel="stylesheet" href="../css/login.css" />
+		<link rel="stylesheet" href="/css/styles.css" />
+		<link rel="stylesheet" href="/css/login.css" />
 
 		<!-- Javascript -->
-		<script src="../js/initializeFirebase.js" type="module"></script>
-		<script src="../js/signup.js" type="module"></script>
+		<script src="/js/initializeFirebase.js" type="module"></script>
+		<script src="/js/signup.js" type="module"></script>
 	</head>
 	<body>
 		<div>
@@ -28,79 +25,45 @@
 			<form>
 				<div class="form-item-flex">
 					<div class="form-item">
-						<input
-							type="radio"
-							name="student-or-professor"
-							id="radio-professor"
-							value="professor"
-							required
-						/>
+						<input type="radio" name="student-or-professor" id="radio-professor" value="professor" required />
 						<label for="radio-professor">Sou professor</label>
 					</div>
 					<div class="form-item">
-						<input
-							type="radio"
-							name="student-or-professor"
-							id="radio-student"
-							value="student"
-							required
-						/>
+						<input type="radio" name="student-or-professor" id="radio-student" value="student" required />
 						<label for="radio-student">Sou estudante</label>
 					</div>
 				</div>
 
-				
 				<button type="submit" id="signin-with-google">
-					<img src="../assets/img/google-logo.svg" />
+					<img src="/img/google-logo.svg" />
 					Cadastro com o Google
 				</button>
-				
+
 				<p>OU</p>
 
 				<div class="form-item-flex">
 					<div class="form-item">
 						<label for="firstName">Primeiro nome</label>
-						<input
-							type="text"
-							name="firstName"
-							id="firstName"
-							placeholder="Digite o seu primeiro nome"
-						/>
+						<input type="text" name="firstName" id="firstName" placeholder="Digite o seu primeiro nome" />
 					</div>
 					<div class="form-item">
 						<label for="lastName">Último nome</label>
-						<input
-							type="text"
-							name="lastName"
-							id="lastName"
-							placeholder="Digite o seu último nome"
-						/>
+						<input type="text" name="lastName" id="lastName" placeholder="Digite o seu último nome" />
 					</div>
 				</div>
-				
+
 				<div class="form-item">
 					<label for="email">Email</label>
-					<input
-						type="email"
-						name="email"
-						id="email"
-						placeholder="Digite o seu email"
-					/>
+					<input type="email" name="email" id="email" placeholder="Digite o seu email" />
 				</div>
 				<div class="form-item">
 					<label for="password">Senha</label>
-					<input
-						type="password"
-						name="password"
-						id="password"
-						placeholder="Digite a sua senha"
-						minlength="6"
-					/>
+					<input type="password" name="password" id="password" placeholder="Digite a sua senha" minlength="6" />
 				</div>
 
 				<input type="submit" value="Cadastrar" id="signin" />
 			</form>
-			<p>Já tem uma conta? <a href="login.html">Fazer login</a></p>
+			<p>Já tem uma conta? <a href="login">Fazer login</a></p>
 		</div>
 	</body>
 </html>

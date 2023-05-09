@@ -1,9 +1,4 @@
-import {
-	getAuth,
-	signInWithEmailAndPassword,
-	GoogleAuthProvider,
-	signInWithPopup,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
 import { getIsStudent } from "./modules.js"
 
@@ -11,7 +6,7 @@ const auth = getAuth()
 
 const form = document.querySelector("form")
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", e => {
 	e.preventDefault()
 
 	const email_input = document.querySelector("#email")
@@ -21,13 +16,13 @@ form.addEventListener("submit", (e) => {
 
 	if (submitter === "signin") {
 		signInWithEmailAndPassword(auth, email_input.value, password_input.value)
-			.then((userCredential) => {
-				getIsStudent(userCredential.user.uid).then((isStudent) => {
+			.then(userCredential => {
+				getIsStudent(userCredential.user.uid).then(isStudent => {
 					if (isStudent !== undefined) {
 						if (isStudent) {
-							window.location = "/html/editProfileStudent.html"
+							window.location = "/editProfileStudent"
 						} else {
-							window.location = "/html/editProfile.html"
+							window.location = "/editProfile"
 						}
 					} else {
 						alert("Não conseguimos encontrar o usuário no banco de dados.")
@@ -35,7 +30,7 @@ form.addEventListener("submit", (e) => {
 					}
 				})
 			})
-			.catch((error) => {
+			.catch(error => {
 				const errorMessage = error.message
 
 				if (errorMessage == "Firebase: Error (auth/user-not-found).") {
@@ -50,18 +45,18 @@ form.addEventListener("submit", (e) => {
 		const provider = new GoogleAuthProvider()
 
 		signInWithPopup(auth, provider)
-			.then((userCredential) => {
-				getIsStudent(userCredential.user.uid).then((isStudent) => {
+			.then(userCredential => {
+				getIsStudent(userCredential.user.uid).then(isStudent => {
 					if (isStudent === undefined) {
 						alert("Você precisa criar uma conta primeiro.")
 					} else if (isStudent) {
-						window.location = "/html/editProfileStudent.html"
+						window.location = "/editProfileStudent"
 					} else {
-						window.location = "/html/editProfile.html"
+						window.location = "/editProfile"
 					}
 				})
 			})
-			.catch((error) => {
+			.catch(error => {
 				const errorCode = error.code
 				const errorMessage = error.message
 

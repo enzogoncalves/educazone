@@ -3,7 +3,7 @@ import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.
 const professorId = localStorage.getItem("professorId")
 
 if (professorId === null) {
-	window.location = "/html/searchTeacher.html"
+	window.location = "/searchTeacher"
 }
 
 const db = getDatabase()

@@ -1,23 +1,16 @@
-import {
-	getDatabase,
-	ref,
-	get,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import {
-	getAuth,
-	signOut,
-} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
 export async function getUserData(userUid) {
 	const db = getDatabase()
 	const dbRef = ref(db)
 
 	const promise = await get(dbRef)
-		.then((snapshot) => {
+		.then(snapshot => {
 			return findUserData(snapshot.val(), userUid)
 		})
-		.catch((error) => {
+		.catch(error => {
 			return error
 		})
 
@@ -29,10 +22,10 @@ export async function getIsStudent(userUid) {
 	const dbRef = ref(db)
 
 	const promise = await get(dbRef)
-		.then((snapshot) => {
+		.then(snapshot => {
 			return isStudent(snapshot.val(), userUid)
 		})
-		.catch((error) => {
+		.catch(error => {
 			return error
 		})
 
@@ -69,9 +62,9 @@ export function logOut() {
 	signOut(auth)
 		.then(() => {
 			alert("deslogado")
-			window.location = "/html/login.html"
+			window.location = "/login"
 		})
-		.catch((error) => {
+		.catch(error => {
 			console.error(error)
 		})
 }
