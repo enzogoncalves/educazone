@@ -5,7 +5,7 @@ const route = require("./route")
 
 server.set("view engine", "ejs") // avisar qual engine será usada
 
-server.use("/public", express.static(__dirname + "/public"))
+server.use(express.static(__dirname + "/public/"))
 
 server.set("views", path.join(__dirname, "views"))
 
