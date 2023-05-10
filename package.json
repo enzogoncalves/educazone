@@ -4,7 +4,8 @@
 	"description": "TCC - Educa Zone",
 	"main": "src/server.js",
 	"scripts": {
-		"start": "nodemon ."
+		"start": "node src/server.js",
+		"dev": "nodemon ."
 	},
 	"repository": {
 		"type": "git",

@@ -1,16 +1,21 @@
 const express = require("express")
 const server = express()
-const path = require("path")
 const route = require("./route")
 
+const port = 5500
+
+server.set("views", "./src/views")
 server.set("view engine", "ejs")
 
-server.set("views", path.join(__dirname, "views"))
+server.use(express.urlencoded({ extended: true }))
 
 server.use(express.static("public"))
+server.use("/css", express.static(__dirname + "public/css"))
+server.use("/js", express.static(__dirname + "public/js"))
+server.use("/img", express.static(__dirname + "public/img"))
 
-server.use(express.urlencoded({ extended: true })) // habilitar o uso do ejs no html
+server.use(express.json())
 
 server.use(route)
 
-server.listen(3300, () => console.log("Ouvindo porta 3300"))
+server.listen(process.env.PORT || port, () => console.log("Ouvindo porta " + port))
