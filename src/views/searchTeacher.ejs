@@ -1,0 +1,107 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"></p>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"></p>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"></p>
+		<title>EducaZone - Meus Estudantes</title>
+
+		<!-- FONTS: Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com"></p>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></p>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+			rel="stylesheet"
+	></p>
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="/css/styles.css"></p>
+		<link rel="stylesheet" href="/css/searchTeacher.css"></p>
+
+
+		<!-- Javascript -->
+		<script src="/js/initializeFirebase.js" type="module"></script>
+		<script src="/js/areUserConnected.js" type="module"></script>
+		<script src="/js/searchTeacher.js" type="module"></script>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="/" id="title">Educa<span>Zone</span></a>
+				<ul role="navigation">
+					<a<a href="/signup">Cadastrar</a>
+					<a href="/login">Entrar</a>
+				</ul>
+			</nav>
+		</header>
+		<main>
+			<section id="filter">
+				<div>
+					<p>Filtrar por</p>
+					<span>Limpar Filtros</span>
+				</div>
+				<div id="classes">
+					<p>Disciplina</p>
+					<div class="filter-item">
+						<input type="checkbox" name="class" data-class="Matemática" id="Matemática">
+						<label for="Matemática">Matemática</label>
+					</div>
+					<div class="filter-item">
+						<input type="checkbox" name="class" data-class="Portugûes" id="Portugûes">
+						<label for="Portugûes">Portugûes</label>
+					</div>
+					<div class="filter-item">
+						<input type="checkbox" name="class" data-class="Geografia" id="Geografia">
+						<label for="Geografia">Geografia</label>
+					</div>
+					<div class="filter-item">
+						<input type="checkbox" name="class" data-class="História" id="História">
+						<label for="História">História</label>
+					</div>
+					<div class="filter-item">
+						<input type="checkbox" name="class" data-class="Biologia" id="Biologia">
+						<label for="Biologia">Biologia</label>
+					</div>
+				</div>
+				<div id="prices">
+					<p>Preços</p>
+					<div class="filter-item">
+						<input type="radio" name="price" data-priceRange="20" id="-20">
+						<label for="-20">Até R$ 20</label>
+					</div>
+					<div class="filter-item">
+						<input type="radio" name="price" data-priceRange="20-50" id="20-50">
+						<label for="20-50">R$ 20 - R$ 50</label>
+					</div>
+					<div class="filter-item">
+						<input type="radio" name="price" data-priceRange="50-100" id="50-100">
+						<label for="50-100">R$ 50 - R$ 100</label>
+					</div>
+					<div class="filter-item">
+						<input type="radio" name="price" data-priceRange="100-" id="100-">
+						<label for="100-">Acima de R$ 100</label>
+					</div>
+				</div>
+			</section>
+			<section id="results">
+				<span id="n-results"></span>
+				<div id="professors">
+					
+				</div>
+			</section>
+		</main>
+		<footer>
+			<ul>
+				<a href="#">Perguntas Frequente</a>
+				<a href="#">Professores</a>
+				<a href="#">Atendimento ao caente</a>
+				<a href="#">Acessar Dashboard</a>
+			</ul>
+			<div>
+				<p>Todos os direitos reservados © a Enzo Mateus e Ulisses Duo</p>
+				<a href="#termos">Termos de Serviço</a>
+				|
+				<a href="#política">Política de Privavidade</a>
+			</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,162 @@
+.pageShadow.active {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(56, 56, 56, 0.788);
+}
+
+main {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+}
+
+#user-profile {
+	width: 275px;
+	height: 300px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 1rem;
+	background-color: white;
+	box-shadow: var(--default-box-shadow);
+	padding: 1.5rem;
+}
+
+#user-profile .profilePicture {
+	width: 150px;
+	height: 150px;
+	font-size: 4rem;
+	color: black;
+	border: 1px solid var(--primary-color);
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+}
+
+#user-profile button {
+	order: 2;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	font-weight: 500;
+	color: white;
+	background-color: var(--primary-color);
+	border: none;
+	outline: none;
+	border-radius: 7px;
+	box-shadow: var(--default-box-shadow);
+	cursor: pointer;
+}
+
+#edit-user-profile {
+	display: flex;
+	flex-direction: column;
+	min-width: 600px;
+	max-width: 700px;
+	margin: 0 1.5rem;
+	box-shadow: var(--default-box-shadow);
+}
+
+#edit-user-profile > div {
+	background-color: #5448ff8c;
+	padding: 3rem 2rem;
+}
+
+#edit-user-profile form {
+	background-color: white;
+	padding: 0.5rem 1rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 1rem;
+	row-gap: 1rem;
+}
+
+#edit-user-profile .form-item,
+.editModal .form-item {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+#edit-user-profile form .form-item input,
+.editModal .form-item input,
+select {
+	padding: 0.5rem;
+	font-size: 1rem;
+	border: 1px solid #444;
+	border-radius: 2px;
+	outline: none;
+}
+
+#edit-user-profile form .form-item input:focus,
+.editModal .form-item input:focus,
+select:focus {
+	outline: 1px solid var(--primary-color);
+	border-color: var(--primary-color);
+}
+
+#edit-user-profile form .form-item button[type="submit"],
+.editModal .form-item button[type="submit"] {
+	border: none;
+	outline: none;
+	color: var(--primary-color);
+	width: fit-content;
+	cursor: pointer;
+}
+
+#edit-user-profile form .form-item button[type="submit"]:hover,
+.editModal .form-item button[type="submit"]:hover {
+	text-decoration: underline;
+}
+
+#edit-user-profile form .form-item.span-2,
+.editModal .form-item.span-2 {
+	grid-column: 1/3;
+	height: fit-content;
+}
+
+#edit-user-profile form .form-item.span-2 textarea,
+.editModal .form-item.span-2 textarea {
+	resize: vertical;
+	padding: 0.5rem;
+	font-family: "Roboto", sans-serif;
+	min-height: 100px;
+}
+
+.editModal {
+	display: none;
+}
+
+.editModal.active {
+	display: block;
+	position: fixed;
+	top: 50vh;
+	left: 50vw;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 1.5rem;
+	box-shadow: var(--default-box-shadow);
+	width: 300px;
+}
+
+.editModal button {
+	margin-top: 1rem;
+	padding: 0.5rem 0;
+	border: none;
+	border-radius: 3px;
+	outline: none;
+	color: white;
+	background-color: var(--primary-color);
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.editModal button:last-child {
+	background-color: #dd2f2f;
+}

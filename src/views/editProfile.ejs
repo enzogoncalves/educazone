@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>EducaZone - Editar</title>
+
+		<!-- FONTS: Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="/css/styles.css" />
+		<link rel="stylesheet" href="/css/editProfile.css" />
+
+		<!-- Javascript -->
+		<script src="/js/initializeFirebase.js" type="module"></script>
+		<script src="/js/areUserConnected.js" type="module"></script>
+		<script src="/js/editProfile.js" type="module"></script>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="/" id="title">Educa<span>Zone</span></a>
+				<ul role="navigation">
+					<a<a href="/signup">Cadastrar</a>
+					<a href="/login">Entrar</a>
+				</ul>
+			</nav>
+		</header>
+		<main>
+			<section id="user-profile">
+				<h2 id="fullname"></h2>
+				<button id="update-profilePicture">Atualizar foto</button>
+			</section>
+			<section id="edit-user-profile">
+				<div>
+					<h2>Seu Perfil</h2>
+				</div>
+				<form>
+					<div class="form-item">
+						<label for="firstName">Primeiro nome</label>
+						<input type="text" name="firstName" id="firstName" readonly />
+					</div>
+					<div class="form-item">
+						<label for="lastName">Último nome</label>
+						<input type="text" name="lastName" id="lastName" readonly />
+					</div>
+					<div class="form-item">
+						<label for="email">Email</label>
+						<input type="email" name="email" id="email" readonly />
+					</div>
+					<div class="form-item">
+						<label for="phoneNumber">Número de telefone</label>
+						<input type="text" name="phoneNumber" id="phoneNumber" readonly />
+					</div>
+					<div class="form-item">
+						<label for="site">Site</label>
+						<input type="text" name="site" id="site" readonly />
+					</div>
+					<div class="form-item">
+						<label for="class">Disciplina</label>
+						<select name="class" id="class" disabled>
+							<option value="Selecione uma disciplina">Selecione uma disciplina</option>
+							<option value="Matemática">Matemática</option>
+							<option value="Português">Português</option>
+							<option value="Biologia">Biologia</option>
+							<option value="Sociologia">Sociologia</option>
+							<option value="Física">Física</option>
+							<option value="Inglês">Inglês</option>
+							<option value="Espanhol">Espanhol</option>
+							<option value="História">História</option>
+							<option value="Geografia">Geografia</option>
+						</select>
+					</div>
+					<div class="form-item">
+						<label for="price">Valor</label>
+						<select name="price" id="price" disabled>
+							<option value="Selecione um valor">Selecione um valor</option>
+							<option value="R$ 15,00">R$ 15,00</option>
+							<option value="R$ 20,00">R$ 20,00</option>
+							<option value="R$ 25,00">R$ 25,00</option>
+							<option value="R$ 30,00">R$ 30,00</option>
+							<option value="R$ 40,00">R$ 40,00</option>
+							<option value="R$ 50,00">R$ 50,00</option>
+							<option value="R$ 60,00">R$ 60,00</option>
+							<option value="R$ 70,00">R$ 70,00</option>
+							<option value="R$ 80,00">R$ 80,00</option>
+							<option value="R$ 90,00">R$ 90,00</option>
+							<option value="R$ 100,00">R$ 100,00</option>
+							<option value="R$ 125,00">R$ 125,00</option>
+							<option value="R$ 150,00">R$ 150,00</option>
+							<option value="R$ 200,00">R$ 200,00</option>
+						</select>
+					</div>
+					<div class="form-item span-2">
+						<label for="aboutMe">Sobre mim</label>
+						<textarea name="aboutMe" id="aboutMe" readonly></textarea>
+					</div>
+					<div class="form-item span-2">
+						<label for="didactic">Minha didática</label>
+						<textarea name="didactic" id="didactic" readonly></textarea>
+					</div>
+				</form>
+			</section>
+		</main>
+		<footer>
+			<ul>
+				<li> <a href="#">Perguntas Frequente</a> </li>
+				<li> <a href="#">Professores</a> </li>
+				<li> <a href="#">Atendimento ao caente</a> </li>
+				<li> <a href="#">Acessar Dashboard</a> </li>
+			</ul>
+			<div>
+				<p>Todos os direitos reservados © a Enzo Mateus e Ulisses Duo</p>
+				<a href="#termos">Termos de Serviço</a>
+				|
+				<a href="#política">Política de Privavidade</a>
+			</div>
+		</footer>
+		<div class="pageShadow"></div>
+	</body>
+</html>

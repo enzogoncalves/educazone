@@ -1,0 +1,27 @@
+{
+	"name": "educazone",
+	"version": "1.0.0",
+	"description": "TCC - Educa Zone",
+	"main": "src/server.js",
+	"scripts": {
+		"start": "nodemon ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/enzogoncalves/educazone.git"
+	},
+	"keywords": [],
+	"author": "Enzo Mateus Gonçalves e Ulisses Duo",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/enzogoncalves/educazone/issues"
+	},
+	"homepage": "https://github.com/enzogoncalves/educazone#readme",
+	"dependencies": {
+		"ejs": "^3.1.9",
+		"express": "^4.18.2"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.22"
+	}
+}

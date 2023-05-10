@@ -1,0 +1,129 @@
+html,
+body {
+	height: 100%;
+}
+
+body {
+	background-image: url("/img/bg-2.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+body > div {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	padding: 2rem;
+	gap: 1rem;
+	box-shadow: var(--default-box-shadow);
+}
+
+body > div h1 {
+	text-align: center;
+	padding-bottom: 1rem;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+form .form-item {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+form .form-item label {
+	font-size: 1.25rem;
+}
+
+form .form-item input {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid rgba(0 0 0 / 0.7);
+	padding: 0.5rem 0;
+	font-size: 1.1rem;
+}
+
+form .form-item input:focus {
+	border-bottom-color: black;
+}
+
+form .form-item-flex {
+	display: flex;
+	justify-content: space-between;
+	gap: 2rem;
+}
+
+form input[type="submit"] {
+	background-color: #256aeb;
+	border-radius: 7px;
+	padding: 0.7rem 0.5rem;
+	font-size: 1.1rem;
+	color: white;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	transition: background 0.1s;
+}
+
+form input[type="submit"]:hover {
+	background-color: #257beb;
+}
+
+form p {
+	text-align: center;
+	position: relative;
+}
+
+form p::before,
+form p::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	height: 1px;
+	width: 100px;
+	background-color: black;
+}
+
+form p::before {
+	left: calc(50% - 120px);
+}
+
+form p::after {
+	right: calc(50% - 120px);
+}
+
+button[type="submit"] {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.1rem;
+	background-color: transparent;
+	outline: none;
+	border: 2px solid black;
+	border-radius: 7px;
+	padding: 0.5rem;
+	cursor: pointer;
+}
+
+button[type="submit"]:hover {
+	border-color: var(--primary-color);
+}
+
+button[type="submit"] img {
+	width: 30px;
+}
+
+div > p {
+	text-align: center;
+}

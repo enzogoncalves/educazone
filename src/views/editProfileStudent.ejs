@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>EducaZone - Editar</title>
+
+		<!-- FONTS: Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="/css/styles.css" />
+		<link rel="stylesheet" href="/css/editProfile.css" />
+
+		<!-- Javascript -->
+		<script src="/js/initializeFirebase.js" type="module"></script>
+		<script src="/js/areUserConnected.js" type="module"></script>
+		<script src="/js/editProfileStudent.js" type="module"></script>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="/" id="title">Educa<span>Zone</span></a>
+				<ul role="navigation">
+					<a<a href="/signup">Cadastrar</a>
+					<a href="/login">Entrar</a>
+				</ul>
+			</nav>
+		</header>
+		<main>
+			<section id="user-profile">
+				<h2 id="user-name"></h2>
+				<p id="user-username"></p>
+			</section>
+			<section id="edit-user-profile">
+				<div>
+					<h2>Seu Perfil</h2>
+				</div>
+				<form>
+					<div class="form-item">
+						<label for="firstName">Primeiro nome</label>
+						<input type="text" name="firstName" id="firstName" readonly />
+						<button type="submit" id="firstName">Editar</button>
+					</div>
+					<div class="form-item">
+						<label for="lastName">Último nome</label>
+						<input type="text" name="lastName" id="lastName" readonly />
+						<button type="submit" id="lastName">Editar</button>
+					</div>
+					<div class="form-item">
+						<label for="email">Email</label>
+						<input type="email" name="email" id="email" readonly />
+					</div>
+					<div class="form-item">
+						<label for="phoneNumber">Número de telefone</label>
+						<input type="text" name="phoneNumber" id="phoneNumber" readonly />
+						<button type="submit" id="phoneNumber">Editar</button>
+					</div>
+				</form>
+			</section>
+		</main>
+		<footer>
+			<ul>
+				<a href="#">Perguntas Frequente</a>
+				<a href="#">Professores</a>
+				<a href="#">Atendimento ao caente</a>
+				<a href="#">Acessar Dashboard</a>
+			</ul>
+			<div>
+				<p>Todos os direitos reservados © a Enzo Mateus e Ulisses Duo</p>
+				<a href="#termos">Termos de Serviço</a>
+				|
+				<a href="#política">Política de Privavidade</a>
+			</div>
+		</footer>
+		<div class="pageShadow"></div>
+	</body>
+</html>
