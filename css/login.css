@@ -118,6 +118,7 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
 	border-color: var(--primary-color);
+	transform: scale(1.1);
 }
 
 button[type="submit"] img {

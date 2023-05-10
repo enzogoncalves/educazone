@@ -37,7 +37,7 @@ header {
 	height: var(--header-height);
 	background-color: white;
 	box-shadow: var(--default-box-shadow);
-	position: fixed;
+	position: relative;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -66,6 +66,11 @@ header nav ul {
 	display: flex;
 	align-items: center;
 	gap: 2rem;
+}
+
+header nav ul :hover{
+	transform: scale(1.2);
+	text-decoration: none;
 }
 
 header nav ul.profile-links a:nth-child(1) {
@@ -192,7 +197,11 @@ footer div a {
 footer div a:hover {
 	text-decoration: underline;
 }
-
+.copy{
+	background-color: #5e5e5e;
+	text-align: center;
+	color: var(--body-background-color);
+}
 .page-skeleton {
 	display: none;
 }
