@@ -1,5 +1,7 @@
 # TCC - Educa Zone
 
+## O site está no ar! Acesse [https://educazone.onrender.com](https://educazone.onrender.com/educazone) ou [https://educazone.cyclic.app](https://educazone.cyclic.app/educazone)
+
 ## Como iniciar o projeto
 
 Instale os módulos do nodejs e inicie o servidor
