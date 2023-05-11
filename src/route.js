@@ -9,6 +9,9 @@ route.get("/educazone", (req, res) => {
 	res.render("index")
 })
 
+route.get("/favicon.ico", (req, res) => {})
+route.get("/educazone/favicon.ico", (req, res) => {})
+
 route.get("/:file", (req, res) => {
 	res.redirect(`/educazone/${req.params.file}`)
 })
