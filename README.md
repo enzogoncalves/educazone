@@ -1,6 +1,6 @@
 # TCC - Educa Zone
 
-## O site está no ar! Acesse [https://educazone.onrender.com](https://educazone.onrender.com/educazone) ou [https://educazone.cyclic.app](https://educazone.cyclic.app/educazone)
+## O site está no ar! Acesse [https://educazone.vercel.app/](https://educazone.vercel.app/)
 
 ## Como iniciar o projeto
 
@@ -11,11 +11,12 @@ npm install
 npm run dev
 ```
 
-Agora é só entrar em [http://localhost:5500/](http://localhost:3000/)
+Agora é só entrar em [http://localhost:5500/](http://localhost:5500/)
 
 O servidor web é iniciado na porta 5500, mas você pode alterar [neste arquivo](/src/server.js)
 
 ## Linguagens e Tecnologias Utilizadas
+
 <div style="display: inline-block"><br>
 <img width="50px" height="40" align="center" alt="js" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" />  
 <img width="50px" height="40" align="center" alt="nodejs" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" />  
