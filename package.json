@@ -1,6 +1,7 @@
 {
 	"name": "educazone",
 	"version": "1.0.0",
+	"type": "commonjs",
 	"description": "TCC - Educa Zone",
 	"main": "src/server.js",
 	"scripts": {
