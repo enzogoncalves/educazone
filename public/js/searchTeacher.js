@@ -4,6 +4,7 @@ const db = getDatabase()
 const professorsRef = ref(db, "professors/")
 
 onValue(professorsRef, snapshot => {
+	document.querySelector(".page-skeleton").classList.remove("active")
 	handleProfessorsData(snapshot.val())
 })
 
@@ -18,7 +19,7 @@ function handleProfessorsData(professors) {
 		professorElement.classList.add("professor")
 		professorElement.innerHTML = `
 			<div class="picture-price">
-				<img src="${professor.pictureUrl}" alt="Foto do professor">
+				<div alt="Foto do professor" class="profilePicture"></div>
 				<span>R$ ${professor.price}</span>
 			</div>
 			<div class="info">
@@ -30,7 +31,6 @@ function handleProfessorsData(professors) {
 				<button type="submit" id="${professorId}">Mostrar detalhes</button>
 			</div>
 		`
-
 		professorsSection.appendChild(professorElement)
 	}
 

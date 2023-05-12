@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { findUserData } from "./modules.js"
+import { findUserData, getIsStudent } from "./modules.js"
 import { createProfilePicture, redirectToLoginPage } from "./areUserConnected.js"
 
 const auth = getAuth()
@@ -13,11 +13,20 @@ onAuthStateChanged(auth, user => {
 	let dbUserData
 	userId = user.uid
 	if (user) {
+		getIsStudent(userId)
+		.then(isStudent => {
+			if(!isStudent) {
+				window.location = "http://localhost:5500/editProfile"
+			}
+		})
+		.catch(error => console.error(error))
+
 		const fields = ["fullname", "firstName", "lastName", "email", "phoneNumber"]
 		const db = getDatabase()
 		const dbRef = ref(db)
 
 		onValue(dbRef, snapshot => {
+			document.querySelector(".page-skeleton").classList.remove("active")
 			dbUserData = findUserData(snapshot.val(), userId)
 			showUserData(dbUserData, user, fields)
 		})

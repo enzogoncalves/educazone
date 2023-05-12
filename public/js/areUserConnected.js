@@ -25,7 +25,6 @@ onAuthStateChanged(auth, user => {
 })
 
 function createHeader(imageUrl, firstName, lastName, userUid) {
-	document.querySelector(".page-skeleton").classList.remove("active")
 	body.style.overflowY = "visible"
 	body.style.pointerEvents = "all"
 
@@ -57,13 +56,12 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 	if(document.querySelector("header nav .links") !== null) return
 
 	getIsStudent(userUid).then(isStudent => {
-		console.log(isStudent)
 		if (isStudent) {
 			links.innerHTML = `
-			<li><a href="/dashboardStudent">Home</a></li>
+			<li><a href="dashboardStudent">Home</a></li>
 			<li><a href="myTeachers">Meus professores</a></li>
 			<li><a href="studentAssignments">Tarefas</a></li>
-			<li><a href="financial">Encontrar um professor</a></li>
+			<li><a href="searchTeacher">Encontrar um professor</a></li>
 		`
 			const navigation = document.querySelector("header nav")
 			navigation.appendChild(links)

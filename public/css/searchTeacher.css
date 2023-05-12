@@ -88,7 +88,7 @@ main {
 	position: relative;
 }
 
-.professor .picture-price img {
+.professor .picture-price .profilePicture {
 	width: 135px;
 	height: 135px;
 	object-fit: cover;
