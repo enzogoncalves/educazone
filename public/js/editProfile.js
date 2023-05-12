@@ -8,18 +8,18 @@ const auth = getAuth()
 
 let userId
 
-const fields = ["fullname", "firstName", "lastName", "email", "phoneNumber", "site", "aboutMe", "didactic", "class", "price"]
 
 onAuthStateChanged(auth, user => {
 	let dbUserData
 	userId = user.uid
 	if (user) {
+		const professorFields = ["fullname", "firstName", "lastName", "email", "phoneNumber", "site", "aboutMe", "didactic", "class", "price"]
 		const db = getDatabase()
 		const dbRef = ref(db)
 
 		onValue(dbRef, snapshot => {
 			dbUserData = findUserData(snapshot.val(), userId)
-			showUserData(dbUserData, user, fields)
+			showUserData(dbUserData, user, professorFields)
 		})
 	} else {
 		redirectToLoginPage()
@@ -33,7 +33,7 @@ editModal.classList.add("editModal")
 body.appendChild(editModal)
 
 // função para carregar o dado do usuário na página
-export function showUserData(dbUserData, authUserData, fields) {
+function showUserData(dbUserData, authUserData, fields) {
 	fields.forEach(field => {
 		if (field == "fullname") {
 			document.querySelector(`#${field}`).textContent = `${dbUserData.firstName} ${dbUserData.lastName}`
@@ -81,7 +81,7 @@ function createEditButton(field) {
 	parentEl.appendChild(editFieldBtn)
 }
 
-export function updateUser(professorOrStudent, field, dataField) {
+function updateUser(professorOrStudent, field, dataField) {
 	const db = getDatabase()
 
 	let updatedUserData = {}
@@ -101,7 +101,7 @@ export function updateUser(professorOrStudent, field, dataField) {
 		})
 }
 
-export function openEditModal(submitter, professorOrStudent) {
+function openEditModal(submitter, professorOrStudent) {
 	editModal.innerHTML = ""
 	editModal.classList.add("active")
 
@@ -115,7 +115,6 @@ export function openEditModal(submitter, professorOrStudent) {
 	const input = submitterParent.children[1]
 
 	input.removeAttribute("readonly")
-	console.log(input)
 	input.removeAttribute("id")
 	input.removeAttribute("disabled")
 	input.setAttribute("placeholder", input.value)
@@ -155,11 +154,11 @@ export function openEditModal(submitter, professorOrStudent) {
 	editModal.appendChild(submitterParent)
 }
 
-export function editUserInfo(professorOrStudent, field, dataField) {
+function editUserInfo(professorOrStudent, field, dataField) {
 	updateUser(professorOrStudent, field, dataField)
 }
 
-export function closeEditModal() {
+function closeEditModal() {
 	editModal.classList.remove("active")
 	pageShadow.classList.remove("active")
 }

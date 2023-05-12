@@ -16,7 +16,7 @@ onAuthStateChanged(auth, user => {
 
 		onValue(dbRef, snapshot => {
 			const userData = findUserData(snapshot.val(), user.uid)
-			createHeader(user.photoURL, userData.firstName, userData.lastName)
+			createHeader(user.photoURL, userData.firstName, userData.lastName, user.uid)
 		})
 	} else {
 		// Caso não tiver um usuário conectado, ele vai para a página de login
@@ -24,7 +24,7 @@ onAuthStateChanged(auth, user => {
 	}
 })
 
-function createHeader(imageUrl, firstName, lastName) {
+function createHeader(imageUrl, firstName, lastName, userUid) {
 	document.querySelector(".page-skeleton").classList.remove("active")
 	body.style.overflowY = "visible"
 	body.style.pointerEvents = "all"
@@ -54,7 +54,10 @@ function createHeader(imageUrl, firstName, lastName) {
 	links.setAttribute("role", "navigation")
 	links.classList.add("links")
 
-	getIsStudent().then(isStudent => {
+	if(document.querySelector("header nav .links") !== null) return
+
+	getIsStudent(userUid).then(isStudent => {
+		console.log(isStudent)
 		if (isStudent) {
 			links.innerHTML = `
 			<li><a href="/dashboardStudent">Home</a></li>

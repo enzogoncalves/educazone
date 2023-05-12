@@ -117,7 +117,11 @@ header#user-header nav ul.profile-links a:nth-child(2) img {
 }
 
 header#user-header nav ul.profile-links .profilePicture {
-	padding: 0.5rem;
+	height: 50px;
+	width: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	font-size: 1.5rem;
 	color: black;
 	border: 1px solid var(--primary-color);

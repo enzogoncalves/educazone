@@ -10,13 +10,10 @@ const db = getDatabase()
 const teacherRef = ref(db, "professors/" + professorId)
 
 onValue(teacherRef, snapshot => {
-	console.log(snapshot.val())
 	loadTeacherData(snapshot.val())
 })
 
 function loadTeacherData(teacherData) {
-	console.log(teacherData.pictureUrl)
-
 	document.querySelector("#profile-picture").src = teacherData.pictureUrl
 	document.querySelector("#price").textContent = teacherData.price
 	document.querySelector(".name").textContent = teacherData.firstName + " " + teacherData.lastName
