@@ -1,6 +1,6 @@
 # TCC - Educa Zone
 
-## O site está no ar! Acesse [https://educazone.vercel.app/](https://educazone.vercel.app/)
+## O site está no ar! Acesse [https://educazone.cyclic.app/](https://educazone.cyclic.app/)
 
 ## Como iniciar o projeto
 
