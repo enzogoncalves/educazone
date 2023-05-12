@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>EducaZone - Login</title>
+
+		<!-- FONTS: Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="/css/styles.css" />
+
+		<!-- Font Awesome JS -->
+		<script src="https://kit.fontawesome.com/309e31f583.js" crossorigin="anonymous"></script>
+
+		<!-- Javascript -->
+		<script src="/js/initializeFirebase.js" type="module"></script>
+        <script src="/js/payment.js" type="module"></script>
+		
+	</head>
+	<body id ="<%= professorId %>">
+        <section id="professorPicture">
+            <p id="fullname"></p>
+        </section>
+        <section id="payment">
+            <div>
+                <div>
+                    <p id="hireWho"></p>
+                    <p>Assinatura mensal</p>
+                </div>
+                <p id="price"></p>
+            </div>
+            <div>
+                <i class="fa-solid fa-circle-check"></i>
+                <p>Sem fidelização e debitado somente quando Maria aceitar o seu pedido de aulas</p>
+            </div>
+            <div>
+                <p>Modo de pagamento</p>
+                <p>100% seguro <i class="fa-solid fa-lock"></i></p>
+            </div>
+            <div>
+                <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <input type="text" name="cpf" id="cpf" placeholder="Insira o seu CPF ou CNPJ">
+        </section>
+	</body>
+</html>

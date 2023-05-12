@@ -36,8 +36,8 @@ function handleProfessorsData(professors) {
 
 	document.querySelectorAll(".professor .info button").forEach(button => {
 		button.addEventListener("click", () => {
-			localStorage.setItem("professorId", button.getAttribute("id"))
-			window.location = "/hireTeacher"
+			const professorId = button.getAttribute("id");
+			window.location = `/hireTeacher/${professorId}`
 		})
 	})
 }

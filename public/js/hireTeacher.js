@@ -1,6 +1,6 @@
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-const professorId = localStorage.getItem("professorId")
+const professorId = document.querySelector("body").getAttribute("id")
 
 if (professorId === null) {
 	window.location = "/searchTeacher"
@@ -24,3 +24,7 @@ function loadTeacherData(teacherData) {
 	document.querySelector(".phoneNumber").innerHTML = teacherData.phoneNumber
 	document.querySelector(".email").innerHTML = teacherData.email
 }
+
+document.querySelector("#hire").addEventListener('click', () => {
+	window.location = `/payment/${professorId}`
+})

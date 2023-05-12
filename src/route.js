@@ -1,3 +1,4 @@
+const { Router } = require("express")
 const express = require("express")
 const route = express.Router()
 
@@ -9,6 +10,14 @@ route.get("/", (req, res) => {
 
 route.get("/:file", (req, res) => {
 	res.render(`${req.params.file}`)
+})
+
+route.get("/hireTeacher/:professorId", (req, res) => {
+	res.render("hireTeacher", { professorId: req.params.professorId})
+})
+
+route.get("/payment/:professorId", (req, res) => {
+	res.render("payment", { professorId: req.params.professorId})
 })
 
 module.exports = route
