@@ -22,7 +22,7 @@ main {
 	gap: 1rem;
 	background-color: white;
 	box-shadow: var(--default-box-shadow);
-	padding: 1.5rem;
+	padding: 1.25rem;
 }
 
 #user-profile .profilePicture {
@@ -159,4 +159,27 @@ select:focus {
 
 .editModal button:last-child {
 	background-color: #dd2f2f;
+}
+
+@media (max-width: 800px) {
+	main {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	#edit-user-profile {
+		min-width: 320px;
+		max-width: 500px;
+		margin: 0 auto;
+	}
+
+	#edit-user-profile form {
+		grid-template-columns: 1fr;
+	}
+
+	#edit-user-profile form .form-item.span-2,
+	.editModal .form-item.span-2 {
+		grid-column: 1/2;
+		height: fit-content;
+	}
 }

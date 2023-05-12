@@ -62,3 +62,42 @@ main section .prof-student-images:nth-child(1) img:nth-child(2) {
 	display: flex;
 	gap: 0.25rem;
 }
+
+@media (max-width: 800px) {
+	main section {
+		grid-template-columns: 1fr;
+	}
+
+	main section .prof-student-images img {
+		width: 50vw;
+	}
+
+	main section .prof-student-images {
+		order: 2;
+	}
+}
+
+@media (max-width: 350px) {
+	main section .prof-student-images img {
+		width: 50vw;
+	}
+
+	main section .prof-student-images img:nth-child(1) {
+		margin-left: 7rem;
+	}
+
+	main section .prof-student-images img:nth-child(2) {
+		margin-top: -5rem;
+		margin-right: 7rem;
+	}
+
+	main section .prof-student-images:nth-child(1) img:nth-child(1) {
+		margin-left: 0;
+	}
+
+	main section .prof-student-images:nth-child(1) img:nth-child(2) {
+		margin-top: -5rem;
+		margin-left: 7rem;
+		margin-right: 0;
+	}
+}

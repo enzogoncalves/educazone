@@ -56,7 +56,17 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 
 	if (document.querySelector("header nav .links") !== null) return
 
+	const toggle = document.createElement("div")
+	toggle.classList.add("toggle")
+	toggle.innerHTML = '<div class="toggle"><i class="fa-solid fa-bars"></i></div>'
+
+	toggle.addEventListener("click", e => {
+		document.querySelector("header#user-header nav ul.profile-links").classList.toggle("active")
+		document.querySelector("header#user-header nav ul.links").classList.toggle("active")
+	})
+
 	getIsStudent(userUid).then(isStudent => {
+		const navigation = document.querySelector("header nav")
 		if (isStudent) {
 			links.innerHTML = `
 			<li><a href="building">Home</a></li>
@@ -64,7 +74,7 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 			<li><a href="building">Tarefas</a></li>
 			<li><a href="searchTeacher">Encontrar um professor</a></li>
 		`
-			const navigation = document.querySelector("header nav")
+
 			navigation.appendChild(links)
 		} else {
 			links.innerHTML = `
@@ -73,9 +83,10 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 			<li><a href="building">Financeiro</a></li>
 			<li><a href="building">Tarefas</a></li>
 		`
-			const navigation = document.querySelector("header nav")
 			navigation.appendChild(links)
 		}
+
+		navigation.appendChild(toggle)
 	})
 }
 
