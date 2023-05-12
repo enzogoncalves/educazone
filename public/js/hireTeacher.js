@@ -6,6 +6,8 @@ if (professorId === null) {
 	window.location = "/searchTeacher"
 }
 
+document.querySelector(".page-skeleton").classList.remove("active")
+
 const db = getDatabase()
 const teacherRef = ref(db, "professors/" + professorId)
 

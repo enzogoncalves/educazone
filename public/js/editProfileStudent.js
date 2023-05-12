@@ -77,9 +77,16 @@ function showUserData(dbUserData, authUserData, fields) {
 			document.querySelector("#user-profile").appendChild(createProfilePicture(dbUserData.firstName, dbUserData.lastName))
 		}
 	} else {
-		document.querySelector("#user-profile").innerHTML += `
+		if(document.querySelector("#user-profile .profilePicture") === null) {
+			document.querySelector("#user-profile").innerHTML += `
 			<img src="${dbUserData.pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
 		`
+		} else {
+			document.querySelector("#user-profile .profilePicture").remove()
+			document.querySelector("#user-profile").innerHTML += `
+			<img src="${dbUserData.pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
+		`
+		}
 	}
 }
 
