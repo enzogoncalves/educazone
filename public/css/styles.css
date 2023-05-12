@@ -151,7 +151,7 @@ header#user-header nav ul.links li a::before {
 	content: " ";
 	position: absolute;
 	bottom: 0;
-	left: -3%;
+	left: -2%;
 	width: 0;
 	height: 2px;
 	background-color: var(--primary-color);
@@ -159,7 +159,7 @@ header#user-header nav ul.links li a::before {
 }
 
 header#user-header nav ul.links li a:hover::before {
-	width: 106%;
+	width: 104%;
 }
 
 footer {

@@ -66,7 +66,7 @@ main {
 
 /* Teachers */
 #results {
-	padding: 1rem;
+	padding: 0 1rem 1rem 1rem;
 }
 
 #results #professors {
@@ -86,13 +86,27 @@ main {
 
 .professor .picture-price {
 	position: relative;
+	padding: 0.25rem;
 }
 
-.professor .picture-price .profilePicture {
+.professor .picture-price img.profilePicture {
 	width: 135px;
 	height: 135px;
 	object-fit: cover;
 	object-position: center;
+}
+
+.professor .picture-price .profilePicture {
+	height: 135px;
+	width: 135px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	color: black;
+	border: 1px solid var(--primary-color);
+	border-radius: 50%;
+	cursor: pointer;
 }
 
 .professor .picture-price span {

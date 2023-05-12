@@ -13,21 +13,20 @@ const professorId = body.getAttribute("id")
 onAuthStateChanged(auth, user => {
 	if (user) {
 		getIsStudent(user.uid)
-        .then(isStudent => {
-            if(isStudent === false) {
-                alert("Professores não podem contratar professores. Faça o login como estudante para continuar.")
-                window.location = `/hireTeacher/${professorId}`
-            }
+			.then(isStudent => {
+				if (isStudent === false) {
+					alert("Professores não podem contratar professores. Faça o login como estudante para continuar.")
+					window.location = `/hireTeacher/${professorId}`
+				}
 
-            getUserData(professorId)
-            .then(professorData => {
-                document.querySelector(".page-skeleton").classList.remove("active")
-                loadProfessorData(professorData)
-            })
-            .catch(error => console.error(error))
-        })
-        .catch(error => console.error(error))
-
+				getUserData(professorId)
+					.then(professorData => {
+						document.querySelector(".page-skeleton").classList.remove("active")
+						loadProfessorData(professorData)
+					})
+					.catch(error => console.error(error))
+			})
+			.catch(error => console.error(error))
 	} else {
 		// Caso não tiver um usuário conectado, ele vai para a página de login
 		redirectToLoginPage()
@@ -35,7 +34,7 @@ onAuthStateChanged(auth, user => {
 })
 
 function loadProfessorData(professorData) {
-    console.log(professorData)
+	// coding...
 }
 
 function createPageSkeleton() {
@@ -52,4 +51,3 @@ function createPageSkeleton() {
 }
 
 createPageSkeleton()
-

@@ -16,10 +16,26 @@ main {
 	width: fit-content;
 }
 
-#hire .picture-price img#profile-picture {
+#hire .picture-price img.profilePicture {
 	width: 150px;
+	height: 150px;
 	display: block;
+	object-fit: cover;
+	object-position: center;
 	border-bottom-right-radius: 7px;
+}
+
+#hire .picture-price .profilePicture {
+	height: 150px;
+	width: 150px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	color: black;
+	border: 1px solid var(--primary-color);
+	border-radius: 50%;
+	background-color: white;
 }
 
 #hire .picture-price #price {

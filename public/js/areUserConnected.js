@@ -29,14 +29,14 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 	body.style.pointerEvents = "all"
 
 	const header = document.querySelector("header")
-	header.setAttribute("id", "user-header")
+	header.id = "user-header"
 
 	const navigationUl = document.querySelector("header nav ul")
 	navigationUl.classList.add("profile-links")
 	navigationUl.innerHTML = ""
 
 	const signOutBtn = document.createElement("a")
-	signOutBtn.setAttribute("id", "logout")
+	signOutBtn.id = "logout"
 	signOutBtn.addEventListener("click", logOut)
 	signOutBtn.textContent = "Sair"
 
@@ -46,6 +46,7 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 		navigationUl.append(signOutBtn, userPictureLink)
 	} else {
 		const image = createProfilePicture(firstName, lastName)
+		image.addEventListener("click", () => (window.location = "/editProfile"))
 		navigationUl.append(signOutBtn, image)
 	}
 
