@@ -68,3 +68,15 @@ export function logOut() {
 			console.error(error)
 		})
 }
+
+export function createProfilePicture(firstName, lastName) {
+	const firstLetterOfTheFirstName = firstName ? firstName.split("")[0].toUpperCase() : "J"
+	const firstLetterOfTheLastName = lastName ? lastName.split("")[0].toUpperCase() : "D"
+
+	const image = document.createElement("div")
+	image.classList.add("profilePicture")
+
+	image.textContent = `${firstLetterOfTheFirstName}${firstLetterOfTheLastName}`
+
+	return image
+}

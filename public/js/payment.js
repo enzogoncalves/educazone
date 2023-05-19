@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { getIsStudent, logOut, findUserData, getUserData } from "./modules.js"
+import { getIsStudent, getUserData, createProfilePicture } from "./modules.js"
 
 const auth = getAuth()
 
@@ -34,7 +34,17 @@ onAuthStateChanged(auth, user => {
 })
 
 function loadProfessorData(professorData) {
-	// coding...
+	document.getElementById("price").textContent = professorData.price
+	document.getElementById("fullname").textContent = `${professorData.firstName} ${professorData.lastName}`
+	document.getElementById("firstName").textContent = `Contratar ${professorData.firstName}`
+
+	if(professorData.pictureUrl === undefined) {
+		document.getElementById("professorPicture").innerHTML += `
+			<img src="${professorData.pictureUrl}" alt="Imagem do professor" class="profilePicture"/>
+		`
+	} else {
+		document.getElementById("professorPicture").appendChild(createProfilePicture(professorData.firstName, professorData.lastName))
+	}
 }
 
 function createPageSkeleton() {

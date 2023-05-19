@@ -1,8 +1,8 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { findUserData, getIsStudent } from "./modules.js"
-import { createProfilePicture, redirectToLoginPage } from "./areUserConnected.js"
+import { findUserData, getIsStudent, createProfilePicture } from "./modules.js"
+import { redirectToLoginPage } from "./areUserConnected.js"
 
 const auth = getAuth()
 

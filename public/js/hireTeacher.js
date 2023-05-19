@@ -1,5 +1,5 @@
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
-import { createProfilePicture } from "./areUserConnected.js"
+import { createProfilePicture } from "./modules.js"
 
 const professorId = document.querySelector("body").getAttribute("id")
 

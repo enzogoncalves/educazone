@@ -2,8 +2,7 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { getIsStudent, logOut } from "./modules.js"
-import { findUserData } from "./modules.js"
+import { getIsStudent, logOut, findUserData, createProfilePicture } from "./modules.js"
 
 const auth = getAuth()
 
@@ -92,18 +91,6 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 
 export function redirectToLoginPage() {
 	window.location = "/login"
-}
-
-export function createProfilePicture(firstName, lastName) {
-	const firstLetterOfTheFirstName = firstName.split("")[0].toUpperCase()
-	const firstLetterOfTheLastName = lastName.split("")[0].toUpperCase()
-
-	const image = document.createElement("div")
-	image.classList.add("profilePicture")
-
-	image.textContent = `${firstLetterOfTheFirstName}${firstLetterOfTheLastName}`
-
-	return image
 }
 
 function createPageSkeleton() {
