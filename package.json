@@ -1,7 +1,6 @@
 {
 	"name": "educazone",
 	"version": "1.0.0",
-	"type": "commonjs",
 	"description": "TCC - Educa Zone",
 	"main": "src/server.js",
 	"scripts": {
@@ -23,6 +22,7 @@
 		"dotenv": "^16.0.3",
 		"ejs": "^3.1.9",
 		"express": "^4.18.2",
+		"firebase": "^9.22.0",
 		"stripe": "^12.6.0"
 	},
 	"devDependencies": {

@@ -12,6 +12,8 @@ const professorId = body.getAttribute("id")
 
 let professor
 
+let studentId
+
 onAuthStateChanged(auth, user => {
 	if (user) {
 		getIsStudent(user.uid)
@@ -19,7 +21,10 @@ onAuthStateChanged(auth, user => {
 				if (isStudent === false) {
 					alert("Professores não podem contratar professores. Faça o login como estudante para continuar.")
 					window.location = `/hireTeacher/${professorId}`
+					return
 				}
+
+				studentId = user.uid
 
 				getUserData(professorId)
 					.then(professorData => {
@@ -77,6 +82,7 @@ document.querySelector("#pay").addEventListener("click", () => {
 			item: {
 				price: professor.price,
 				name: professor.firstName,
+				studentId: studentId,
 			},
 		}),
 	})
