@@ -1,24 +1,25 @@
 main {
-    display: flex;
-    gap: 1rem;
+	display: flex;
+	gap: 1rem;
 }
 
 #professorPicture {
-    width: fit-content;
-    background-color: white;
-    padding: .5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .25rem;
+	width: fit-content;
+	height: max-content;
+	background-color: white;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.25rem;
 }
 
 #professorPicture .profilePicture {
-    width: 200px;
+	width: 200px;
 	height: 200px;
 	font-size: 4rem;
-	color: black;
-    background-color: var(--primary-color-lighter);
+	color: white;
+	background-color: var(--primary-color-lighter);
 
 	display: flex;
 	align-items: center;
@@ -26,26 +27,134 @@ main {
 
 	cursor: pointer;
 
-    order: -1;
+	order: -1;
 }
 
 #payment {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
 }
 
 #payment .payment-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#payment .payment-info #firstName {
+	font-size: 1.25rem;
+	font-weight: 500;
+	padding-bottom: 0.5rem;
 }
 
 #payment .payment-info #price {
-    padding: .75rem;
-    color: var(--primary-color);
-    background-color: var(--primary-color-more-lighter);
-    font-weight: 700;
-    font-size: 1.25rem;
-    border-radius: 4px;
+	padding: 0.75rem;
+	color: var(--primary-color);
+	background-color: var(--primary-color-more-lighter);
+	font-weight: 700;
+	font-size: 1.25rem;
+	border-radius: 4px;
+}
+
+#payment .payment-loyalty {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.75rem;
+	background-color: var(--light-grey);
+	padding: 1rem;
+	width: 100%;
+	border-radius: 7px;
+}
+
+#payment .payment-loyalty svg {
+	color: var(--primary-color);
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+#payment .payment-safety {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+}
+
+#payment .payment-safety p {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+#payment .payment-safety svg {
+	color: var(--primary-color);
+}
+
+#payment .payment-method {
+	padding: 1.25rem;
+	width: 100%;
+	display: grid;
+	place-items: center;
+	background-color: var(--light-grey);
+	border-radius: 7px;
+}
+
+#payment .payment-method svg {
+	width: 2rem;
+	height: 2rem;
+	color: var(--primary-color);
+	cursor: pointer;
+}
+
+#payment .payment-form {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+#payment .payment-form input {
+	font-size: 1.2rem;
+	border: none;
+	outline: none;
+	padding: 0.75rem;
+	background-color: var(--light-grey);
+	border-radius: 3px;
+}
+
+button#pay {
+	padding: 0.75rem;
+	color: var(--primary-color);
+	background-color: transparent;
+	font-weight: 700;
+	font-size: 1.25rem;
+	border-radius: 4px;
+	outline: none;
+	border: 1px solid var(--primary-color);
+	cursor: pointer;
+	position: relative;
+	transition: 0.3s;
+	overflow: hidden;
+}
+
+button#pay::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: var(--primary-color);
+	width: 0;
+	height: 110%;
+	transition: 0.7s ease;
+	z-index: -1;
+}
+
+button#pay:hover {
+	box-shadow: 2px 2px 5px rgba(0 0 0 / 0.5);
+	color: white;
+}
+
+button#pay:hover::before {
+	width: 100%;
 }

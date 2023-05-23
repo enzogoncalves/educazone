@@ -80,3 +80,16 @@ export function createProfilePicture(firstName, lastName) {
 
 	return image
 }
+
+export function createPageSkeleton() {
+	const skeleton = document.createElement("div")
+	skeleton.classList.add("page-skeleton", "active")
+
+	skeleton.innerHTML = `
+		<div class="loading"></div>
+	`
+
+	body.style.overflowY = "hidden"
+	body.style.pointerEvents = "none"
+	body.appendChild(skeleton)
+}

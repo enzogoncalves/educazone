@@ -22,6 +22,8 @@ onAuthStateChanged(auth, user => {
 				getUserData(professorId)
 					.then(professorData => {
 						document.querySelector(".page-skeleton").classList.remove("active")
+						body.style.overflowY = "visible"
+						body.style.pointerEvents = "all"
 						loadProfessorData(professorData)
 					})
 					.catch(error => console.error(error))
@@ -38,7 +40,7 @@ function loadProfessorData(professorData) {
 	document.getElementById("fullname").textContent = `${professorData.firstName} ${professorData.lastName}`
 	document.getElementById("firstName").textContent = `Contratar ${professorData.firstName}`
 
-	if(professorData.pictureUrl === undefined) {
+	if (professorData.pictureUrl === undefined) {
 		document.getElementById("professorPicture").innerHTML += `
 			<img src="${professorData.pictureUrl}" alt="Imagem do professor" class="profilePicture"/>
 		`

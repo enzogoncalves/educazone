@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { getIsStudent, logOut, findUserData, createProfilePicture } from "./modules.js"
+import { getIsStudent, logOut, findUserData, createProfilePicture, createPageSkeleton } from "./modules.js"
 
 const auth = getAuth()
 
@@ -91,19 +91,6 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 
 export function redirectToLoginPage() {
 	window.location = "/login"
-}
-
-function createPageSkeleton() {
-	const skeleton = document.createElement("div")
-	skeleton.classList.add("page-skeleton", "active")
-
-	skeleton.innerHTML = `
-		<div class="loading"></div>
-	`
-
-	body.style.overflowY = "hidden"
-	body.style.pointerEvents = "none"
-	body.appendChild(skeleton)
 }
 
 createPageSkeleton()

@@ -20,35 +20,38 @@
 
 		<!-- Javascript -->
 		<script src="/js/initializeFirebase.js" type="module"></script>
-        <script src="/js/payment.js" type="module"></script>
-		
+		<script src="/js/payment.js" type="module"></script>
 	</head>
-	<body id ="<%= professorId %>">
-        <main>
-            <section id="professorPicture">
-                <p id="fullname"></p>
-            </section>
-            <section id="payment">
-                <div class="payment-info">
-                    <div>
-                        <p id="firstName"></p>
-                        <p>Assinatura mensal</p>
-                    </div>
-                    <p id="price"></p>
-                </div>
-                <div>
-                    <i class="fa-solid fa-circle-check"></i>
-                    <p>Sem fidelização e debitado somente quando Maria aceitar o seu pedido de aulas</p>
-                </div>
-                <div class="payment-method">
-                    <p>Modo de pagamento</p>
-                    <p>100% seguro <i class="fa-solid fa-lock"></i></p>
-                </div>
-                <div class="payment-icon">
-                    <i class="fa-solid fa-credit-card"></i>
-                </div>
-                <input type="text" name="cpf" id="cpf" placeholder="Insira o seu CPF ou CNPJ">
-            </section>
-        </main>
+	<body id="<%= professorId %>">
+		<main>
+			<section id="professorPicture">
+				<p id="fullname"></p>
+			</section>
+			<section id="payment">
+				<div class="payment-info">
+					<div>
+						<p id="firstName"></p>
+						<p>Assinatura mensal</p>
+					</div>
+					<p id="price"></p>
+				</div>
+				<div class="payment-loyalty">
+					<i class="fa-solid fa-circle-check"></i>
+					<p>Sem fidelização e debitado somente quando Maria aceitar o seu pedido de aulas</p>
+				</div>
+				<div class="payment-safety">
+					<p>Modo de pagamento</p>
+					<p>100% seguro <i class="fa-solid fa-lock"></i></p>
+				</div>
+				<div class="payment-method">
+					<i class="fa-solid fa-credit-card"></i>
+				</div>
+				<div class="payment-form">
+					<label for="cpf">Insira o seu CPF ou CNPJ</label>
+					<input type="text" name="cpf" id="cpf" placeholder="Insira o seu CPF ou CNPJ" />
+				</div>
+				<button type="submit" title="Avançar para o pagamento" id="pay">Avançar para o pagamento</button>
+			</section>
+		</main>
 	</body>
 </html>

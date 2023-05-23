@@ -12,6 +12,7 @@
 	--primary-color: hsl(var(--primary-color-hsl), 100%, 64%);
 	--header-height: 70px;
 	--body-background-color: #ebebeb;
+	--light-grey: #d6d6d6;
 	--grey: #c4c4c4;
 	--dark-grey: #2e2e2e;
 	--primary-color-lighter: hsl(var(--primary-color-hsl), 100%, 68%);
