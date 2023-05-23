@@ -10,6 +10,8 @@ const body = document.querySelector("body")
 
 const professorId = body.getAttribute("id")
 
+let professor
+
 onAuthStateChanged(auth, user => {
 	if (user) {
 		getIsStudent(user.uid)
@@ -24,6 +26,7 @@ onAuthStateChanged(auth, user => {
 						document.querySelector(".page-skeleton").classList.remove("active")
 						body.style.overflowY = "visible"
 						body.style.pointerEvents = "all"
+						professor = professorData
 						loadProfessorData(professorData)
 					})
 					.catch(error => console.error(error))
@@ -63,3 +66,28 @@ function createPageSkeleton() {
 }
 
 createPageSkeleton()
+
+document.querySelector("#pay").addEventListener("click", () => {
+	fetch("/create-checkout-session", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			item: {
+				price: professor.price,
+				name: professor.firstName,
+			},
+		}),
+	})
+		.then(res => {
+			if (res.ok) return res.json()
+			return res.json().then(json => Promise.reject(json))
+		})
+		.then(({ url }) => {
+			window.location = url
+		})
+		.catch(e => {
+			console.error(e.error)
+		})
+})

@@ -89,6 +89,8 @@ export function createPageSkeleton() {
 		<div class="loading"></div>
 	`
 
+	const body = document.querySelector("body")
+
 	body.style.overflowY = "hidden"
 	body.style.pointerEvents = "none"
 	body.appendChild(skeleton)

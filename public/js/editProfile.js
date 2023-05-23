@@ -8,19 +8,18 @@ const auth = getAuth()
 
 let userId
 
-
 onAuthStateChanged(auth, user => {
 	let dbUserData
 	if (user) {
 		userId = user.uid
 
 		getIsStudent(userId)
-		.then(isStudent => {
-			if(isStudent) {
-				window.location = "http://localhost:5500/editProfileStudent"
-			}
-		})
-		.catch(error => console.error(error))
+			.then(isStudent => {
+				if (isStudent) {
+					window.location = "http://localhost:5500/editProfileStudent"
+				}
+			})
+			.catch(error => console.error(error))
 
 		const professorFields = ["fullname", "firstName", "lastName", "email", "phoneNumber", "site", "aboutMe", "didactic", "class", "price"]
 		const db = getDatabase()
@@ -50,6 +49,12 @@ function showUserData(dbUserData, authUserData, fields) {
 			return
 		}
 
+		if (field == "price") {
+			document.querySelector(`#${field}`).value = `R$ ${dbUserData.price},00`
+			createEditButton(field)
+			return
+		}
+
 		if (dbUserData[field] === undefined) {
 			if (authUserData[field] === undefined) {
 				createEditButton(field)
@@ -67,14 +72,14 @@ function showUserData(dbUserData, authUserData, fields) {
 	})
 
 	if (dbUserData.pictureUrl === undefined) {
-		if(document.querySelector("#user-profile .profilePicture") === null) {
+		if (document.querySelector("#user-profile .profilePicture") === null) {
 			document.querySelector("#user-profile").appendChild(createProfilePicture(dbUserData.firstName, dbUserData.lastName))
 		} else {
 			document.querySelector("#user-profile .profilePicture").remove()
 			document.querySelector("#user-profile").appendChild(createProfilePicture(dbUserData.firstName, dbUserData.lastName))
 		}
 	} else {
-		if(document.querySelector("#user-profile .profilePicture") === null) {
+		if (document.querySelector("#user-profile .profilePicture") === null) {
 			document.querySelector("#user-profile").innerHTML += `
 			<img src="${dbUserData.pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
 		`
@@ -103,11 +108,13 @@ function createEditButton(field) {
 	parentEl.appendChild(editFieldBtn)
 }
 
-function updateUser(professorOrStudent, field, dataField) {
+function updateUser(professorOrStudent, field, dataField, inputType) {
 	const db = getDatabase()
 
+	const newDataField = inputType == "price" ? dataField.replace("R$ ", "").replace(" ", "").slice(0, -3) : dataField
+
 	let updatedUserData = {}
-	updatedUserData[field] = dataField
+	updatedUserData[field] = newDataField
 
 	// Update the email field
 	update(ref(db, `${professorOrStudent}/` + userId), updatedUserData)
@@ -152,8 +159,12 @@ function openEditModal(submitter, professorOrStudent) {
 		if (dataField == "") {
 			alert("Campo vazio")
 			return
-		} else if (input.nodeName === "SELECT" && dataField === "Selecione uma disciplina") {
-			alert("Selecione uma disciplina válida")
+		} else if (input.nodeName === "SELECT") {
+			if (dataField === "Selecione uma disciplina") {
+				alert("Selecione uma disciplina válida")
+				return
+			}
+			editUserInfo(professorOrStudent, submitterId, dataField, "price")
 			return
 		} else if (input.nodeName === "SELECT" && dataField === "Selecione um valor") {
 			alert("Selecione um valor válido")
@@ -176,8 +187,8 @@ function openEditModal(submitter, professorOrStudent) {
 	editModal.appendChild(submitterParent)
 }
 
-function editUserInfo(professorOrStudent, field, dataField) {
-	updateUser(professorOrStudent, field, dataField)
+function editUserInfo(professorOrStudent, field, dataField, inputType) {
+	updateUser(professorOrStudent, field, dataField, inputType)
 }
 
 function closeEditModal() {

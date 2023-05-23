@@ -5,11 +5,6 @@ const route = express.Router()
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
-const storeItems = new Map([
-	[1, { priceInCents: 1000, name: "Learn React Today" }],
-	[2, { priceInCents: 2000, name: "Learn CSS Today" }],
-])
-
 route.get("/favicon.ico", (req, res) => {})
 
 route.get("/", (req, res) => {
@@ -29,25 +24,26 @@ route.get("/payment/:professorId", (req, res) => {
 })
 
 route.post("/create-checkout-session", async (req, res) => {
+	const price_in_cents = req.body.item.price * 100
+
 	try {
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card"],
 			mode: "payment",
-			line_items: req.body.items.map(item => {
-				const storeItem = storeItems.get(item.id)
-				return {
+			line_items: [
+				{
 					price_data: {
 						currency: "brl",
 						product_data: {
-							name: storeItem.name,
+							name: req.body.item.name,
 						},
-						unit_amount: storeItem.priceInCents,
+						unit_amount: price_in_cents,
 					},
-					quantity: item.quantity,
-				}
-			}),
-			success_url: `${process.env.SERVER_URL}/success.html`,
-			cancel_url: `${process.env.SERVER_URL}/cancel.html`,
+					quantity: 1,
+				},
+			],
+			success_url: `${process.env.SERVER_URL}/success`,
+			cancel_url: `${process.env.SERVER_URL}/cancel`,
 		})
 		res.json({ url: session.url })
 	} catch (e) {
