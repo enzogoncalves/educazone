@@ -4,6 +4,8 @@ const express = require("express")
 const route = express.Router()
 
 const stripeController = require("./controller/stripe")
+const firebaseController = require("./controller/firebase")
+const firebase = require("./controller/firebase")
 
 route.get("/favicon.ico", (req, res) => {})
 
@@ -24,5 +26,7 @@ route.get("/payment/:professorId", (req, res) => {
 })
 
 route.post("/create-checkout-session", (req, res) => stripeController.pay(req, res))
+
+route.get("/successfull-payment/:studentId/:professorId/:amount", (req, res) => firebase.completedPayment(req, res))
 
 module.exports = route

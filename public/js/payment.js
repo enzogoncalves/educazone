@@ -79,10 +79,11 @@ document.querySelector("#pay").addEventListener("click", () => {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			item: {
+			payment: {
 				price: professor.price,
 				name: professor.firstName,
 				studentId: studentId,
+				professorId: professorId,
 			},
 		}),
 	})
