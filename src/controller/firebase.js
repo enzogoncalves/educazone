@@ -22,27 +22,69 @@ module.exports = {
 		const hour = d.getHours()
 		const seconds = d.getSeconds() == "0" ? d.getSeconds() + "0" : d.getSeconds()
 		const day = d.getUTCDate()
-		const month = d.getMonth() + 1
+		let nextDay;
+		let month = d.getMonth() + 1
+		let nextMonth;
 		const year = d.getFullYear()
+		let nextYear;
+
+		console.log(day)
 
 		const date = `${day}-${month}-${year}`
 		const datetime = `${hour}:${minutes}:${seconds}`
 
-		const newPaymentKey = push(child(ref(db), "payment")).key
+		if(month == "12") {
+			nextMonth = "1"
+		} else {
+			nextMonth = d.getMonth() + 2
+		}
 
-		set(ref(db, `payments/${newPaymentKey}/`), {
-			amount: req.params.amount,
-			studentId: req.params.studentId,
-			professorId: req.params.professorId,
-			date: date,
-			datetime: datetime,
+		if(nextMonth == "2" && day == 30) {
+			nextDay = 28;
+		} else if(day == "31"){
+			nextDay = "30";
+		} else {
+			nextDay = day;
+		}
+
+		if(month == "12") {
+			nextYear = year + 1;
+		} else {
+			nextYear = year;
+		}
+	
+		const nextDate = `${nextDay}-${nextMonth}-${nextYear}`
+
+		const newPaymentKey = push(child(ref(db), "payment")).key
+		const newNextPaymentKey = push(child(ref(db), "payment")).key
+
+		Promise.all([
+			set(ref(db, `payments/${newPaymentKey}/`), {
+				amount: req.params.amount,
+				studentId: req.params.studentId,
+				professorId: req.params.professorId,
+				date: date,
+				datetime: datetime,
+				paid: true
+			}),
+			
+			set(ref(db, `payments/${newNextPaymentKey}/`), {
+				studentId: req.params.studentId,
+				professorId: req.params.professorId,
+				date: nextDate,
+				paid: false
+			}),
+
+			update(ref(db, `professors/${req.params.professorId}/studentss`), {
+				[req.params.studentId]: [newPaymentKey]
+			})
+		])
+		.then(() => {
+			res.redirect(`${process.env.SERVER_URL}/success`)
 		})
-			.then(() => {
-				res.redirect(`${process.env.SERVER_URL}/success`)
-			})
-			.catch(error => {
-				console.log(error)
-				res.redirect(`${process.env.SERVER_URL}/cancel`)
-			})
+		.catch(error => {
+			console.log(error)
+			res.redirect(`${process.env.SERVER_URL}/cancel`)
+		})	
 	},
 }

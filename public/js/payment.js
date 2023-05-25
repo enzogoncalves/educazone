@@ -44,7 +44,7 @@ onAuthStateChanged(auth, user => {
 })
 
 function loadProfessorData(professorData) {
-	document.getElementById("price").textContent = professorData.price
+	document.getElementById("price").textContent = `R$ ${professorData.price},00`
 	document.getElementById("fullname").textContent = `${professorData.firstName} ${professorData.lastName}`
 	document.getElementById("firstName").textContent = `Contratar ${professorData.firstName}`
 
