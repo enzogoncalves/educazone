@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"></meta>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+		<title>EducaZone - Tarefas</title>
+
+		<!-- FONTS: Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com"></link>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+			rel="stylesheet"
+	></link>
+
+        <!-- Font Awesome JS -->
+		<script src="https://kit.fontawesome.com/309e31f583.js" crossorigin="anonymous"></script>
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="/css/styles.css"></link>
+		<link rel="stylesheet" href="/css/profile.css"></link>
+
+		<!-- Javascript -->
+		<script src="/js/footer.js" defer></script>
+		<script src="/js/initializeFirebase.js" type="module"></script>
+		<script src="/js/areUserConnected.js" type="module"></script>
+		<script src="/js/professor-student-tasks.js" type="module"></script>
+	</head>
+	<body id="<%= studentId %>">
+		<header>
+			<nav>
+				<a href="/" id="title">Educa<span>Zone</span></a>
+				<ul role="navigation">
+					<a<a href="/signup">Cadastrar</a>
+					<a href="/login">Entrar</a>
+				</ul>
+			</nav>
+		</header>
+		<main>
+			<section id="side-navigation">
+                <div class="profilePicture">
+                    <p id="fullName"></p>
+                </div>
+                <div class="student-actions">
+                    <p><i class="fa-regular fa-file-lines"></i>Tarefas</p>
+                    <p><i class="fa-regular fa-message"></i>Chat</p>
+                </div>
+            </section>
+            <section id="tasksContainer">
+                <button id="addTask">Adicionar tarefa</button>
+                
+            </section>
+		</main>
+	</body>
+</html>

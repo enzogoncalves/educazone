@@ -1,5 +1,5 @@
 const { initializeApp } = require("@firebase/app")
-const { getDatabase, ref, set, child, update, push } = require("@firebase/database")
+const { getDatabase, ref, set, child, update, push, get } = require("@firebase/database")
 
 const firebaseConfig = {
 	apiKey: "AIzaSyDAIsfI77QWn1P-brER4E11ikPWJRdvQfc",
@@ -86,5 +86,5 @@ module.exports = {
 			console.log(error)
 			res.redirect(`${process.env.SERVER_URL}/cancel`)
 		})	
-	},
+	}
 }

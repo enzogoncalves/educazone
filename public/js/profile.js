@@ -9,7 +9,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
 // importo uma função de pegar os dados do usuário dado o id dele
-import getUserData from "./areUserConnected.js"
+import getUserData from "/areUserConnected.js"
 
 const auth = getAuth()
 

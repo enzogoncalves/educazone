@@ -28,4 +28,13 @@ route.post("/create-checkout-session", (req, res) => stripeController.pay(req, r
 
 route.get("/successfull-payment/:studentId/:professorId/:amount", (req, res) => firebaseController.completedPayment(req, res))
 
+route.get("/professor/:studentId/", (req, res) => {
+	res.redirect(`/professor/${req.params.studentId}/tasks`)
+})
+
+route.get("/professor/:studentId/tasks", (req, res) => {
+	res.render("professor-student-tasks", {studentId: req.params.studentId})
+})
+
+
 module.exports = route
