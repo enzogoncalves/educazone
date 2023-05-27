@@ -1,34 +1,39 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
-import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { findUserData, getIsStudent, isStudent, createProfilePicture } from "./modules.js"
-import { redirectToLoginPage } from "./areUserConnected.js"
+import { getFirestore, doc, getDocs, collection, query, where, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+
+import { app } from "./initializeFirebase.js"
+
+import { createProfilePicture, redirectToLoginPage } from "./modules.js"
 
 const auth = getAuth()
+const firestoreDb = getFirestore(app)
 
 let userId
 
-onAuthStateChanged(auth, user => {
-	let dbUserData
+onAuthStateChanged(auth, async user => {
 	if (user) {
 		userId = user.uid
 
-		getIsStudent(userId)
-			.then(isStudent => {
-				if (isStudent) {
-					window.location = "http://localhost:5500/editProfileStudent"
-				}
-			})
-			.catch(error => console.error(error))
+		const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
+
+		const queryProfessor = await getDocs(qProfessor)
+
+		const isProfessor = !queryProfessor.empty
+
+		if (!isProfessor) {
+			window.location = "/editProfileStudent"
+			return
+		}
 
 		const professorFields = ["fullname", "firstName", "lastName", "email", "phoneNumber", "site", "aboutMe", "didactic", "class", "price"]
-		const db = getDatabase()
-		const dbRef = ref(db)
 
-		onValue(dbRef, snapshot => {
-			document.querySelector(".page-skeleton").classList.remove("active")
-			dbUserData = findUserData(snapshot.val(), userId)
-			showUserData(dbUserData, user, professorFields)
+		const unsubscribe = onSnapshot(qProfessor, querySnapshot => {
+			querySnapshot.forEach(professor => {
+				document.querySelector(".page-skeleton").classList.remove("active")
+
+				showUserData(professor.data(), user, professorFields)
+			})
 		})
 	} else {
 		redirectToLoginPage()
@@ -108,16 +113,15 @@ function createEditButton(field) {
 	parentEl.appendChild(editFieldBtn)
 }
 
-function updateUser(professorOrStudent, field, dataField, inputType) {
-	const db = getDatabase()
-
+async function updateUser(professorOrStudent, field, dataField, inputType) {
 	const newDataField = inputType == "price" ? dataField.replace("R$ ", "").replace(" ", "").slice(0, -3) : dataField
 
 	let updatedUserData = {}
 	updatedUserData[field] = newDataField
 
-	// Update the email field
-	update(ref(db, `${professorOrStudent}/` + userId), updatedUserData)
+	const fieldRef = doc(firestoreDb, professorOrStudent, userId)
+
+	updateDoc(fieldRef, updatedUserData)
 		.then(() => {
 			alert("editado com sucesso")
 			pageShadow.classList.remove("active")

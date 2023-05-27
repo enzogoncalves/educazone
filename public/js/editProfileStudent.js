@@ -1,34 +1,39 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
-import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { findUserData, getIsStudent, createProfilePicture } from "./modules.js"
-import { redirectToLoginPage } from "./areUserConnected.js"
+import { getFirestore, doc, getDocs, collection, query, where, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+
+import { app } from "./initializeFirebase.js"
+
+import { createProfilePicture, redirectToLoginPage } from "./modules.js"
 
 const auth = getAuth()
+const firestoreDb = getFirestore(app)
 
 let userId
 
-
-onAuthStateChanged(auth, user => {
-	let dbUserData
-	userId = user.uid
+onAuthStateChanged(auth, async user => {
 	if (user) {
-		getIsStudent(userId)
-		.then(isStudent => {
-			if(!isStudent) {
-				window.location = "http://localhost:5500/editProfile"
-			}
-		})
-		.catch(error => console.error(error))
+		userId = user.uid
 
-		const fields = ["fullname", "firstName", "lastName", "email", "phoneNumber"]
-		const db = getDatabase()
-		const dbRef = ref(db)
+		const qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", userId))
 
-		onValue(dbRef, snapshot => {
-			document.querySelector(".page-skeleton").classList.remove("active")
-			dbUserData = findUserData(snapshot.val(), userId)
-			showUserData(dbUserData, user, fields)
+		const queryStudent = await getDocs(qStudent)
+
+		const isStudent = !queryStudent.empty
+
+		if (!isStudent) {
+			window.location = "/editProfile"
+			return
+		}
+
+		const studentFields = ["fullname", "firstName", "lastName", "email", "phoneNumber"]
+
+		const unsubscribe = onSnapshot(qStudent, querySnapshot => {
+			querySnapshot.forEach(student => {
+				document.querySelector(".page-skeleton").classList.remove("active")
+
+				showUserData(student.data(), user, studentFields)
+			})
 		})
 	} else {
 		redirectToLoginPage()
@@ -44,12 +49,14 @@ body.appendChild(editModal)
 // função para carregar o dado do usuário na página
 function showUserData(dbUserData, authUserData, fields) {
 	fields.forEach(field => {
-		if (field == "email") {
-			document.querySelector(`#${field}`).value = authUserData[field]
-			return
-		}
 		if (field == "fullname") {
 			document.querySelector(`#${field}`).textContent = `${dbUserData.firstName} ${dbUserData.lastName}`
+			return
+		}
+
+		if (field == "price") {
+			document.querySelector(`#${field}`).value = `R$ ${dbUserData.price},00`
+			createEditButton(field)
 			return
 		}
 
@@ -70,14 +77,14 @@ function showUserData(dbUserData, authUserData, fields) {
 	})
 
 	if (dbUserData.pictureUrl === undefined) {
-		if(document.querySelector("#user-profile .profilePicture") === null) {
+		if (document.querySelector("#user-profile .profilePicture") === null) {
 			document.querySelector("#user-profile").appendChild(createProfilePicture(dbUserData.firstName, dbUserData.lastName))
 		} else {
 			document.querySelector("#user-profile .profilePicture").remove()
 			document.querySelector("#user-profile").appendChild(createProfilePicture(dbUserData.firstName, dbUserData.lastName))
 		}
 	} else {
-		if(document.querySelector("#user-profile .profilePicture") === null) {
+		if (document.querySelector("#user-profile .profilePicture") === null) {
 			document.querySelector("#user-profile").innerHTML += `
 			<img src="${dbUserData.pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
 		`
@@ -106,14 +113,15 @@ function createEditButton(field) {
 	parentEl.appendChild(editFieldBtn)
 }
 
-function updateUser(professorOrStudent, field, dataField) {
-	const db = getDatabase()
+async function updateUser(professorOrStudent, field, dataField, inputType) {
+	const newDataField = inputType == "price" ? dataField.replace("R$ ", "").replace(" ", "").slice(0, -3) : dataField
 
 	let updatedUserData = {}
-	updatedUserData[field] = dataField
+	updatedUserData[field] = newDataField
 
-	// Update the email field
-	update(ref(db, `${professorOrStudent}/` + userId), updatedUserData)
+	const fieldRef = doc(firestoreDb, professorOrStudent, userId)
+
+	updateDoc(fieldRef, updatedUserData)
 		.then(() => {
 			alert("editado com sucesso")
 			pageShadow.classList.remove("active")
@@ -155,8 +163,12 @@ function openEditModal(submitter, professorOrStudent) {
 		if (dataField == "") {
 			alert("Campo vazio")
 			return
-		} else if (input.nodeName === "SELECT" && dataField === "Selecione uma disciplina") {
-			alert("Selecione uma disciplina válida")
+		} else if (input.nodeName === "SELECT") {
+			if (dataField === "Selecione uma disciplina") {
+				alert("Selecione uma disciplina válida")
+				return
+			}
+			editUserInfo(professorOrStudent, submitterId, dataField, "price")
 			return
 		} else if (input.nodeName === "SELECT" && dataField === "Selecione um valor") {
 			alert("Selecione um valor válido")
@@ -179,8 +191,8 @@ function openEditModal(submitter, professorOrStudent) {
 	editModal.appendChild(submitterParent)
 }
 
-function editUserInfo(professorOrStudent, field, dataField) {
-	updateUser(professorOrStudent, field, dataField)
+function editUserInfo(professorOrStudent, field, dataField, inputType) {
+	updateUser(professorOrStudent, field, dataField, inputType)
 }
 
 function closeEditModal() {

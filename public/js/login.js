@@ -24,7 +24,7 @@ form.addEventListener("submit", e => {
 				const q = query(collection(firestoreDb, "students"), where("__name__", "==", userCredential.user.uid))
 				const queryStudents = await getDocs(q)
 
-				const isStudent = queryStudents.empty
+				const isStudent = !queryStudents.empty
 
 				if (isStudent) {
 					window.location = "/editProfileStudent"

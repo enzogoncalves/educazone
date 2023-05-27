@@ -95,3 +95,7 @@ export function createPageSkeleton() {
 	body.style.pointerEvents = "none"
 	body.appendChild(skeleton)
 }
+
+export function redirectToLoginPage() {
+	window.location = "/login"
+}

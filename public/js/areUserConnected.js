@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
 
-import { getIsStudent, logOut, findUserData, createProfilePicture, createPageSkeleton } from "./modules.js"
+import { getIsStudent, logOut, findUserData, createProfilePicture, createPageSkeleton, redirectToLoginPage } from "./modules.js"
 
 const auth = getAuth()
 
@@ -87,10 +87,6 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 
 		navigation.appendChild(toggle)
 	})
-}
-
-export function redirectToLoginPage() {
-	window.location = "/login"
 }
 
 createPageSkeleton()
