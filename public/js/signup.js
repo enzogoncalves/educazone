@@ -1,12 +1,14 @@
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getFirestore, doc, getDocs, collection, query, where, setDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
-import { getUserData } from "./modules.js"
+import { app } from "./initializeFirebase.js"
+
+const firestoreDb = getFirestore(app)
 
 const form = document.querySelector("form")
 
-form.addEventListener("submit", e => {
+form.addEventListener("submit", async e => {
 	e.preventDefault()
 
 	const professorChecked = document.getElementById("radio-professor").checked
@@ -29,7 +31,6 @@ form.addEventListener("submit", e => {
 		createUserWithEmailAndPassword(auth, email_input.value, password_input.value)
 			.then(userCredential => {
 				const user = userCredential.user
-				const db = getDatabase()
 
 				const userData = {
 					firstName: firstName_input.value,
@@ -38,14 +39,14 @@ form.addEventListener("submit", e => {
 				}
 
 				if (professorChecked) {
-					set(ref(db, `professors/${user.uid}/`), userData)
+					setDoc(doc(firestoreDb, "professors", user.uid), userData)
 						.then(data => {
 							alert("Conta criada com sucesso!")
 							window.location = "/login"
 						})
 						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 				} else {
-					set(ref(db, `students/${user.uid}/`), userData)
+					setDoc(doc(firestoreDb, "students", user.uid), userData)
 						.then(data => {
 							alert("Conta criada com sucesso!")
 							window.location = "/login"
@@ -71,44 +72,46 @@ form.addEventListener("submit", e => {
 		const provider = new GoogleAuthProvider()
 
 		signInWithPopup(auth, provider)
-			.then(userCredential => {
+			.then(async userCredential => {
 				const user = userCredential.user
 
-				getUserData(user.uid)
-					.then(snapshot => {
-						const userAlreadyInDb = snapshot !== undefined
+				const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", user.uid))
+				const qStudents = query(collection(firestoreDb, "students"), where("__name__", "==", user.uid))
 
-						const userCompleteName = userCredential.user.displayName.split(" ")
+				const queryProfssors = await getDocs(qProfessor)
+				const queryStudents = await getDocs(qStudents)
 
-						const userData = {
-							firstName: userCompleteName[0],
-							lastName: userCompleteName[userCompleteName.length - 1],
-							email: user.email,
-						}
+				const userAlreadyInDb = queryProfssors.empty !== queryStudents.empty
 
-						const db = getDatabase()
+				if (!userAlreadyInDb) {
+					const userCompleteName = userCredential.user.displayName.split(" ")
 
-						if (professorChecked && !userAlreadyInDb) {
-							set(ref(db, `professors/${user.uid}/`), userData)
-								.then(data => {
-									alert("Conta criada com sucesso!")
-									window.location = "/login"
-								})
-								.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
-						} else if (!professorChecked && !userAlreadyInDb) {
-							set(ref(db, `students/${user.uid}/`), userData)
-								.then(data => {
-									alert("Conta criada com sucesso!")
-									window.location = "/login"
-								})
-								.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
-						} else if (userAlreadyInDb) {
-							confirm("Você já possui uma conta.\nClique em OK para ir para a página de login.") ? (window.location = "/login") : undefined
+					const userData = {
+						firstName: userCompleteName[0],
+						lastName: userCompleteName[userCompleteName.length - 1],
+						email: user.email,
+					}
 
-							clearInputs()
-						}
-					})
-					.catch(error => console.error(error))
+					if (professorChecked) {
+						setDoc(doc(firestoreDb, "professors", user.uid), userData)
+							.then(data => {
+								alert("Conta criada com sucesso!")
+								window.location = "/login"
+							})
+							.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
+					} else if (!professorChecked) {
+						setDoc(doc(firestoreDb, "students", user.uid), userData)
+							.then(data => {
+								alert("Conta criada com sucesso!")
+								window.location = "/login"
+							})
+							.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
+					}
+				} else if (userAlreadyInDb) {
+					confirm("Você já possui uma conta.\nClique em OK para ir para a página de login.") ? (window.location = "/login") : undefined
+
+					clearInputs()
+				}
 			})
 			.catch(error => {
 				const errorCode = error.code
