@@ -1,6 +1,10 @@
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import { getIsStudent } from "./modules.js"
+import { getFirestore, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+
+import { app } from "./initializeFirebase.js"
+
+const firestoreDb = getFirestore(app)
 
 const auth = getAuth()
 
@@ -16,19 +20,17 @@ form.addEventListener("submit", e => {
 
 	if (submitter === "signin") {
 		signInWithEmailAndPassword(auth, email_input.value, password_input.value)
-			.then(userCredential => {
-				getIsStudent(userCredential.user.uid).then(isStudent => {
-					if (isStudent !== undefined) {
-						if (isStudent) {
-							window.location = "/editProfileStudent"
-						} else {
-							window.location = "/editProfile"
-						}
-					} else {
-						alert("Não conseguimos encontrar o usuário no banco de dados.")
-						clearInputs()
-					}
-				})
+			.then(async userCredential => {
+				const q = query(collection(firestoreDb, "students"), where("__name__", "==", userCredential.user.uid))
+				const queryStudents = await getDocs(q)
+
+				const isStudent = queryStudents.empty
+
+				if (isStudent) {
+					window.location = "/editProfileStudent"
+				} else {
+					window.location = "/editProfile"
+				}
 			})
 			.catch(error => {
 				const errorMessage = error.message
@@ -45,16 +47,23 @@ form.addEventListener("submit", e => {
 		const provider = new GoogleAuthProvider()
 
 		signInWithPopup(auth, provider)
-			.then(userCredential => {
-				getIsStudent(userCredential.user.uid).then(isStudent => {
-					if (isStudent === undefined) {
-						alert("Você precisa criar uma conta primeiro.")
-					} else if (isStudent) {
-						window.location = "/editProfileStudent"
-					} else {
-						window.location = "/editProfile"
-					}
-				})
+			.then(async userCredential => {
+				const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userCredential.user.uid))
+				const qStudents = query(collection(firestoreDb, "students"), where("__name__", "==", userCredential.user.uid))
+
+				const queryProfssors = await getDocs(qProfessor)
+				const queryStudents = await getDocs(qStudents)
+
+				const isProfessor = !queryProfssors.empty
+				const isStudent = !queryStudents.empty
+
+				if (isStudent === isProfessor) {
+					alert("Você precisa criar uma conta primeiro.")
+				} else if (isStudent) {
+					window.location = "/editProfileStudent"
+				} else {
+					window.location = "/editProfile"
+				}
 			})
 			.catch(error => {
 				const errorCode = error.code
