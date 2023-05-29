@@ -4,7 +4,14 @@ import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.
 
 import { getIsStudent, logOut, findUserData, createProfilePicture, createPageSkeleton, redirectToLoginPage } from "./modules.js"
 
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
+
+import { getFirestore, doc, getDocs, collection, query, where, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+
+import { app } from "./initializeFirebase.js"
+
 const auth = getAuth()
+const firestoreDb = getFirestore(app)
 
 const body = document.querySelector("body")
 
