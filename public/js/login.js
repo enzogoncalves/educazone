@@ -27,9 +27,9 @@ form.addEventListener("submit", e => {
 				const isStudent = !queryStudents.empty
 
 				if (isStudent) {
-					window.location = "/editProfileStudent"
+					window.location = "/studentProfile"
 				} else {
-					window.location = "/editProfile"
+					window.location = "/professorProfile"
 				}
 			})
 			.catch(error => {
@@ -60,9 +60,9 @@ form.addEventListener("submit", e => {
 				if (isStudent === isProfessor) {
 					alert("Você precisa criar uma conta primeiro.")
 				} else if (isStudent) {
-					window.location = "/editProfileStudent"
+					window.location = "/studentProfile"
 				} else {
-					window.location = "/editProfile"
+					window.location = "/professorProfile"
 				}
 			})
 			.catch(error => {

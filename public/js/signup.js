@@ -42,14 +42,14 @@ form.addEventListener("submit", async e => {
 					setDoc(doc(firestoreDb, "professors", user.uid), userData)
 						.then(data => {
 							alert("Conta criada com sucesso!")
-							window.location = "/editProfile"
+							window.location = "/professorProfile"
 						})
 						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 				} else {
 					setDoc(doc(firestoreDb, "students", user.uid), userData)
 						.then(data => {
 							alert("Conta criada com sucesso!")
-							window.location = "/editProfileStudent"
+							window.location = "/studentProfile"
 						})
 						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 				}
@@ -96,14 +96,14 @@ form.addEventListener("submit", async e => {
 						setDoc(doc(firestoreDb, "professors", user.uid), userData)
 							.then(data => {
 								alert("Conta criada com sucesso!")
-								window.location = "/editProfile"
+								window.location = "/professorProfile"
 							})
 							.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 					} else if (!professorChecked) {
 						setDoc(doc(firestoreDb, "students", user.uid), userData)
 							.then(data => {
 								alert("Conta criada com sucesso!")
-								window.location = "/editProfileStudent"
+								window.location = "/studentProfile"
 							})
 							.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 					}

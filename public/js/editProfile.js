@@ -11,28 +11,33 @@ const firestoreDb = getFirestore(app)
 
 let userId
 
-onAuthStateChanged(auth, async user => {
-	if (user) {
-		userId = user.uid
+let professorOrStudent
+
+onAuthStateChanged(auth, async authUser => {
+	if (authUser) {
+		userId = authUser.uid
 
 		const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
-
 		const queryProfessor = await getDocs(qProfessor)
-
 		const isProfessor = !queryProfessor.empty
 
-		if (!isProfessor) {
-			window.location = "/editProfileStudent"
-			return
+		const qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", userId))
+
+		const userLocation = location.pathname.replace("/", "")
+
+		if (userLocation == "studentProfile" && isProfessor) {
+			window.location = "/professorProfile"
+		} else if (userLocation == "professorProfile" && isProfessor === false) {
+			window.location = "/studentProfile"
 		}
 
-		const professorFields = ["fullname", "firstName", "lastName", "email", "phoneNumber", "site", "aboutMe", "didactic", "class", "price"]
+		const fields = isProfessor ? ["fullname", "firstName", "lastName", "email", "phoneNumber", "site", "aboutMe", "didactic", "class", "price"] : ["fullname", "firstName", "lastName", "email", "phoneNumber"]
 
-		const unsubscribe = onSnapshot(qProfessor, querySnapshot => {
-			querySnapshot.forEach(professor => {
+		const firestoreListenner = onSnapshot(isProfessor ? qProfessor : qStudent, querySnapshot => {
+			querySnapshot.forEach(user => {
 				document.querySelector(".page-skeleton").classList.remove("active")
 
-				showUserData(professor.data(), user, professorFields)
+				showUserData(user.data(), authUser, fields)
 			})
 		})
 	} else {
@@ -119,6 +124,8 @@ async function updateUser(professorOrStudent, field, dataField, inputType) {
 	let updatedUserData = {}
 	updatedUserData[field] = newDataField
 
+	console.log(newDataField)
+
 	const fieldRef = doc(firestoreDb, professorOrStudent, userId)
 
 	updateDoc(fieldRef, updatedUserData)
@@ -151,7 +158,7 @@ function openEditModal(submitter, professorOrStudent) {
 	input.removeAttribute("id")
 	input.removeAttribute("disabled")
 	input.setAttribute("placeholder", input.value)
-	const previousDataField = input.value
+	const previousFieldData = input.value
 	input.value = ""
 
 	const editBtn = document.createElement("button")
@@ -168,16 +175,21 @@ function openEditModal(submitter, professorOrStudent) {
 				alert("Selecione uma disciplina válida")
 				return
 			}
-			editUserInfo(professorOrStudent, submitterId, dataField, "price")
-			return
+
+			if (submitterId == "price") {
+				updateUser(professorOrStudent, submitterId, dataField, "price")
+				return
+			}
+
+			updateUser(professorOrStudent, submitterId, dataField)
 		} else if (input.nodeName === "SELECT" && dataField === "Selecione um valor") {
 			alert("Selecione um valor válido")
 			return
-		} else if (dataField === previousDataField) {
+		} else if (dataField === previousFieldData) {
 			alert("Não pode editar se não alterou nada")
 			return
 		} else {
-			editUserInfo(professorOrStudent, submitterId, dataField)
+			updateUser(professorOrStudent, submitterId, dataField)
 		}
 	})
 
@@ -191,10 +203,6 @@ function openEditModal(submitter, professorOrStudent) {
 	editModal.appendChild(submitterParent)
 }
 
-function editUserInfo(professorOrStudent, field, dataField, inputType) {
-	updateUser(professorOrStudent, field, dataField, inputType)
-}
-
 function closeEditModal() {
 	editModal.classList.remove("active")
 	pageShadow.classList.remove("active")
@@ -205,5 +213,5 @@ document.querySelector("form").addEventListener("submit", e => {
 
 	const submitter = e.submitter
 
-	openEditModal(submitter, "professors")
+	openEditModal(submitter, professorOrStudent)
 })

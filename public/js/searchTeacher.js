@@ -1,4 +1,4 @@
-import { getFirestore, doc, getDocs, collection, query, where, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+import { getFirestore, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
 import { app } from "./initializeFirebase.js"
 
@@ -25,7 +25,7 @@ function handleProfessorsData(professorId, professor) {
 	professorElement.id = professorId
 	professorElement.innerHTML = `
 		<div class="picture-price">
-			<span>R$ ${professor.price}</span>
+			<span>${professor.price ? "R$ " + professor.price : ""}</span>
 		</div>
 		<div class="info">
 			<p>

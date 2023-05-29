@@ -1,17 +1,15 @@
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getFirestore, doc, getDoc, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
-import { getFirestore, doc, getDoc, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+import { app } from "./initializeFirebase.js"
 
-import { app } from "./initializeFirebase.js";
-
-const db = getFirestore(app);
+const db = getFirestore(app)
 
 // const docRef = doc(db, "professors", "2GXl4EP5uQhb9JaQRDNpAdm2PET2");
 // const docSnap = await getDoc(docRef);
 
-// const querySnapshot = await getDocs(collection(db, "professors"));  
+// const querySnapshot = await getDocs(collection(db, "professors"));
 // querySnapshot.forEach((doc) => {
 //   // doc.data() is never undefined for query doc snapshots
 //   console.log(doc.id, " => ", doc.data());

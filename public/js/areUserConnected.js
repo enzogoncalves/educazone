@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import { getIsStudent, logOut, createProfilePicture, createPageSkeleton, redirectToLoginPage } from "./modules.js"
+import { logOut, createProfilePicture, createPageSkeleton, redirectToLoginPage } from "./modules.js"
 
 import { getFirestore, getDocs, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
@@ -21,7 +21,7 @@ onAuthStateChanged(auth, async authUser => {
 
 		const unsubscribe = onSnapshot(isProfessor ? qProfessor : qStudent, querySnapshot => {
 			querySnapshot.forEach(user => {
-				createHeader(authUser.photoURL, user.firstName, user.lastName, authUser.uid)
+				createHeader(authUser.photoURL, user.data().firstName, user.data().lastName, isProfessor === false)
 			})
 		})
 	} else {
@@ -29,7 +29,7 @@ onAuthStateChanged(auth, async authUser => {
 	}
 })
 
-function createHeader(imageUrl, firstName, lastName, userUid) {
+function createHeader(imageUrl, firstName, lastName, isStudent) {
 	body.style.overflowY = "visible"
 	body.style.pointerEvents = "all"
 
@@ -47,11 +47,12 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 
 	if (imageUrl !== null) {
 		const userPictureLink = document.createElement("a")
+		userPictureLink.setAttribute("href", `${isStudent ? "/studentProfile" : "/professorProfile"}`)
 		userPictureLink.innerHTML = `<img src="${imageUrl}" alt="Foto de perfil">`
 		navigationUl.append(signOutBtn, userPictureLink)
 	} else {
 		const image = createProfilePicture(firstName, lastName)
-		image.addEventListener("click", () => (window.location = "/editProfile"))
+		image.addEventListener("click", () => (window.location = `${isStudent ? "/studentProfile" : "/professorProfile"}`))
 		navigationUl.append(signOutBtn, image)
 	}
 
@@ -70,29 +71,27 @@ function createHeader(imageUrl, firstName, lastName, userUid) {
 		document.querySelector("header#user-header nav ul.links").classList.toggle("active")
 	})
 
-	getIsStudent(userUid).then(isStudent => {
-		const navigation = document.querySelector("header nav")
-		if (isStudent) {
-			links.innerHTML = `
-			<li><a href="building">Home</a></li>
-			<li><a href="building">Meus professores</a></li>
-			<li><a href="building">Tarefas</a></li>
-			<li><a href="searchTeacher">Encontrar um professor</a></li>
-		`
+	const navigation = document.querySelector("header nav")
+	if (isStudent) {
+		links.innerHTML = `
+		<li><a href="building">Home</a></li>
+		<li><a href="building">Meus professores</a></li>
+		<li><a href="building">Tarefas</a></li>
+		<li><a href="searchTeacher">Encontrar um professor</a></li>
+	`
 
-			navigation.appendChild(links)
-		} else {
-			links.innerHTML = `
-			<li><a href="dashboardTeacher">Home</a></li>
-			<li><a href="building">Meus Alunos</a></li>
-			<li><a href="building">Financeiro</a></li>
-			<li><a href="building">Tarefas</a></li>
-		`
-			navigation.appendChild(links)
-		}
+		navigation.appendChild(links)
+	} else {
+		links.innerHTML = `
+		<li><a href="dashboardTeacher">Home</a></li>
+		<li><a href="building">Meus Alunos</a></li>
+		<li><a href="building">Financeiro</a></li>
+		<li><a href="building">Tarefas</a></li>
+	`
+		navigation.appendChild(links)
+	}
 
-		navigation.appendChild(toggle)
-	})
+	navigation.appendChild(toggle)
 }
 
 createPageSkeleton()

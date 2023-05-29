@@ -1,8 +1,12 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { createProfilePicture } from "./modules.js"
 
-import { getIsStudent, getUserData, createProfilePicture } from "./modules.js"
+import { getFirestore, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+
+import { app } from "./initializeFirebase.js"
+
+const firestoreDb = getFirestore(app)
 
 const auth = getAuth()
 
@@ -14,29 +18,30 @@ let professor
 
 let studentId
 
-onAuthStateChanged(auth, user => {
-	if (user) {
-		getIsStudent(user.uid)
-			.then(isStudent => {
-				if (isStudent === false) {
-					alert("Professores não podem contratar professores. Faça o login como estudante para continuar.")
-					window.location = `/hireTeacher/${professorId}`
-					return
-				}
+onAuthStateChanged(auth, async authUser => {
+	if (authUser) {
+		const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", professorId))
+		const queryProfessor = await getDocs(qProfessor)
 
-				studentId = user.uid
+		const qUser = query(collection(firestoreDb, "professors"), where("__name__", "==", authUser.uid))
+		const queryUser = await getDocs(qUser)
+		const isProfessor = !queryUser.empty
 
-				getUserData(professorId)
-					.then(professorData => {
-						document.querySelector(".page-skeleton").classList.remove("active")
-						body.style.overflowY = "visible"
-						body.style.pointerEvents = "all"
-						professor = professorData
-						loadProfessorData(professorData)
-					})
-					.catch(error => console.error(error))
-			})
-			.catch(error => console.error(error))
+		if (isProfessor) {
+			alert("Professores não podem contratar professores. Faça o login como estudante para continuar.")
+			window.location = `/hireTeacher/${professorId}`
+			return
+		}
+
+		studentId = authUser.uid
+
+		queryProfessor.forEach(doc => {
+			document.querySelector(".page-skeleton").classList.remove("active")
+			body.style.overflowY = "visible"
+			body.style.pointerEvents = "all"
+			professor = doc.data()
+			loadProfessorData(doc.data())
+		})
 	} else {
 		// Caso não tiver um usuário conectado, ele vai para a página de login
 		redirectToLoginPage()

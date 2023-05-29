@@ -1,5 +1,10 @@
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getFirestore, doc, getDocs, collection, query, where, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+
+import { app } from "./initializeFirebase.js"
+
 import { createProfilePicture } from "./modules.js"
+
+const firestoreDb = getFirestore(app)
 
 const professorId = document.querySelector("body").getAttribute("id")
 
@@ -7,16 +12,24 @@ if (professorId === null) {
 	window.location = "/searchTeacher"
 }
 
-const db = getDatabase()
-const teacherRef = ref(db, "professors/" + professorId)
+const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", professorId))
 
-onValue(teacherRef, snapshot => {
-	loadTeacherData(snapshot.val())
-	document.querySelector(".page-skeleton").classList.remove("active")
+const queryProfessor = await getDocs(qProfessor)
+const isProfessor = !queryProfessor.empty
+
+if (!isProfessor) {
+	window.location = "/searchTeacher"
+}
+
+const unsubscribe = onSnapshot(qProfessor, querySnapshot => {
+	querySnapshot.forEach(professor => {
+		document.querySelector(".page-skeleton").classList.remove("active")
+		loadTeacherData(professor.data())
+	})
 })
 
 function loadTeacherData(professor) {
-	document.querySelector("#price").textContent = professor.price || "R$ Não inserido"
+	document.querySelector("#price").textContent = "R$ " + professor.price + ",00" || "R$ Não inserido"
 	document.querySelector(".name").textContent = professor.firstName + " " + professor.lastName
 	document.querySelector(".aboutMe").innerHTML = professor.aboutMe
 	document.querySelector(".didactic").innerHTML = professor.didactic
