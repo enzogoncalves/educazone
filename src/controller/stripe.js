@@ -22,7 +22,6 @@ module.exports = {
 				success_url: `${process.env.SERVER_URL}/successfull-payment/${req.body.payment.studentId}/${req.body.payment.professorId}/${req.body.payment.price}`,
 				cancel_url: `${process.env.SERVER_URL}/cancel`,
 			})
-			console.log("agora")
 			res.json({ url: session.url })
 		} catch (e) {
 			res.status(500).json({ error: e.message })

@@ -14,7 +14,6 @@ const professorsSection = document.querySelector("#professors")
 
 querySnapshot.forEach(doc => {
 	handleProfessorsData(doc.id, doc.data())
-	console.log(doc.id, " => ", doc.data())
 })
 
 // função para carregar o dado do usuário na página

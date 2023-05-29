@@ -22,37 +22,35 @@ module.exports = {
 		const hour = d.getHours()
 		const seconds = d.getSeconds() == "0" ? d.getSeconds() + "0" : d.getSeconds()
 		const day = d.getUTCDate()
-		let nextDay;
+		let nextDay
 		let month = d.getMonth() + 1
-		let nextMonth;
+		let nextMonth
 		const year = d.getFullYear()
-		let nextYear;
-
-		console.log(day)
+		let nextYear
 
 		const date = `${day}-${month}-${year}`
 		const datetime = `${hour}:${minutes}:${seconds}`
 
-		if(month == "12") {
+		if (month == "12") {
 			nextMonth = "1"
 		} else {
 			nextMonth = d.getMonth() + 2
 		}
 
-		if(nextMonth == "2" && day == 30) {
-			nextDay = 28;
-		} else if(day == "31"){
-			nextDay = "30";
+		if (nextMonth == "2" && day == 30) {
+			nextDay = 28
+		} else if (day == "31") {
+			nextDay = "30"
 		} else {
-			nextDay = day;
+			nextDay = day
 		}
 
-		if(month == "12") {
-			nextYear = year + 1;
+		if (month == "12") {
+			nextYear = year + 1
 		} else {
-			nextYear = year;
+			nextYear = year
 		}
-	
+
 		const nextDate = `${nextDay}-${nextMonth}-${nextYear}`
 
 		const newPaymentKey = push(child(ref(db), "payment")).key
@@ -65,26 +63,26 @@ module.exports = {
 				professorId: req.params.professorId,
 				date: date,
 				datetime: datetime,
-				paid: true
+				paid: true,
 			}),
-			
+
 			set(ref(db, `payments/${newNextPaymentKey}/`), {
 				studentId: req.params.studentId,
 				professorId: req.params.professorId,
 				date: nextDate,
-				paid: false
+				paid: false,
 			}),
 
 			update(ref(db, `professors/${req.params.professorId}/studentss`), {
-				[req.params.studentId]: [newPaymentKey]
-			})
+				[req.params.studentId]: [newPaymentKey],
+			}),
 		])
-		.then(() => {
-			res.redirect(`${process.env.SERVER_URL}/success`)
-		})
-		.catch(error => {
-			console.log(error)
-			res.redirect(`${process.env.SERVER_URL}/cancel`)
-		})	
-	}
+			.then(() => {
+				res.redirect(`${process.env.SERVER_URL}/success`)
+			})
+			.catch(error => {
+				console.log(error)
+				res.redirect(`${process.env.SERVER_URL}/cancel`)
+			})
+	},
 }

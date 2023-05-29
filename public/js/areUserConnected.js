@@ -1,12 +1,8 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"
+import { getIsStudent, logOut, createProfilePicture, createPageSkeleton, redirectToLoginPage } from "./modules.js"
 
-import { getIsStudent, logOut, findUserData, createProfilePicture, createPageSkeleton, redirectToLoginPage } from "./modules.js"
-
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
-
-import { getFirestore, doc, getDocs, collection, query, where, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+import { getFirestore, getDocs, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
 import { app } from "./initializeFirebase.js"
 
@@ -15,17 +11,20 @@ const firestoreDb = getFirestore(app)
 
 const body = document.querySelector("body")
 
-onAuthStateChanged(auth, user => {
-	if (user) {
-		const db = getDatabase()
-		const dbRef = ref(db)
+onAuthStateChanged(auth, async authUser => {
+	if (authUser) {
+		const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", authUser.uid))
+		const queryProfessor = await getDocs(qProfessor)
+		const isProfessor = !queryProfessor.empty
 
-		onValue(dbRef, snapshot => {
-			const userData = findUserData(snapshot.val(), user.uid)
-			createHeader(user.photoURL, userData.firstName, userData.lastName, user.uid)
+		const qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", authUser.uid))
+
+		const unsubscribe = onSnapshot(isProfessor ? qProfessor : qStudent, querySnapshot => {
+			querySnapshot.forEach(user => {
+				createHeader(authUser.photoURL, user.firstName, user.lastName, authUser.uid)
+			})
 		})
 	} else {
-		// Caso não tiver um usuário conectado, ele vai para a página de login
 		redirectToLoginPage()
 	}
 })
