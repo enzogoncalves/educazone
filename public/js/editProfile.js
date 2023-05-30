@@ -36,7 +36,6 @@ onAuthStateChanged(auth, async authUser => {
 		const firestoreListenner = onSnapshot(isProfessor ? qProfessor : qStudent, querySnapshot => {
 			querySnapshot.forEach(user => {
 				document.querySelector(".page-skeleton").classList.remove("active")
-
 				showUserData(user.data(), authUser, fields)
 			})
 		})
