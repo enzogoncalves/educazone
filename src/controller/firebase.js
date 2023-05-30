@@ -1,5 +1,5 @@
 const { initializeApp } = require("@firebase/app")
-const { getDatabase, ref, set, child, update, push, get } = require("@firebase/database")
+const { getFirestore, collection, doc, serverTimestamp, writeBatch, arrayUnion } = require("@firebase/firestore")
 
 const firebaseConfig = {
 	apiKey: "AIzaSyDAIsfI77QWn1P-brER4E11ikPWJRdvQfc",
@@ -11,12 +11,14 @@ const firebaseConfig = {
 	appId: "1:202617977326:web:554950c0b4ab924af7f6ff",
 }
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig)
-const db = getDatabase(app)
+const firestoreDb = getFirestore(app)
 
 module.exports = {
-	completedPayment(req, res) {
+	async completedPayment(req, res) {
+		const studentId = req.params.studentId
+		const professorId = req.params.professorId
+
 		const d = new Date()
 		const minutes = d.getMinutes()
 		const hour = d.getHours()
@@ -51,32 +53,45 @@ module.exports = {
 			nextYear = year
 		}
 
+		// batch é uma função do firestore para realizar múltiplas transações simultaneamente
+		const batch = writeBatch(firestoreDb)
+
 		const nextDate = `${nextDay}-${nextMonth}-${nextYear}`
 
-		const newPaymentKey = push(child(ref(db), "payment")).key
-		const newNextPaymentKey = push(child(ref(db), "payment")).key
+		const newPaymentKey = doc(collection(firestoreDb, "payments"))
+		const newNextPaymentKey = doc(collection(firestoreDb, "payments"))
 
-		Promise.all([
-			set(ref(db, `payments/${newPaymentKey}/`), {
-				amount: req.params.amount,
-				studentId: req.params.studentId,
-				professorId: req.params.professorId,
-				date: date,
-				datetime: datetime,
-				paid: true,
-			}),
+		const studentRef = doc(firestoreDb, "students", studentId)
+		const professorRef = doc(firestoreDb, "professors", professorId)
 
-			set(ref(db, `payments/${newNextPaymentKey}/`), {
-				studentId: req.params.studentId,
-				professorId: req.params.professorId,
-				date: nextDate,
-				paid: false,
-			}),
+		batch.set(newPaymentKey, {
+			amount: req.params.amount,
+			studentId: studentId,
+			professorId: professorId,
+			date: date,
+			datetime: datetime,
+			paid: true,
+			timestamp: serverTimestamp(),
+		})
 
-			update(ref(db, `professors/${req.params.professorId}/studentss`), {
-				[req.params.studentId]: [newPaymentKey],
-			}),
-		])
+		batch.set(newNextPaymentKey, {
+			studentId: studentId,
+			professorId: professorId,
+			date: nextDate,
+			paid: false,
+			timestamp: serverTimestamp(),
+		})
+
+		batch.update(studentRef, {
+			professors: arrayUnion(professorId),
+		})
+
+		batch.update(professorRef, {
+			students: arrayUnion(studentId),
+		})
+
+		batch
+			.commit()
 			.then(() => {
 				res.redirect(`${process.env.SERVER_URL}/success`)
 			})

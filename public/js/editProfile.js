@@ -36,7 +36,6 @@ onAuthStateChanged(auth, async authUser => {
 		const firestoreListenner = onSnapshot(isProfessor ? qProfessor : qStudent, querySnapshot => {
 			querySnapshot.forEach(user => {
 				document.querySelector(".page-skeleton").classList.remove("active")
-
 				showUserData(user.data(), authUser, fields)
 			})
 		})
@@ -123,8 +122,6 @@ async function updateUser(professorOrStudent, field, dataField, inputType) {
 
 	let updatedUserData = {}
 	updatedUserData[field] = newDataField
-
-	console.log(newDataField)
 
 	const fieldRef = doc(firestoreDb, professorOrStudent, userId)
 
