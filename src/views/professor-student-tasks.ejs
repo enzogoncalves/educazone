@@ -20,6 +20,7 @@
 		<!-- Styles -->
 		<link rel="stylesheet" href="/css/styles.css"></link>
 		<link rel="stylesheet" href="/css/profile.css"></link>
+		<link rel="stylesheet" href="/css/professor-student-tasks.css"></link>
 
 		<!-- Javascript -->
 		<script src="/js/footer.js" defer></script>
@@ -38,7 +39,7 @@
 			</nav>
 		</header>
 		<main>
-			<section id="side-navigation">
+			<!-- <section id="side-navigation">
 				<div class="profilePicture">
 						<p id="fullName"></p>
 				</div>
@@ -46,11 +47,32 @@
 						<p><i class="fa-regular fa-file-lines"></i>Tarefas</p>
 						<p><i class="fa-regular fa-message"></i>Chat</p>
 				</div>
-		</section>
+			</section> -->
 		<section id="tasksContainer">
-				<button id="addTask">Adicionar tarefa</button>
-				
+				<button id="openAddTaskModal">Adicionar tarefa</button>
 		</section>
 		</main>
+		<div id="createTaskModal">
+				<form action="">
+					<div class="form-item">
+						<label for="taskTitle">Título</label>
+						<input type="text" name="taskTitle" id="taskTitle">
+					</div>
+					<div class="form-item">
+						<label for="expireDate">Vencimento</label>
+						<input type="date" name="expireDate" id="expireDate">
+					</div>
+					<div class="form-item">
+						<label for="document">Arquivo de Auxílio</label>
+						<input type="file" name="document" id="document">
+					</div>
+					<div class="form-item">
+						<label for="description">Descrição</label>
+						<textarea id="description"></textarea>
+					</div>
+					<input type="submit" value="Criar" id="createTask">
+					<button id="cancelTask">Cancelar</button>
+				</form>
+		</div>
 	</body>
 </html>
