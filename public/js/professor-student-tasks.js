@@ -8,7 +8,7 @@ import { createProfilePicture, redirectToLoginPage } from "./modules.js"
 const auth = getAuth()
 const firestoreDb = getFirestore(app)
 
-let userId;
+let userId
 
 const studentId = document.querySelector("body").getAttribute("id")
 
@@ -19,53 +19,59 @@ document.querySelector(".page-skeleton").classList.remove("active")
 onAuthStateChanged(auth, async authUser => {
 	if (authUser) {
 		userId = authUser.uid
-		
+
 		document.querySelector(".page-skeleton").classList.remove("active")
 
-		// const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
-		// const queryProfessor = await getDocs(qProfessor)
-		// const isProfessor = !queryProfessor.empty
+		const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
+		const queryProfessor = await getDocs(qProfessor)
+		const isProfessor = !queryProfessor.empty
 
-		// if (isProfessor === false) {
-		// 	window.location = "/building"
-		// 	return
-		// }
+		if (isProfessor === false) {
+			window.location = "/building"
+			return
+		}
 
-		// let qStudent;
+		let qStudent
 
-		// queryProfessor.forEach(doc => {
-		// 	// doc.data() is never undefined for query doc snapshots
-		// 	console.log(doc.id, " => ", doc.data())
-		// 	doc.data().students.filter(async student => {
-		// 		if(student == studentId) {
-		// 			qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", studentId))
-		// 		}
-		// 	})
-		// })
+		queryProfessor.forEach(doc => {
+			console.log(doc.id, " => ", doc.data())
+			doc.data().students.filter(async student => {
+				if (student == studentId) {
+					qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", studentId))
+				}
+			})
+		})
 
-		// const studentDoc = await getDocs(qStudent)
+		const studentDoc = await getDocs(qStudent)
 
-		// if(studentDoc.empty) {
-		// 	window.location = "/building"
-		// 	return
-		// }
+		if (studentDoc.empty) {
+			window.location = "/building"
+			return
+		}
 
-		// const studentListener = onSnapshot(qStudent, querySnapshot => {
-		// 	querySnapshot.forEach(user => {
-		// 		console.log(user.data())
-		// 	})
-		// })
+		studentDoc.forEach(user => {
+			document.querySelector("#fullName").textContent = `${user.data().firstName} ${user.data().lastName}`
+			if (user.data().pictureUrl === undefined) {
+				document.querySelector("#side-navigation").appendChild(createProfilePicture(user.data().firstName, user.data().lastName))
+			} else {
+				document.querySelector("#side-navigation").innerHTML += `
+					<img src="${user.data().pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
+				`
+			}
+		})
 
 		const qTasks = query(collection(firestoreDb, "tasks"), where("studentId", "==", studentId))
-		
-		let i = 0;
+
+		let i = 0
 		const table = document.createElement("table")
-		
+
 		const tasksListener = onSnapshot(qTasks, querySnapshot => {
-		if(querySnapshot.docChanges().length == 0) {
-			console.log('vazio')
-		} else if(i == 0) {
-			table.innerHTML = `
+			if (querySnapshot.docChanges().length == 0) {
+				document.getElementById("tasksContainer").innerHTML += `
+					<p>Nenhuma tarefa foi criada ainda</p>
+				`
+			} else if (i == 0) {
+				table.innerHTML = `
 				<tr>
 					<th>Nome</th>
 					<th>Status</th>
@@ -75,11 +81,11 @@ onAuthStateChanged(auth, async authUser => {
 				</tr>
 			`
 
-			tasksContainer.appendChild(table)
-			i++;
-		}
+				tasksContainer.appendChild(table)
+				i++
+			}
 
-		querySnapshot.docChanges().forEach((change) => {
+			querySnapshot.docChanges().forEach(change => {
 				if (change.type === "added") {
 					table.innerHTML += `
 						<tr id="${change.doc.id}">
@@ -92,12 +98,10 @@ onAuthStateChanged(auth, async authUser => {
 					`
 				}
 				if (change.type === "removed") {
-					document.getElementById(change.doc.id).remove();
+					document.getElementById(change.doc.id).remove()
 				}
-			});
+			})
 		})
-		// }
-
 	} else {
 		redirectToLoginPage()
 	}
@@ -107,25 +111,23 @@ const openAddTaskModal = document.getElementById("openAddTaskModal")
 const createTaskBtn = document.getElementById("createTask")
 
 openAddTaskModal.addEventListener("click", () => {
-	document.getElementById("createTaskModal").classList.toggle("active")
+	document.getElementById("createTaskModal").classList.add("active")
 })
 
 const cancelTaskBtn = document.getElementById("cancelTask")
 
-cancelTaskBtn.addEventListener("click", (e) => {
+cancelTaskBtn.addEventListener("click", e => {
 	e.preventDefault()
 
 	document.getElementById("createTaskModal").classList.remove("active")
 })
 
-
-createTaskBtn.addEventListener("click", (e) => {
+createTaskBtn.addEventListener("click", e => {
 	e.preventDefault()
 
 	const title = document.getElementById("taskTitle").value
-	const expireDate = document.getElementById("expireDate").value;
-	const description = document.getElementById("description").value;
-
+	const expireDate = document.getElementById("expireDate").value
+	const description = document.getElementById("description").value
 
 	addTask(title, expireDate, description)
 })
@@ -137,12 +139,10 @@ function addTask(title, expireDate, description) {
 		title: title,
 		expireDate: Timestamp.fromDate(new Date(expireDate)),
 		description: description,
-		createdAt: serverTimestamp()
+		createdAt: serverTimestamp(),
 	})
-	.then(data => {
-		
-	})
-	.catch(error => {	
-		console.error(error.message)
-	})
+		.then(data => {})
+		.catch(error => {
+			console.error(error.message)
+		})
 }
