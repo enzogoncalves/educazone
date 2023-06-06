@@ -14,8 +14,6 @@ const studentId = document.querySelector("body").getAttribute("id")
 
 const tasksContainer = document.getElementById("tasksContainer")
 
-document.querySelector(".page-skeleton").classList.remove("active")
-
 onAuthStateChanged(auth, async authUser => {
 	if (authUser) {
 		userId = authUser.uid
@@ -32,12 +30,11 @@ onAuthStateChanged(auth, async authUser => {
 		}
 
 		let qStudent
+		qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", "uWGDHuwADSYDu3Cfhp3w7DBl3323"))
 
 		queryProfessor.forEach(doc => {
-			console.log(doc.id, " => ", doc.data())
 			doc.data().students.filter(async student => {
 				if (student == studentId) {
-					qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", studentId))
 				}
 			})
 		})
@@ -67,35 +64,38 @@ onAuthStateChanged(auth, async authUser => {
 
 		const tasksListener = onSnapshot(qTasks, querySnapshot => {
 			if (querySnapshot.docChanges().length == 0) {
-				document.getElementById("tasksContainer").innerHTML += `
-					<p>Nenhuma tarefa foi criada ainda</p>
-				`
+				const p = document.createElement("p")
+				p.textContent = "Nenhuma tarefa foi criada ainda"
+				tasksContainer.appendChild(p)
 			} else if (i == 0) {
-				table.innerHTML = `
-				<tr>
+				const tableHeader = document.createElement("tr")
+				tableHeader.innerHTML = `
 					<th>Nome</th>
 					<th>Status</th>
 					<th>Criado em</th>
 					<th>Entregue em</th>
+					<th>Expira em</th>
 					<th>Descrição</th>
-				</tr>
 			`
-
+				table.appendChild(tableHeader)
 				tasksContainer.appendChild(table)
 				i++
 			}
 
 			querySnapshot.docChanges().forEach(change => {
 				if (change.type === "added") {
-					table.innerHTML += `
-						<tr id="${change.doc.id}">
+					const tr = document.createElement("tr")
+					tr.setAttribute("id", change.doc.id)
+					tr.innerHTML = `
 							<td>${change.doc.data().title}</td>
-							<td>${change.doc.data().expireDate}</td>
+							<td>${change.doc.data().status}</td>
+							<td>${change.doc.data().createdAt.toDate().toLocaleDateString()}</td>
 							<td>${change.doc.data().delivered ? change.doc.data().delivered : "Não entregue"}</td>
-							<td>${change.doc.data().title}</td>
+							<td>${change.doc.data().expireDate.toDate().toLocaleDateString()}</td>
 							<td>${change.doc.data().description}</td>
-						</tr>
 					`
+
+					table.appendChild(tr)
 				}
 				if (change.type === "removed") {
 					document.getElementById(change.doc.id).remove()
@@ -133,13 +133,16 @@ createTaskBtn.addEventListener("click", e => {
 })
 
 function addTask(title, expireDate, description) {
+	let newExpireDate = new Date(new Date(expireDate).setDate(expireDate.split("-")[2]))
 	addDoc(collection(firestoreDb, "tasks"), {
 		studentId: studentId,
 		professorId: userId,
 		title: title,
-		expireDate: Timestamp.fromDate(new Date(expireDate)),
+		expireDate: Timestamp.fromDate(newExpireDate),
 		description: description,
 		createdAt: serverTimestamp(),
+		status: "Não visualizado",
+		delivered: false,
 	})
 		.then(data => {})
 		.catch(error => {

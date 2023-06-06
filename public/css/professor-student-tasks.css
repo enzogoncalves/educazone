@@ -78,18 +78,117 @@ main {
 	border-radius: 3px;
 }
 
+#tasksContainer table {
+	width: 900px;
+}
+
+#tasksContainer table tr {
+	position: relative;
+	text-align: left;
+	cursor: pointer;
+}
+
+#tasksContainer table tr:nth-child(even) {
+	background-color: white;
+}
+
+#tasksContainer table td {
+	padding: 0.5rem;
+}
+
+#tasksContainer table th {
+	background-color: var(--light-grey);
+	padding: 0.75rem;
+}
+
+#tasksContainer table tr::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+}
+
+#tasksContainer table tr:nth-child(1) {
+	pointer-events: none;
+}
+
+#tasksContainer table tr:hover::before {
+	box-shadow: var(--default-box-shadow);
+	border: 1px solid rgba(0 0 0 / 0.3);
+}
+
 #createTaskModal {
 	display: none;
 }
 
 #createTaskModal.active {
 	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
+	inset: 0;
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	display: flex;
 	z-index: 100;
+	/* From https://css.glass */
+	background: rgba(255, 255, 255, 0.3);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(3px);
+}
+
+#createTaskModal.active form {
+	padding: 1.5rem;
+	background-color: white;
+	box-shadow: var(--default-box-shadow);
+}
+
+#createTaskModal.active form .form-item {
+	display: flex;
+	align-items: center;
+	padding: 1rem;
+}
+
+#createTaskModal.active form .form-item label {
+	display: block;
+	width: 120px;
+	font-size: 1.15rem;
+	color: var(--dark-grey);
+}
+
+#createTaskModal.active form .form-item input,
+#createTaskModal.active form .form-item textarea {
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+	border: none;
+	outline: none;
+	box-shadow: var(--default-box-shadow);
+	font-family: "Roboto", sans-serif;
+}
+
+#createTaskModal.active form .form-item:nth-child(1) input,
+#createTaskModal.active form .form-item textarea {
+	width: 350px;
+	resize: vertical;
+}
+
+#createTaskModal.active form input[type="submit"],
+#createTaskModal.active form button {
+	margin-top: 1rem;
+	margin-right: 1rem;
+	padding: 0.75rem;
+	color: white;
+	background-color: var(--primary-color);
+	border: none;
+	border-radius: 7px;
+	font-weight: 500;
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+#createTaskModal.active form button {
+	background-color: var(--dark-grey);
+	color: white;
 }
