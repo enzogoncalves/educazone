@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Teste</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+</head>
+<body>
+    <form action="">
+        <input type="text" name="" id="">
+        <input type="button" value="addStudent" id="addTeacher">
+        <input type="button" value="deleteTeacher" id="deleteTeacher">
+        <input type="button" value="getAllStudents" id="getAllStudents">
+        <input type="button" value="getPayment" id="getPayment">
+        <input type="button" value="getPaidStudents" id="getPaidStudents">
+        <input type="button" value="getUpcomingPaymentStudents" id="getUpcomingPaymentStudents">
+    
+    </form>
+    
+    <div class="activities">
+
+    </div>
+
+    <div class="group-student-financies">
+        <div class="myStudents">
+            <h4>Meus Estudantes</h4>
+            <a  href="myStudents.html">Ver todos</a>
+            <table id="studentTable">
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Nome</th>
+                     
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+        </div>
+    
+        <div>
+            <h4>Extrato financeiro</h4>
+            <a href="#" id="filtro">Ver mais</a>
+            <table id="financies">
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Nome</th>
+                        <th>Pendências</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsfinancies">
+                    
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div id="total">
+                <h4>Total</h4>
+            </div>
+            <div class="recebido" id="recebido">
+                <h4>Recebidos</h4>
+               
+            </div>
+            <div class="faltante" id="upcomingPayment">
+                <h4>A receber até o fim do mês</h4>
+               
+            </div>
+            <div class="atrasado" id="atrasado">
+                <h4>Atrasado</h4>
+                
+            </div>
+        </div>
+        <button id="payment">Payment</button>
+    </div>
+
+
+
+    <table id="paidStudentsTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Payment Date</th>
+            <th>Amount</th>
+            <th>Day</th>
+            <th>Month</th>
+            <th>Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Table rows will be dynamically added here -->
+        </tbody>
+      </table>
+      
+
+    </div>
+    
+
+    <div class="activities">
+        <div id="totalAtividades">
+
+        </div>
+        <div id="faltamEntregar">
+
+        </div>
+        <div id="correcaoPendente">
+
+        </div>
+        <div id="corrigida">
+
+        </div>
+
+        <a href="#">Ver mais</a>
+    </div>
+
+    <script src="/teste.js" type="module"></script>
+</body>
+</html>
