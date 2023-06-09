@@ -42,7 +42,10 @@ function createHeader(imageUrl, firstName, lastName, isStudent) {
 
 	const signOutBtn = document.createElement("a")
 	signOutBtn.id = "logout"
-	signOutBtn.addEventListener("click", logOut)
+	signOutBtn.addEventListener("click", e => {
+		e.preventDefault()
+		logOut()
+	})
 	signOutBtn.textContent = "Sair"
 
 	if (imageUrl !== null) {
