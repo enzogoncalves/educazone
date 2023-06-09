@@ -54,7 +54,7 @@ onAuthStateChanged(auth, async authUser => {
 							a.classList.remove("active")
 						})
 						task.classList.add("active")
-						selectTask(assignment.doc.data())
+						selectTask(assignment.doc.data(), assignment.doc.id)
 					})
 
 					task.innerHTML = `<p>${assignment.doc.data().title}</p>`
@@ -71,7 +71,7 @@ onAuthStateChanged(auth, async authUser => {
 	}
 })
 
-function selectTask(task) {
+function selectTask(task, taskId) {
 	const assignmentContent = document.querySelector("#assignment")
 	const taskDate = String(task.expireDate.toDate().toLocaleDateString())
 	assignmentContent.innerHTML = `
@@ -84,8 +84,9 @@ function selectTask(task) {
 			<p>Adicione sua resposta</p>
 				<div>
 					<button id="write-task">Escrever</button>
-					<input type="file" id="add-docs">Adicionar Arquivo</button>
-					<button id="send">Entregar</button>
+					<label for="add-docs">Adicionar arquivo</label>
+					<input type="file" id="add-docs" multiple style="display:none;"></button>
+					<button id="send-task">Entregar</button>
 				</div>
 		</div>
 	`
@@ -95,30 +96,33 @@ function selectTask(task) {
 
 	const addDocsBtn = document.querySelector("#add-docs")
 
+	const tasksFile = []
+
 	addDocsBtn.addEventListener("change", e => {
-		const file = e.target.files[0]
+		if (e.target.files[e.target.files.length - 1] === undefined) return
+		tasksFile.push(e.target.files[e.target.files.length - 1])
+	})
 
-		const storageRef = ref(storage, file.name)
-		const uploadTaskFile = uploadBytesResumable(storageRef, file)
+	const sendTaskBtn = document.querySelector("#send-task")
+	sendTaskBtn.addEventListener("click", () => {
+		console.log(tasksFile)
+		if (tasksFile.length !== 0) {
+			tasksFile.forEach(file => {
+				const storageRef = ref(storage, `assignments/${taskId}/student/${file.name}`)
+				const uploadTaskFile = uploadBytesResumable(storageRef, file)
 
-		uploadTaskFile.on(
-			"state_changed",
-			snapshot => {
-				const progress = snapshot.bytesTransferred
-				console.log("Upload is " + progress + "% done")
-				switch (snapshot.state) {
-					case "paused":
-						console.log("Upload is paused")
-						break
-					case "running":
-						console.log("Upload is running")
-						break
-				}
-			},
-			error => {
-				// Handle unsuccessful uploads
-			}
-		)
+				uploadTaskFile.on(
+					"state_changed",
+					snapshot => {
+						const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+						document.querySelector("progress").value = progress
+					},
+					error => {
+						console.error(error)
+					}
+				)
+			})
+		}
 	})
 }
 

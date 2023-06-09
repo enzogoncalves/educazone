@@ -1,5 +1,7 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
-import { getFirestore, getDocs, collection, doc, query, where, onSnapshot, updateDoc, addDoc, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+import { getFirestore, getDocs, collection, query, where, onSnapshot, updateDoc, addDoc, serverTimestamp, Timestamp, orderBy } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+
+import { getStorage, ref, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js"
 
 import { app } from "./initializeFirebase.js"
 
@@ -13,6 +15,8 @@ let userId
 const studentId = document.querySelector("body").getAttribute("id")
 
 const tasksContainer = document.getElementById("tasksContainer")
+
+let lastTaskCreatedAt
 
 onAuthStateChanged(auth, async authUser => {
 	if (authUser) {
@@ -30,7 +34,7 @@ onAuthStateChanged(auth, async authUser => {
 		}
 
 		let qStudent
-		qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", "uWGDHuwADSYDu3Cfhp3w7DBl3323"))
+		qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", studentId))
 
 		queryProfessor.forEach(doc => {
 			doc.data().students.filter(async student => {
@@ -57,12 +61,12 @@ onAuthStateChanged(auth, async authUser => {
 			}
 		})
 
-		const qTasks = query(collection(firestoreDb, "tasks"), where("studentId", "==", studentId))
+		const qTasks = query(collection(firestoreDb, "tasks"), where("studentId", "==", studentId), orderBy("expireDate"))
 
 		let i = 0
 		const table = document.createElement("table")
 
-		const tasksListener = onSnapshot(qTasks, querySnapshot => {
+		const tasksListener = onSnapshot(qTasks, { includeMetadataChanges: true }, querySnapshot => {
 			if (querySnapshot.docChanges().length == 0) {
 				const p = document.createElement("p")
 				p.textContent = "Nenhuma tarefa foi criada ainda"
@@ -84,18 +88,25 @@ onAuthStateChanged(auth, async authUser => {
 
 			querySnapshot.docChanges().forEach(change => {
 				if (change.type === "added") {
+					const assignment = change.doc.data()
 					const tr = document.createElement("tr")
 					tr.setAttribute("id", change.doc.id)
 					tr.innerHTML = `
-							<td>${change.doc.data().title}</td>
-							<td>${change.doc.data().status}</td>
-							<td>${change.doc.data().createdAt.toDate().toLocaleDateString()}</td>
-							<td>${change.doc.data().delivered ? change.doc.data().delivered : "Não entregue"}</td>
-							<td>${change.doc.data().expireDate.toDate().toLocaleDateString()}</td>
-							<td>${change.doc.data().description}</td>
+							<td>${assignment.title}</td>
+							<td>${assignment.status}</td>
+							<td id="createdAt-${change.doc.id}">${assignment.createdAt ? assignment.createdAt.toDate().toLocaleDateString() : ""}</td>
+							<td>${assignment.delivered ? assignment.delivered : "Não entregue"}</td>
+							<td>${assignment.expireDate.toDate().toLocaleDateString()}</td>
+							<td>${assignment.description}</td>
 					`
-
 					table.appendChild(tr)
+
+					if (assignment) {
+						if (!assignment.createdAt && change.doc.metadata.hasPendingWrites) {
+						} else {
+							document.querySelector(`#createdAt-${change.doc.id}`).textContent = assignment.createdAt.toDate().toLocaleDateString()
+						}
+					}
 				}
 				if (change.type === "removed") {
 					document.getElementById(change.doc.id).remove()
@@ -115,11 +126,29 @@ openAddTaskModal.addEventListener("click", () => {
 })
 
 const cancelTaskBtn = document.getElementById("cancelTask")
+const documents = document.getElementById("document")
 
 cancelTaskBtn.addEventListener("click", e => {
 	e.preventDefault()
 
 	document.getElementById("createTaskModal").classList.remove("active")
+})
+
+let tasksFile = []
+
+const fileForm = document.querySelector(".file-form-item")
+
+documents.addEventListener("change", e => {
+	const file = e.target.files[0]
+
+	if (file === undefined) return
+
+	tasksFile.push(file)
+
+	const newTask = document.createElement("p")
+	newTask.textContent = file.name
+
+	fileForm.appendChild(newTask)
 })
 
 createTaskBtn.addEventListener("click", e => {
@@ -132,7 +161,12 @@ createTaskBtn.addEventListener("click", e => {
 	addTask(title, expireDate, description)
 })
 
-function addTask(title, expireDate, description) {
+async function addTask(title, expireDate, description) {
+	const tasksName = []
+	tasksFile.map(taskFile => {
+		tasksName.push(taskFile.name)
+	})
+
 	let newExpireDate = new Date(new Date(expireDate).setDate(expireDate.split("-")[2]))
 	addDoc(collection(firestoreDb, "tasks"), {
 		studentId: studentId,
@@ -143,8 +177,21 @@ function addTask(title, expireDate, description) {
 		createdAt: serverTimestamp(),
 		status: "Não visualizado",
 		delivered: false,
+		files: tasksName.length == 0 ? false : tasksName,
 	})
-		.then(data => {})
+		.then(data => {
+			const storage = getStorage()
+
+			tasksFile.forEach(taskFile => {
+				const fileRef = ref(storage, `assignments/${data.id}/professor/${taskFile.name}`)
+				const uploadTaskFile = uploadBytesResumable(fileRef, taskFile)
+			})
+
+			lastTaskCreatedAt = Timestamp.now().toDate().toLocaleDateString()
+			document.querySelector(`#createdAt-${data.id}`).textContent = lastTaskCreatedAt
+
+			document.getElementById("createTaskModal").classList.remove("active")
+		})
 		.catch(error => {
 			console.error(error.message)
 		})
