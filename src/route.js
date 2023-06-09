@@ -36,4 +36,8 @@ route.get("/professor/:studentId/tasks", (req, res) => {
 	res.render("professor-student-tasks", { studentId: req.params.studentId, tasks: "active", chat: "inactive" })
 })
 
+route.get("/student/tasks", (req, res) => {
+	res.render("student-tasks")
+})
+
 module.exports = route

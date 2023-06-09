@@ -76,7 +76,7 @@ onAuthStateChanged(auth, async authUser => {
 					<th>Entregue em</th>
 					<th>Expira em</th>
 					<th>Descrição</th>
-			`
+				`
 				table.appendChild(tableHeader)
 				tasksContainer.appendChild(table)
 				i++
