@@ -83,7 +83,7 @@ function createHeader(imageUrl, firstName, lastName, isStudent) {
 		navigation.appendChild(links)
 	} else {
 		links.innerHTML = `
-		<li><a href="dashboardTeacher">Home</a></li>
+		<li><a href="professorDashboard">Home</a></li>
 		<li><a href="building">Meus Alunos</a></li>
 		<li><a href="building">Financeiro</a></li>
 		<li><a href="building">Tarefas</a></li>
