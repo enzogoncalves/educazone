@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 import { getFirestore, getDocs, collection, doc, query, where, onSnapshot, updateDoc, addDoc, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
-import { getStorage, ref, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js"
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js"
 
 const storage = getStorage()
 
@@ -54,7 +54,7 @@ onAuthStateChanged(auth, async authUser => {
 							a.classList.remove("active")
 						})
 						task.classList.add("active")
-						selectTask(assignment.doc.data(), assignment.doc.id)
+						selectWhichTask(assignment.doc.data(), assignment.doc.id)
 					})
 
 					task.innerHTML = `<p>${assignment.doc.data().title}</p>`
@@ -71,7 +71,23 @@ onAuthStateChanged(auth, async authUser => {
 	}
 })
 
-function selectTask(task, taskId) {
+const alreadySelectedTasks = []
+
+function selectWhichTask(task, taskId) {
+	let taskIndex
+	if (
+		alreadySelectedTasks.find((el, elId) => {
+			taskIndex = elId
+			return el.taskId == taskId
+		})
+	) {
+		selectTask(alreadySelectedTasks[taskIndex].task, alreadySelectedTasks[taskIndex].taskId, alreadySelectedTasks[taskIndex].studentTaskFiles, alreadySelectedTasks[taskIndex].professorTaskFiles)
+	} else {
+		selectTask(task, taskId, [], undefined)
+	}
+}
+
+function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 	const assignmentContent = document.querySelector("#assignment")
 	const taskDate = String(task.expireDate.toDate().toLocaleDateString())
 	assignmentContent.innerHTML = `
@@ -79,6 +95,7 @@ function selectTask(task, taskId) {
 			<h2 id="taskTitle">${task.title}</h2>
 			<p id="expireDate">Vence em ${taskDate}</p>
 			<p id="description">${task.description}</p>
+			<div class="task-files"></div>
 		</div>
 		<div class="task-body">
 			<p>Adicione sua resposta</p>
@@ -86,26 +103,64 @@ function selectTask(task, taskId) {
 					<button id="write-task">Escrever</button>
 					<label for="add-docs">Adicionar arquivo</label>
 					<input type="file" id="add-docs" multiple style="display:none;"></button>
+					<div class="student-task-files"></div>
 					<button id="send-task">Entregar</button>
 				</div>
 		</div>
 	`
+
+	alreadySelectedTasks.push({ task: task, taskId: taskId, professorTaskFiles: [], studentTaskFiles: [] })
+	if (professorTaskFiles !== undefined) {
+		professorTaskFiles.forEach(professorTaskFile => {
+			const taskFile = document.createElement("a")
+			taskFile.href = professorTaskFile.url
+			taskFile.textContent = professorTaskFile.fileName
+			taskFile.setAttribute("target", "_blank")
+
+			document.querySelector(".task-files").appendChild(taskFile)
+		})
+	} else if (task.files.length !== 0) {
+		task.files.forEach(fileName => {
+			const fileReference = ref(storage, `assignments/${taskId}/professor/${fileName}`)
+
+			getDownloadURL(fileReference)
+				.then(url => {
+					alreadySelectedTasks[alreadySelectedTasks.length - 1].professorTaskFiles.push({ url: url, fileName: fileName })
+
+					const taskFile = document.createElement("a")
+					taskFile.href = url
+					taskFile.textContent = fileName
+					taskFile.setAttribute("target", "_blank")
+
+					document.querySelector(".task-files").appendChild(taskFile)
+				})
+				.catch(error => {
+					console.error(error)
+				})
+		})
+	}
 
 	const writeTaskBtn = document.querySelector("#write-task")
 	writeTaskBtn.addEventListener("click", () => {})
 
 	const addDocsBtn = document.querySelector("#add-docs")
 
-	const tasksFile = []
+	const tasksFile = studentTaskFiles
+
+	tasksFile.forEach(taskFile => {
+		document.querySelector(".student-task-files").textContent += taskFile.name
+	})
 
 	addDocsBtn.addEventListener("change", e => {
 		if (e.target.files[e.target.files.length - 1] === undefined) return
 		tasksFile.push(e.target.files[e.target.files.length - 1])
+
+		document.querySelector(".student-task-files").textContent += e.target.files[e.target.files.length - 1].name
+		alreadySelectedTasks[alreadySelectedTasks.length - 1].studentTaskFiles.push(e.target.files[e.target.files.length - 1])
 	})
 
 	const sendTaskBtn = document.querySelector("#send-task")
 	sendTaskBtn.addEventListener("click", () => {
-		console.log(tasksFile)
 		if (tasksFile.length !== 0) {
 			tasksFile.forEach(file => {
 				const storageRef = ref(storage, `assignments/${taskId}/student/${file.name}`)
