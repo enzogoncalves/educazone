@@ -95,7 +95,7 @@ onAuthStateChanged(auth, async authUser => {
 							<td>${assignment.title}</td>
 							<td>${assignment.status}</td>
 							<td id="createdAt-${change.doc.id}">${assignment.createdAt ? assignment.createdAt.toDate().toLocaleDateString() : ""}</td>
-							<td>${assignment.delivered ? assignment.delivered : "Não entregue"}</td>
+							<td>${assignment.delivered ? (assignment.studentAnswer.deliveredAt ? assignment.studentAnswer.deliveredAt.toDate().toLocaleDateString() : "aguardando") : "Não entregue"}</td>
 							<td>${assignment.expireDate.toDate().toLocaleDateString()}</td>
 							<td>${assignment.description}</td>
 					`

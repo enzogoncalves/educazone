@@ -77,19 +77,19 @@ function createHeader(imageUrl, firstName, lastName, isStudent) {
 	const navigation = document.querySelector("header nav")
 	if (isStudent) {
 		links.innerHTML = `
-		<li><a href="building">Home</a></li>
-		<li><a href="building">Meus professores</a></li>
-		<li><a href="student/tasks">Tarefas</a></li>
-		<li><a href="searchTeacher">Encontrar um professor</a></li>
+		<li><a href="/building">Home</a></li>
+		<li><a href="/building">Meus professores</a></li>
+		<li><a href="/student/tasks">Tarefas</a></li>
+		<li><a href="/searchTeacher">Encontrar um professor</a></li>
 	`
 
 		navigation.appendChild(links)
 	} else {
 		links.innerHTML = `
 		<li><a href="professorDashboard">Home</a></li>
-		<li><a href="building">Meus Alunos</a></li>
-		<li><a href="building">Financeiro</a></li>
-		<li><a href="building">Tarefas</a></li>
+		<li><a href="/building">Meus Alunos</a></li>
+		<li><a href="/building">Financeiro</a></li>
+		<li><a href="/building">Tarefas</a></li>
 	`
 		navigation.appendChild(links)
 	}

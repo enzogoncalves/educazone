@@ -13,6 +13,7 @@ const auth = getAuth()
 const firestoreDb = getFirestore(app)
 
 const tasksContainer = document.querySelector("#tasksContainer")
+const assignmentContent = document.querySelector("#assignment")
 
 let userId
 
@@ -65,7 +66,11 @@ onAuthStateChanged(auth, async authUser => {
 					document.getElementById(assignment.doc.id).remove()
 				}
 				if (assignment.type === "modified") {
-					console.log("Modified: ", assignment.doc.data())
+					console.log("modificada")
+					console.log(assignment.doc.data().delivered)
+					if (assignment.doc.data().delivered) {
+						selectWhichTask(assignment.doc.data(), assignment.doc.id)
+					}
 				}
 			})
 		})
@@ -84,20 +89,26 @@ async function selectWhichTask(task, taskId) {
 			return el.taskId == taskId
 		})
 	) {
+		if (task.delivered) {
+			alreadySelectedTasks[taskIndex].task.delivered = true
+			selectTask(alreadySelectedTasks[taskIndex].task, alreadySelectedTasks[taskIndex].taskId, alreadySelectedTasks[taskIndex].studentTaskFiles, alreadySelectedTasks[taskIndex].professorTaskFiles)
+			return
+		}
 		selectTask(alreadySelectedTasks[taskIndex].task, alreadySelectedTasks[taskIndex].taskId, alreadySelectedTasks[taskIndex].studentTaskFiles, alreadySelectedTasks[taskIndex].professorTaskFiles)
 	} else {
 		const taskRef = doc(firestoreDb, "tasks", taskId)
 
-		await updateDoc(taskRef, {
-			status: "Visualizado",
-		})
+		if (task.status !== "Visualizado" && task.delivered === false) {
+			await updateDoc(taskRef, {
+				status: "Visualizado",
+			})
+		}
 
 		selectTask(task, taskId, [], undefined)
 	}
 }
 
 function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
-	const assignmentContent = document.querySelector("#assignment")
 	const taskDate = String(task.expireDate.toDate().toLocaleDateString())
 	assignmentContent.innerHTML = `
 		<div class="task-header">
@@ -115,6 +126,7 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 		document.querySelector(".task-body").innerHTML = `
 			<p>Tarefa entregue</p>
 		`
+		return
 	} else {
 		document.querySelector(".task-body").innerHTML = `
 			<p>Adicione sua resposta</p>
@@ -193,6 +205,7 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 				written: document.querySelector(".writeTask textarea").value,
 				files: taskFilesName,
 			},
+			status: "Entregue",
 		})
 			.then(() => {
 				alert("entregue com sucesso")
@@ -219,22 +232,4 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 			})
 		}
 	})
-}
-
-function addTask(title, expireDate, description) {
-	let newExpireDate = new Date(new Date(expireDate).setDate(expireDate.split("-")[2]))
-	addDoc(collection(firestoreDb, "tasks"), {
-		studentId: studentId,
-		professorId: userId,
-		title: title,
-		expireDate: Timestamp.fromDate(newExpireDate),
-		description: description,
-		createdAt: serverTimestamp(),
-		status: "Não visualizado",
-		delivered: false,
-	})
-		.then(data => {})
-		.catch(error => {
-			console.error(error.message)
-		})
 }

@@ -40,4 +40,8 @@ route.get("/student/tasks", (req, res) => {
 	res.render("student-tasks")
 })
 
+route.get("/student/building", (req, res) => {
+	res.render("building")
+})
+
 module.exports = route
