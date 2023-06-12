@@ -22,8 +22,6 @@ onAuthStateChanged(auth, async authUser => {
 	if (authUser) {
 		userId = authUser.uid
 
-		document.querySelector(".page-skeleton").classList.remove("active")
-
 		const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
 		const queryProfessor = await getDocs(qProfessor)
 		const isProfessor = !queryProfessor.empty
@@ -113,6 +111,8 @@ onAuthStateChanged(auth, async authUser => {
 				}
 			})
 		})
+
+		document.querySelector(".page-skeleton").classList.remove("active")
 	} else {
 		redirectToLoginPage()
 	}
@@ -169,7 +169,7 @@ async function addTask(title, expireDate, description) {
 
 	let newExpireDate = new Date(new Date(expireDate).setDate(expireDate.split("-")[2]))
 	addDoc(collection(firestoreDb, "tasks"), {
-		studentId: studentId,
+		student_id: studentId,
 		professorId: userId,
 		title: title,
 		expireDate: Timestamp.fromDate(newExpireDate),

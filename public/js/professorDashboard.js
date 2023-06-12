@@ -1,9 +1,10 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
-import { getFirestore, doc, getDoc, getDocs, collection, addDoc, updateDoc, deleteDoc, deleteField, query, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+import { getFirestore, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
 const auth = getAuth()
 
 import { app } from "./initializeFirebase.js"
+import { redirectToLoginPage } from "./modules.js"
 
 const firestoreDb = getFirestore(app)
 
@@ -30,6 +31,7 @@ onAuthStateChanged(auth, async authUser => {
 		document.querySelector(".page-skeleton").classList.remove("active")
 
 		displayStudentsTable(students) // Display students in the HTML table
+		getPaymentDate(userId)
 	} else {
 		redirectToLoginPage()
 	}
@@ -68,14 +70,12 @@ function formatDate(dateString) {
 }
 
 async function getPaymentDate(teacherId) {
-	const paymentCollection = collection(firestoreDb, "payment")
+	const paymentCollection = query(collection(firestoreDb, "payments"), where("professor_id", "==", teacherId))
+
 	const currentDate = new Date()
-	const currentYear = currentDate.getFullYear()
-	const currentMonth = currentDate.getMonth()
-	const currentDay = currentDate.getDate()
 	let received = 0
 	let toReceive = 0
-	let totalAmountMonth = received + toReceive
+	let totalAmountMonth = 0
 
 	const totalHTML = document.getElementById("total")
 	const receivedAmountHTML = document.getElementById("recebido")
@@ -85,23 +85,16 @@ async function getPaymentDate(teacherId) {
 		const snapshot = await getDocs(paymentCollection)
 		snapshot.forEach(doc => {
 			const paymentDate = doc.data().date
-			const paymentAmount = doc.data().amount
+			const paymentAmount = Number(doc.data().amount)
 			const firebaseFormatted = new Date(formatDate(paymentDate))
-			const firebaseYear = firebaseFormatted.getFullYear()
-			const firebaseMonth = firebaseFormatted.getMonth()
-			const firebaseDay = firebaseFormatted.getDate()
 
-			const teacher = doc.data().teacher_id
-
-			if (currentYear === firebaseYear && currentMonth === firebaseMonth && teacher === "CjMFjMeMRMK3YJd7nWoR") {
-				if (currentDay < firebaseDay) {
-					toReceive += paymentAmount
-				} else if (currentDay >= firebaseDay) {
-					received += paymentAmount
-				}
-
-				totalAmountMonth = received + toReceive
+			if (currentDate < firebaseFormatted) {
+				toReceive = paymentAmount
+			} else if (currentDate >= firebaseFormatted) {
+				received = paymentAmount
 			}
+
+			totalAmountMonth += received + toReceive
 		})
 
 		const totalText = document.createTextNode(totalAmountMonth)
@@ -116,10 +109,4 @@ async function getPaymentDate(teacherId) {
 	} catch (error) {
 		console.error("Error getting payment documents:", error)
 	}
-
-	console.log("received:", received)
-	console.log("To receive:", toReceive)
-	console.log("Total:", totalAmountMonth)
 }
-
-getPaymentDate()
