@@ -64,6 +64,9 @@ onAuthStateChanged(auth, async authUser => {
 				if (assignment.type === "removed") {
 					document.getElementById(assignment.doc.id).remove()
 				}
+				if (assignment.type === "modified") {
+					console.log("Modified: ", assignment.doc.data())
+				}
 			})
 		})
 	} else {
@@ -73,7 +76,7 @@ onAuthStateChanged(auth, async authUser => {
 
 const alreadySelectedTasks = []
 
-function selectWhichTask(task, taskId) {
+async function selectWhichTask(task, taskId) {
 	let taskIndex
 	if (
 		alreadySelectedTasks.find((el, elId) => {
@@ -83,6 +86,12 @@ function selectWhichTask(task, taskId) {
 	) {
 		selectTask(alreadySelectedTasks[taskIndex].task, alreadySelectedTasks[taskIndex].taskId, alreadySelectedTasks[taskIndex].studentTaskFiles, alreadySelectedTasks[taskIndex].professorTaskFiles)
 	} else {
+		const taskRef = doc(firestoreDb, "tasks", taskId)
+
+		await updateDoc(taskRef, {
+			status: "Visualizado",
+		})
+
 		selectTask(task, taskId, [], undefined)
 	}
 }
@@ -98,6 +107,16 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 			<div class="task-files"></div>
 		</div>
 		<div class="task-body">
+			
+		</div>
+	`
+
+	if (task.delivered) {
+		document.querySelector(".task-body").innerHTML = `
+			<p>Tarefa entregue</p>
+		`
+	} else {
+		document.querySelector(".task-body").innerHTML = `
 			<p>Adicione sua resposta</p>
 				<div>
 					<button id="write-task">Escrever</button>
@@ -106,8 +125,8 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 					<div class="student-task-files"></div>
 					<button id="send-task">Entregar</button>
 				</div>
-		</div>
-	`
+		`
+	}
 
 	alreadySelectedTasks.push({ task: task, taskId: taskId, professorTaskFiles: [], studentTaskFiles: [] })
 	if (professorTaskFiles !== undefined) {
@@ -125,7 +144,7 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 
 			getDownloadURL(fileReference)
 				.then(url => {
-					alreadySelectedTasks[alreadySelectedTasks.length - 1].professorTaskFiles.push({ url: url, fileName: fileName })
+					alreadySelectedTasks[alreadySelectedTasks.findIndex(e => e.taskId == taskId)].professorTaskFiles.push({ url: url, fileName: fileName })
 
 					const taskFile = document.createElement("a")
 					taskFile.href = url
@@ -145,24 +164,45 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 
 	const addDocsBtn = document.querySelector("#add-docs")
 
-	const tasksFile = studentTaskFiles
+	const taskFiles = studentTaskFiles
 
-	tasksFile.forEach(taskFile => {
+	const taskFilesName = []
+
+	taskFiles.forEach(taskFile => {
 		document.querySelector(".student-task-files").textContent += taskFile.name
 	})
 
 	addDocsBtn.addEventListener("change", e => {
 		if (e.target.files[e.target.files.length - 1] === undefined) return
-		tasksFile.push(e.target.files[e.target.files.length - 1])
+		taskFiles.push(e.target.files[e.target.files.length - 1])
 
 		document.querySelector(".student-task-files").textContent += e.target.files[e.target.files.length - 1].name
-		alreadySelectedTasks[alreadySelectedTasks.length - 1].studentTaskFiles.push(e.target.files[e.target.files.length - 1])
+		alreadySelectedTasks[alreadySelectedTasks.findIndex(e => e.taskId == taskId)].studentTaskFiles.push(e.target.files[e.target.files.length - 1])
+
+		taskFilesName.push(e.target.files[e.target.files.length - 1].name)
 	})
 
 	const sendTaskBtn = document.querySelector("#send-task")
 	sendTaskBtn.addEventListener("click", () => {
-		if (tasksFile.length !== 0) {
-			tasksFile.forEach(file => {
+		const taskRef = doc(firestoreDb, "tasks", taskId)
+
+		updateDoc(taskRef, {
+			delivered: true,
+			studentAnswer: {
+				deliveredAt: serverTimestamp(),
+				written: document.querySelector(".writeTask textarea").value,
+				files: taskFilesName,
+			},
+		})
+			.then(() => {
+				alert("entregue com sucesso")
+			})
+			.catch(error => {
+				console.log(error)
+			})
+
+		if (taskFiles.length !== 0) {
+			taskFiles.forEach(file => {
 				const storageRef = ref(storage, `assignments/${taskId}/student/${file.name}`)
 				const uploadTaskFile = uploadBytesResumable(storageRef, file)
 
