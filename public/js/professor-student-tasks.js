@@ -169,7 +169,7 @@ async function addTask(title, expireDate, description) {
 
 	let newExpireDate = new Date(new Date(expireDate).setDate(expireDate.split("-")[2]))
 	addDoc(collection(firestoreDb, "tasks"), {
-		student_id: studentId,
+		studentId: studentId,
 		professorId: userId,
 		title: title,
 		expireDate: Timestamp.fromDate(newExpireDate),

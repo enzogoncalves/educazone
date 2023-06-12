@@ -70,7 +70,7 @@ function formatDate(dateString) {
 }
 
 async function getPaymentDate(teacherId) {
-	const paymentCollection = query(collection(firestoreDb, "payments"), where("professor_id", "==", teacherId))
+	const paymentCollection = query(collection(firestoreDb, "payments"), where("professorId", "==", teacherId))
 
 	const currentDate = new Date()
 	let received = 0

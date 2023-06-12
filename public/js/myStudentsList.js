@@ -39,7 +39,7 @@ async function retrieveStudents(teacherId) {
 			const lastName = student.data().lastName
 			const profilePicture = student.data().profile_picture
 
-			const tasksQuery = query(collection(firestoreDb, "tasks"), where("student_id", "==", studentId))
+			const tasksQuery = query(collection(firestoreDb, "tasks"), where("studentId", "==", studentId))
 			const tasksSnapshot = await getDocs(tasksQuery)
 			const totalTasksSent = tasksSnapshot.size
 

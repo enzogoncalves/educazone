@@ -66,8 +66,8 @@ module.exports = {
 
 		batch.set(newPaymentKey, {
 			amount: req.params.amount,
-			student_id: studentId,
-			professor_id: professorId,
+			studentId: studentId,
+			professorId: professorId,
 			date: date,
 			datetime: datetime,
 			paid: true,
@@ -75,8 +75,8 @@ module.exports = {
 		})
 
 		batch.set(newNextPaymentKey, {
-			student_id: studentId,
-			professor_id: professorId,
+			studentId: studentId,
+			professorId: professorId,
 			date: nextDate,
 			paid: false,
 			timestamp: serverTimestamp(),
