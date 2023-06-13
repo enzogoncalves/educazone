@@ -31,6 +31,8 @@ onAuthStateChanged(auth, async authUser => {
 			window.location = "/studentProfile"
 		}
 
+		professorOrStudent = isProfessor ? "professors" : "students"
+
 		const fields = isProfessor ? ["fullname", "firstName", "lastName", "email", "phoneNumber", "site", "aboutMe", "didactic", "class", "price"] : ["fullname", "firstName", "lastName", "email", "phoneNumber"]
 
 		const firestoreListenner = onSnapshot(isProfessor ? qProfessor : qStudent, querySnapshot => {
@@ -123,11 +125,11 @@ async function updateUser(professorOrStudent, field, dataField, inputType) {
 	let updatedUserData = {}
 	updatedUserData[field] = newDataField
 
+	console.log(professorOrStudent, userId)
 	const fieldRef = doc(firestoreDb, professorOrStudent, userId)
 
 	updateDoc(fieldRef, updatedUserData)
 		.then(() => {
-			alert("editado com sucesso")
 			pageShadow.classList.remove("active")
 			editModal.classList.remove("active")
 		})

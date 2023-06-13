@@ -41,14 +41,12 @@ form.addEventListener("submit", async e => {
 				if (professorChecked) {
 					setDoc(doc(firestoreDb, "professors", user.uid), userData)
 						.then(data => {
-							alert("Conta criada com sucesso!")
 							window.location = "/professorProfile"
 						})
 						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 				} else {
 					setDoc(doc(firestoreDb, "students", user.uid), userData)
 						.then(data => {
-							alert("Conta criada com sucesso!")
 							window.location = "/studentProfile"
 						})
 						.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
@@ -63,7 +61,7 @@ form.addEventListener("submit", async e => {
 					clearInputs()
 					alert("Este email já está cadastrado na plataforma")
 				} else {
-					alert(errorMessage)
+					console.log(errorMessage)
 				}
 			})
 	} else if (submitter === "signin-with-google") {
@@ -95,14 +93,12 @@ form.addEventListener("submit", async e => {
 					if (professorChecked) {
 						setDoc(doc(firestoreDb, "professors", user.uid), userData)
 							.then(data => {
-								alert("Conta criada com sucesso!")
 								window.location = "/professorProfile"
 							})
 							.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
 					} else if (!professorChecked) {
 						setDoc(doc(firestoreDb, "students", user.uid), userData)
 							.then(data => {
-								alert("Conta criada com sucesso!")
 								window.location = "/studentProfile"
 							})
 							.catch(error => console.error("Houve um erro ao adicionar no banco de dados", error))
@@ -118,7 +114,7 @@ form.addEventListener("submit", async e => {
 				const errorMessage = error.message
 
 				clearInputs()
-				alert(errorCode + errorMessage)
+				console.log(errorCode, errorMessage)
 			})
 	}
 })

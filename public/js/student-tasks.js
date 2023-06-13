@@ -207,9 +207,7 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 			},
 			status: "Entregue",
 		})
-			.then(() => {
-				alert("entregue com sucesso")
-			})
+			.then(() => {})
 			.catch(error => {
 				console.log(error)
 			})

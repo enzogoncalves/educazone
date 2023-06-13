@@ -282,9 +282,7 @@ a("#submitGrade").addEventListener("click", () => {
 		},
 		status: "Corrigida",
 	})
-		.then(() => {
-			alert("corrigda com sucesso")
-		})
+		.then(() => {})
 		.catch(error => {
 			console.log(error)
 		})

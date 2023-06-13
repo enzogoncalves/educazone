@@ -38,7 +38,7 @@ form.addEventListener("submit", e => {
 				if (errorMessage == "Firebase: Error (auth/user-not-found).") {
 					alert("Você precisa criar uma conta primeiro.")
 				} else {
-					alert(errorMessage)
+					console.log(errorMessage)
 				}
 
 				clearInputs()
@@ -70,7 +70,7 @@ form.addEventListener("submit", e => {
 				const errorMessage = error.message
 
 				clearInputs()
-				alert(errorCode, errorMessage)
+				console.log(errorCode, errorMessage)
 			})
 	}
 })

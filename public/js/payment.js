@@ -28,7 +28,7 @@ onAuthStateChanged(auth, async authUser => {
 		const isProfessor = !queryUser.empty
 
 		if (isProfessor) {
-			alert("Professores não podem contratar professores. Faça o login como estudante para continuar.")
+			alert("Professores não podem contratar outros professores. Faça o login como estudante para continuar.")
 			window.location = `/hireTeacher/${professorId}`
 			return
 		}

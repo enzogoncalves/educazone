@@ -5,7 +5,6 @@ export function logOut() {
 
 	signOut(auth)
 		.then(() => {
-			alert("deslogadooooooooo")
 			window.location = "/"
 		})
 		.catch(error => {
