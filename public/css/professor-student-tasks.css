@@ -211,3 +211,76 @@ main {
 	background-color: var(--dark-grey);
 	color: white;
 }
+
+/* Fix task modal */
+
+#fixTaskModal {
+	display: none;
+}
+
+#fixTaskModal.active {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+#fixTaskModal.active .fixTask-item {
+	display: flex;
+	align-items: center;
+	padding-block: 0.5rem;
+}
+
+#fixTaskModal.active .fixTask-item h3 {
+	font-weight: 400;
+	width: 120px;
+	font-size: 1.15rem;
+	color: var(--dark-grey);
+}
+
+#fixTaskModal.active form .fixTask-item textarea {
+	width: 350px;
+	resize: vertical;
+}
+
+#fixTaskModal.active input[type="submit"],
+#fixTaskModal.active button {
+	margin-top: 1rem;
+	margin-right: 1rem;
+	padding: 0.75rem;
+	color: white;
+	background-color: var(--primary-color);
+	border: none;
+	border-radius: 7px;
+	font-weight: 500;
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+#fixTaskModal.active button {
+	background-color: var(--dark-grey);
+	color: white;
+}
+
+#fixTaskModal.active button#resubmit {
+	background-color: hsl(0, 100%, 64%);
+	color: white;
+}
+
+.grades {
+	display: flex;
+	gap: 0.25rem;
+}
+
+.grades label {
+	display: block;
+	width: fit-content;
+	box-shadow: var(--default-box-shadow);
+	padding: 0.75rem;
+	cursor: pointer;
+	background-color: white;
+}
+
+.taskGradeActive {
+	border: var(--primary-color);
+	font-weight: 500;
+}

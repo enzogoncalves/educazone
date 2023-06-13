@@ -87,7 +87,7 @@ function createHeader(imageUrl, firstName, lastName, isStudent) {
 	} else {
 		links.innerHTML = `
 		<li><a href="professorDashboard">Home</a></li>
-		<li><a href="/building">Meus Alunos</a></li>
+		<li><a href="/myStudentsList">Meus Alunos</a></li>
 		<li><a href="/building">Financeiro</a></li>
 		<li><a href="/building">Tarefas</a></li>
 	`

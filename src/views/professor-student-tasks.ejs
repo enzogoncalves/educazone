@@ -49,6 +49,52 @@
 		<section id="tasksContainer">
 				<button id="openAddTaskModal">Adicionar tarefa</button>
 		</section>
+		<div id="fixTaskModal">
+			<h2 id="studentTaskTitle"></h2>
+			<div class="fixTask-item">
+				<h3 id="taskStatus">Status</h3>
+				<div>
+					<p class="contrast">Entregue</p>
+					<p id="deliveredAt"></p>
+				</div>
+			</div>
+			<div class="fixTask-item fixTask-files">
+				<h3>Arquivo</h3>
+				<div id="studentFiles"></div>
+			</div>
+			<form id="fixTaskForm">
+				<div class="fixTask-item file-fixTask-item">
+					<h3>Nota</h3>
+					<div class="grades">
+						<label for="A-plus">A+</label>
+						<input type="radio" name="grade" id="A-plus" class="grade" value="A+" style="display: none;">
+						<label for="A">A</label>
+						<input type="radio" name="grade" id="A" class="grade" value="A" style="display: none;">
+						<label for="B-plus">B+</label>
+						<input type="radio" name="grade" id="B-plus" class="grade" value="B+" style="display: none;">
+						<label for="B">B</label>
+						<input type="radio" name="grade" id="B" class="grade" value="B" style="display: none;">
+						<label for="C">C</label>
+						<input type="radio" name="grade" id="C" class="grade" value="C" style="display: none;">
+						<label for="D">D</label>
+						<input type="radio" name="grade" id="D" class="grade" value="D" style="display: none;">
+						<label for="E">E</label>
+						<input type="radio" name="grade" id="E" class="grade" value="E" style="display: none;">
+						<label for="F">F</label>
+						<input type="radio" name="grade" id="F" class="grade" value="F" style="display: none;">
+					</div>
+				</div>
+				<div class="fixTask-item">
+					<h3>Comentário</h3>
+					<textarea id="commentary" placeholder="Digite aqui o seu comentário" rows="5"></textarea>
+				</div>
+					<div class="fixTask-actions">
+						<input type="submit" value="Aceitar e publicar nota" id="submitGrade">
+						<button id="resubmit">Recusar e pedir para reenviar</button>
+						<button id="cancelFixTask">Cancelar</button>
+					</div>
+			</form>
+		</div>
 		</main>
 		<div id="createTaskModal">
 				<form action="">

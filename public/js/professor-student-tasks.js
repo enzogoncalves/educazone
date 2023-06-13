@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
-import { getFirestore, getDocs, collection, query, where, onSnapshot, updateDoc, addDoc, serverTimestamp, Timestamp, orderBy } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
+import { getFirestore, getDocs, doc, collection, query, where, onSnapshot, updateDoc, addDoc, serverTimestamp, Timestamp, orderBy } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
-import { getStorage, ref, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js"
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js"
 
 import { app } from "./initializeFirebase.js"
 
@@ -22,42 +22,35 @@ onAuthStateChanged(auth, async authUser => {
 	if (authUser) {
 		userId = authUser.uid
 
-		const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
-		const queryProfessor = await getDocs(qProfessor)
-		const isProfessor = !queryProfessor.empty
+		// const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
+		// const queryProfessor = await getDocs(qProfessor)
+		// const isProfessor = !queryProfessor.empty
 
-		if (isProfessor === false) {
-			window.location = "/building"
-			return
-		}
+		// if (isProfessor === false) {
+		// 	window.location = "/building"
+		// 	return
+		// }
 
-		let qStudent
-		qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", studentId))
+		// let qStudent
+		// qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", studentId))
 
-		queryProfessor.forEach(doc => {
-			doc.data().students.filter(async student => {
-				if (student == studentId) {
-				}
-			})
-		})
+		// const studentDoc = await getDocs(qStudent)
 
-		const studentDoc = await getDocs(qStudent)
+		// if (studentDoc.empty) {
+		// 	window.location = "/building"
+		// 	return
+		// }
 
-		if (studentDoc.empty) {
-			window.location = "/building"
-			return
-		}
-
-		studentDoc.forEach(user => {
-			document.querySelector("#fullName").textContent = `${user.data().firstName} ${user.data().lastName}`
-			if (user.data().pictureUrl === undefined) {
-				document.querySelector("#side-navigation").appendChild(createProfilePicture(user.data().firstName, user.data().lastName))
-			} else {
-				document.querySelector("#side-navigation").innerHTML += `
-					<img src="${user.data().pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
-				`
-			}
-		})
+		// studentDoc.forEach(user => {
+		// 	document.querySelector("#fullName").textContent = `${user.data().firstName} ${user.data().lastName}`
+		// 	if (user.data().pictureUrl === undefined) {
+		// 		document.querySelector("#side-navigation").appendChild(createProfilePicture(user.data().firstName, user.data().lastName))
+		// 	} else {
+		// 		document.querySelector("#side-navigation").innerHTML += `
+		// 			<img src="${user.data().pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
+		// 		`
+		// 	}
+		// })
 
 		const qTasks = query(collection(firestoreDb, "tasks"), where("studentId", "==", studentId), orderBy("expireDate"))
 
@@ -88,6 +81,9 @@ onAuthStateChanged(auth, async authUser => {
 				if (change.type === "added") {
 					const assignment = change.doc.data()
 					const tr = document.createElement("tr")
+					tr.addEventListener("click", () => {
+						selectTask(assignment, change.doc.id)
+					})
 					tr.setAttribute("id", change.doc.id)
 					tr.innerHTML = `
 							<td>${assignment.title}</td>
@@ -195,4 +191,105 @@ async function addTask(title, expireDate, description) {
 		.catch(error => {
 			console.error(error.message)
 		})
+}
+
+const cancelFixTaskBtn = document.getElementById("cancelFixTask")
+
+cancelFixTaskBtn.addEventListener("click", e => {
+	e.preventDefault()
+
+	document.getElementById("fixTaskModal").classList.remove("active")
+	tasksContainer.style.display = "flex"
+
+	document.querySelectorAll(".grade").forEach(othersBtn => {
+		othersBtn.previousElementSibling.classList.remove("taskGradeActive")
+	})
+
+	a("#commentary").value = ""
+
+	document.querySelector("#fixTaskModal").dataset.taskId = ""
+})
+
+document.querySelector("#fixTaskForm").addEventListener("submit", e => {
+	e.preventDefault()
+})
+
+document.querySelectorAll(".grade").forEach(gradeBtn => {
+	gradeBtn.addEventListener("click", () => {
+		document.querySelectorAll(".grade").forEach(othersBtn => {
+			if (!othersBtn.checked) {
+				othersBtn.previousElementSibling.classList.remove("taskGradeActive")
+			}
+		})
+		gradeBtn.previousElementSibling.classList.add("taskGradeActive")
+	})
+})
+
+function selectTask(task, taskId) {
+	tasksContainer.style.display = "none"
+	a("#fixTaskModal").classList.add("active")
+	document.querySelector("#fixTaskModal").dataset.taskId = taskId
+
+	a("#studentTaskTitle").textContent = task.title
+	a("#deliveredAt").textContent = task.studentAnswer.deliveredAt.toDate().toLocaleDateString()
+	a("#studentFiles").innerHTML = ""
+
+	if (task.studentAnswer.files.length !== 0) {
+		const storage = getStorage()
+
+		task.studentAnswer.files.forEach(fileName => {
+			const fileReference = ref(storage, `assignments/${taskId}/student/${fileName}`)
+
+			getDownloadURL(fileReference)
+				.then(url => {
+					a("#studentFiles").innerHTML += `
+						<div>
+							<p>${fileName}</p>
+							<a href="${url}" target="_blank">Abrir</a>
+						</div>
+					`
+				})
+				.catch(error => {
+					console.error(error)
+				})
+		})
+	}
+
+	if (task.status == "Corrigida") {
+		a(".fixTask-actions").style.display = "none"
+	}
+}
+
+a("#submitGrade").addEventListener("click", () => {
+	const taskId = document.querySelector("#fixTaskModal").dataset.taskId
+	let selectedGrade
+	document.querySelectorAll(".grade").forEach(button => {
+		if (button.checked) {
+			selectedGrade = button.value
+		}
+	})
+
+	const commentary = a("#commentary").value
+
+	console.log(selectedGrade, commentary)
+
+	const taskRef = doc(firestoreDb, "tasks", taskId)
+
+	updateDoc(taskRef, {
+		correctedTask: {
+			grade: selectedGrade,
+			commentary: commentary,
+		},
+		status: "Corrigida",
+	})
+		.then(() => {
+			alert("corrigda com sucesso")
+		})
+		.catch(error => {
+			console.log(error)
+		})
+})
+
+function a(id) {
+	return document.querySelector(id)
 }
