@@ -44,16 +44,6 @@ header {
 	z-index: 999;
 }
 
-header nav {
-	max-width: 1000px;
-	margin: 0 auto;
-	height: var(--header-height);
-	padding: 0.5rem 1.5rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
 header nav #title {
 	color: black;
 	font-size: 1.5rem;
@@ -64,107 +54,57 @@ header nav #title span {
 	color: var(--primary-color);
 }
 
-header nav .toggle {
+header nav {
+	max-width: 1000px;
+	height: var(--header-height);
+	margin: 0 auto;
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-inline: 1rem;
+}
+
+header nav ul.navigation {
 	display: none;
 }
 
-header nav ul {
+header nav ul.navigation.active {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
 	display: flex;
-	align-items: center;
-	gap: 2rem;
+	flex-direction: column;
+	border-top: 1px solid var(--primary-color);
+	background-color: white;
+	box-shadow: var(--default-box-shadow);
 }
 
-header nav ul:not(.links) a:nth-child(1) {
-	background-color: var(--primary-color);
-	padding: 0.5rem 0.75rem;
-	color: white;
-	border-radius: 2px;
-	transition: 0.2s;
-	cursor: pointer;
-}
-
-header nav ul:not(.links) a:nth-child(1):hover {
-	background-color: var(--primary-color-lighter);
-}
-
-header nav ul:not(.links) a:nth-child(2) {
-	color: var(--primary-color);
-	padding: 0.5rem 0.75rem;
-	border-radius: 2px;
-	transition: 0.1s;
-}
-
-header nav ul:not(.links) a:nth-child(2):hover {
-	color: white;
-	background-color: var(--primary-color);
-}
-
-header#user-header nav ul.profile-links {
-	order: 2;
-}
-
-header#user-header nav ul.profile-links a:nth-child(2) {
-	background-color: transparent;
-	padding: 0;
-	border-radius: 0;
-}
-
-header#user-header nav ul.profile-links a:nth-child(2):hover {
-	background-color: transparent;
-}
-
-header#user-header nav ul.profile-links a:nth-child(2) img {
-	height: 50px;
-	width: 50px;
-	object-fit: cover;
-	object-position: center;
-	border-radius: 50%;
-}
-
-header#user-header nav ul.profile-links .profilePicture {
-	height: 50px;
-	width: 50px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 1.5rem;
-	color: black;
-	border: 1px solid var(--primary-color);
-	border-radius: 50%;
-	cursor: pointer;
-}
-
-header#user-header nav ul.links {
-	list-style-type: none;
-	align-items: center;
-	justify-content: center;
-	gap: 1rem;
+header nav ul.navigation.active a {
+	padding: 0.5rem;
+	width: 100%;
 	text-align: center;
 }
 
-header#user-header nav ul.links li {
-	width: fit-content;
-}
-
-header#user-header nav ul.links li a {
-	color: black;
-	position: relative;
-	padding: 0.5rem;
-}
-
-header#user-header nav ul.links li a::before {
-	content: " ";
-	position: absolute;
-	bottom: 0;
-	left: -2%;
-	width: 0;
-	height: 2px;
+header nav ul.navigation.active .signup {
 	background-color: var(--primary-color);
-	transition: 0.2s;
+	color: white;
 }
 
-header#user-header nav ul.links li a:hover::before {
-	width: 104%;
+header nav ul.navigation.active .signup:hover {
+	background-color: var(--primary-color-lighter);
+}
+
+header nav ul.navigation.active .login {
+	color: var(--primary-color);
+}
+
+header nav svg {
+	display: block;
+	color: var(--primary-color);
+	cursor: pointer;
+	height: 1.5rem !important;
 }
 
 footer {
@@ -237,135 +177,78 @@ footer div a:hover {
 	}
 }
 
-@media (max-width: 672px) {
-	header nav {
-		position: relative;
-	}
-
+@media (min-width: 672px) {
 	header nav .toggle {
-		display: block;
-	}
-
-	header nav svg {
-		display: block;
-		color: var(--primary-color);
-		cursor: pointer;
-		height: 1.5rem !important;
-	}
-
-	header nav ul {
 		display: none;
 	}
 
-	header nav ul.active {
+	header nav ul.navigation {
 		display: flex;
-		align-items: baseline;
-		position: absolute;
-		top: 100%;
-		left: 0;
-		width: 100%;
-		flex-direction: column;
-		gap: 0;
-		background-color: white;
-		border-top: 1px solid var(--primary-color);
-		box-shadow: var(--default-box-shadow);
+		flex-direction: row;
+		gap: 2rem;
+		align-items: center;
 	}
 
-	header nav ul:not(.links) a {
-		text-align: center;
-	}
-
-	header#user-header nav ul {
-		align-items: baseline !important;
-	}
-
-	header#user-header nav ul.profile-links {
-		order: 2;
-		align-items: baseline;
-	}
-
-	header#user-header nav ul a {
-		color: var(--primary-color);
+	header nav ul.navigation a {
 		padding: 0.5rem 0.75rem;
 		border-radius: 2px;
-		transition: 0.1s;
+		transition: 0.2s;
 	}
 
-	header#user-header nav ul a:nth-child(2):hover {
-		color: white;
-		background-color: var(--primary-color);
-	}
-
-	header#user-header nav ul.profile-links a:nth-child(2) {
-		background-color: transparent;
-		padding: 0;
-		border-radius: 0;
-	}
-
-	header#user-header nav ul.profile-links a:nth-child(2):hover {
-		background-color: transparent;
-	}
-
-	header#user-header nav ul.profile-links a:nth-child(2) img {
-		height: 50px;
-		width: 50px;
-		object-fit: cover;
-		object-position: center;
-		border-radius: 50%;
-	}
-
-	header#user-header nav ul.profile-links .profilePicture {
-		height: 50px;
-		width: 50px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.5rem;
-		color: black;
-		border: 1px solid var(--primary-color);
-		border-radius: 50%;
-		cursor: pointer;
-	}
-
-	header#user-header nav ul.links {
-		list-style-type: none;
-		align-items: center;
-		justify-content: center;
-		gap: 1rem;
-		text-align: center;
-	}
-
-	header#user-header nav ul.links li {
-		width: fit-content;
-	}
-
-	header#user-header nav ul.links li a {
-		color: black;
-		position: relative;
-		padding: 0.5rem;
-	}
-
-	header#user-header nav ul.links li a:hover {
+	header nav ul.navigation .signup {
 		background-color: var(--primary-color);
 		color: white;
 	}
 
-	header#user-header nav ul.links li a:hover::before {
-		width: 0;
+	header nav ul.navigation .signup:hover {
+		background-color: var(--primary-color-lighter);
 	}
 
-	footer {
-		flex-direction: column;
+	header nav ul.navigation .login {
+		color: var(--primary-color);
 	}
 
-	footer ul {
+	header nav ul.navigation .login:hover {
+		color: white;
+		background-color: var(--primary-color);
+	}
+
+	/* se o toggle estiver ativado na hora*/
+
+	header nav ul.navigation.active {
+		position: static;
 		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		padding-bottom: 2rem;
+		border-top: none;
+		background-color: transparent;
+		box-shadow: none;
+		width: fit-content;
+		display: flex;
+		flex-direction: row;
+		gap: 2rem;
+		align-items: center;
 	}
 
-	footer div {
-		font-size: 0.8rem;
+	header nav ul.navigation.active a {
+		padding: 0.5rem 0.75rem;
+		border-radius: 2px;
+		transition: 0.2s;
+	}
+
+	header nav ul.navigation.active .signup {
+		background-color: var(--primary-color);
+		color: white;
+	}
+
+	header nav ul.navigation.active .signup:hover {
+		background-color: var(--primary-color-lighter);
+	}
+
+	header nav ul.navigation.active .login {
+		color: var(--primary-color);
+	}
+
+	header nav ul.navigation.active .login:hover {
+		color: white;
+		background-color: var(--primary-color);
 	}
 }
