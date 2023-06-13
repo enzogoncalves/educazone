@@ -34,11 +34,39 @@ function createHeader(imageUrl, firstName, lastName, isStudent) {
 	body.style.pointerEvents = "all"
 
 	const header = document.querySelector("header")
-	header.id = "user-header"
+
+	document.querySelector("header nav").classList.add("connected-navigation")
 
 	const navigationUl = document.querySelector("header nav ul")
 	navigationUl.classList.add("profile-links")
 	navigationUl.innerHTML = ""
+
+	const links = document.createElement("ul")
+	links.setAttribute("role", "navigation")
+	links.classList.add("nav-links")
+
+	if (document.querySelector("header nav .links") !== null) return
+
+	const navigation = document.querySelector("header nav")
+	if (isStudent) {
+		links.innerHTML = `
+		<a href="/building">Home</a>
+		<a href="/building">Meus professores</a>
+		<a href="/student/tasks">Tarefas</a>
+		<a href="/searchTeacher">Encontrar professor</a>
+		<a href="/studentProfile">Meu perfil</a>
+	`
+	} else {
+		links.innerHTML = `
+		<a href="professorDashboard">Home</a>
+		<a href="/myStudentsList">Meus Alunos</a>
+		<a href="/building">Financeiro</a>
+		<a href="/building">Tarefas</a>
+		<a href="/professorProfile">Meu perfil</a>
+	`
+	}
+
+	navigation.appendChild(links)
 
 	const signOutBtn = document.createElement("a")
 	signOutBtn.id = "logout"
@@ -50,51 +78,18 @@ function createHeader(imageUrl, firstName, lastName, isStudent) {
 
 	if (imageUrl !== null) {
 		const userPictureLink = document.createElement("a")
-		userPictureLink.setAttribute("href", `${isStudent ? "/studentProfile" : "/professorProfile"}`)
-		userPictureLink.innerHTML = `<img src="${imageUrl}" alt="Foto de perfil">`
+		userPictureLink.addEventListener("click", e => {
+			e.preventDefault()
+
+			document.querySelector("header nav ul.nav-links").classList.toggle("active")
+		})
+		userPictureLink.innerHTML = `<img src="${imageUrl}" alt="Foto de perfil" class="profilePicture">`
 		navigationUl.append(signOutBtn, userPictureLink)
 	} else {
 		const image = createProfilePicture(firstName, lastName)
-		image.addEventListener("click", () => (window.location = `${isStudent ? "/studentProfile" : "/professorProfile"}`))
+		image.addEventListener("click", () => document.querySelector("header nav ul.nav-links").classList.toggle("active"))
 		navigationUl.append(signOutBtn, image)
 	}
-
-	const links = document.createElement("ul")
-	links.setAttribute("role", "navigation")
-	links.classList.add("links")
-
-	if (document.querySelector("header nav .links") !== null) return
-
-	const toggle = document.createElement("div")
-	toggle.classList.add("toggle")
-	toggle.innerHTML = '<div class="toggle"><i class="fa-solid fa-bars"></i></div>'
-
-	toggle.addEventListener("click", e => {
-		document.querySelector("header#user-header nav ul.profile-links").classList.toggle("active")
-		document.querySelector("header#user-header nav ul.links").classList.toggle("active")
-	})
-
-	const navigation = document.querySelector("header nav")
-	if (isStudent) {
-		links.innerHTML = `
-		<li><a href="/building">Home</a></li>
-		<li><a href="/building">Meus professores</a></li>
-		<li><a href="/student/tasks">Tarefas</a></li>
-		<li><a href="/searchTeacher">Encontrar um professor</a></li>
-	`
-
-		navigation.appendChild(links)
-	} else {
-		links.innerHTML = `
-		<li><a href="professorDashboard">Home</a></li>
-		<li><a href="/myStudentsList">Meus Alunos</a></li>
-		<li><a href="/building">Financeiro</a></li>
-		<li><a href="/building">Tarefas</a></li>
-	`
-		navigation.appendChild(links)
-	}
-
-	navigation.appendChild(toggle)
 }
 
 createPageSkeleton()

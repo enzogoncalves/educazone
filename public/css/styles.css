@@ -107,6 +107,74 @@ header nav svg {
 	height: 1.5rem !important;
 }
 
+/* Header for connected users*/
+
+header nav ul.profile-links {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	order: 2;
+	width: max-content;
+}
+
+header nav ul.profile-links a#logout {
+	padding: 0.5rem;
+	background-color: var(--primary-color);
+	color: white;
+	cursor: pointer;
+}
+
+header nav ul.profile-links a#logout:hover {
+	background-color: var(--primary-color-lighter);
+}
+
+header nav ul.profile-links img.profilePicture {
+	height: 50px;
+	width: 50px;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+header nav ul.profile-links .profilePicture {
+	height: 50px;
+	width: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	color: black;
+	border: 1px solid var(--primary-color);
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+header nav ul.nav-links {
+	display: none;
+}
+
+header nav ul.nav-links.active {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	border-top: 1px solid var(--primary-color);
+	box-shadow: var(--default-box-shadow);
+	gap: 1px;
+	background-color: var(--primary-color);
+}
+
+header nav ul.nav-links.active a {
+	padding: 0.5rem;
+	width: 100%;
+	text-align: center;
+	background-color: white;
+	font-weight: 500;
+}
+
 footer {
 	background-color: var(--footer-background-color);
 	display: flex;
@@ -177,7 +245,7 @@ footer div a:hover {
 	}
 }
 
-@media (min-width: 672px) {
+@media (min-width: 400px) {
 	header nav .toggle {
 		display: none;
 	}
@@ -213,7 +281,7 @@ footer div a:hover {
 		background-color: var(--primary-color);
 	}
 
-	/* se o toggle estiver ativado na hora*/
+	/* se o toggle estiver ativado na hora */
 
 	header nav ul.navigation.active {
 		position: static;
@@ -250,5 +318,75 @@ footer div a:hover {
 	header nav ul.navigation.active .login:hover {
 		color: white;
 		background-color: var(--primary-color);
+	}
+}
+
+@media (min-width: 750px) {
+	/* Header for connected users*/
+	header nav ul.nav-links {
+		width: fit-content;
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	header nav ul.nav-links a {
+		position: relative;
+		padding: 0.5rem;
+		text-align: center;
+		color: black;
+		transition: 0.2s;
+	}
+
+	header nav ul.nav-links a::before {
+		content: " ";
+		position: absolute;
+		bottom: 0;
+		left: -2%;
+		width: 0;
+		height: 2px;
+		background-color: var(--primary-color);
+		transition: 0.2s;
+	}
+
+	header nav ul.nav-links a:hover::before {
+		width: 104%;
+	}
+
+	/*  se o toggle estiver ativado na hora  */
+	header nav ul.nav-links.active {
+		position: static;
+		width: fit-content;
+		flex-direction: row;
+		align-items: center;
+		gap: 1rem;
+		border-top: none;
+		box-shadow: none;
+		background-color: transparent;
+	}
+
+	header nav ul.nav-links.active a {
+		width: auto;
+		background-color: transparent;
+		position: relative;
+		padding: 0.5rem;
+		color: black;
+		font-weight: 400;
+		transition: 0.2s;
+	}
+
+	header nav ul.nav-links.active a::before {
+		content: " ";
+		position: absolute;
+		bottom: 0;
+		left: -2%;
+		width: 0;
+		height: 2px;
+		background-color: var(--primary-color);
+		transition: 0.2s;
+	}
+
+	header nav ul.nav-links.active a:hover::before {
+		width: 104%;
 	}
 }
