@@ -178,16 +178,18 @@ header nav ul.nav-links.active a {
 footer {
 	background-color: var(--footer-background-color);
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	flex-direction: column;
+	gap: 1.5rem;
 	padding: 1rem 2rem;
 	margin-top: 1rem;
+	color: white;
 }
 
 footer ul {
 	list-style-type: none;
 	display: flex;
 	flex-direction: column;
+	gap: 1rem;
 }
 
 footer ul a {
@@ -195,16 +197,12 @@ footer ul a {
 	font-size: 14px;
 }
 
-footer p {
-	color: white;
-}
-
-footer div {
-	color: rgb(255, 255, 255);
+footer div p {
+	padding-bottom: 0.5rem;
 }
 
 footer div a {
-	color: rgb(255, 255, 255);
+	color: white;
 }
 
 footer div a:hover {
@@ -318,6 +316,14 @@ footer div a:hover {
 	header nav ul.navigation.active .login:hover {
 		color: white;
 		background-color: var(--primary-color);
+	}
+}
+
+@media (min-width: 500px) {
+	footer {
+		flex-direction: row;
+		align-items: center;
+		gap: 10rem;
 	}
 }
 
