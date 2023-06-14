@@ -22,6 +22,7 @@
 		<script src="/js/footer.js" defer></script>
 		<script src="/js/initializeFirebase.js" type="module"></script>
 		<script src="/js/areUserConnected.js" type="module"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		<script src="/js/editProfile.js" type="module"></script>
 	</head>
 	<body>
@@ -37,7 +38,8 @@
 		<main>
 			<section id="user-profile">
 				<h2 id="fullname"></h2>
-				<button id="update-profilePicture">Atualizar foto</button>
+				<label for="updateProfilePicture">Atualizar foto</button>
+				<input type="file" accept="image/*" style="display: none;" id="updateProfilePicture">
 			</section>
 			<section id="edit-user-profile">
 				<div>

@@ -271,8 +271,6 @@ a("#submitGrade").addEventListener("click", () => {
 
 	const commentary = a("#commentary").value
 
-	console.log(selectedGrade, commentary)
-
 	const taskRef = doc(firestoreDb, "tasks", taskId)
 
 	updateDoc(taskRef, {

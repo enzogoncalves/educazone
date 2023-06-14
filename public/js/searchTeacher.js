@@ -16,9 +16,9 @@ querySnapshot.forEach(doc => {
 	handleProfessorsData(doc.id, doc.data())
 })
 
-// função para carregar o dado do usuário na página
 function handleProfessorsData(professorId, professor) {
 	if (document.getElementById(professorId) !== null) return
+	if (!professor.price || !professor.class) return
 
 	const professorElement = document.createElement("div")
 	professorElement.classList.add("professor")

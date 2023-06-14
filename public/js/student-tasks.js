@@ -66,8 +66,6 @@ onAuthStateChanged(auth, async authUser => {
 					document.getElementById(assignment.doc.id).remove()
 				}
 				if (assignment.type === "modified") {
-					console.log("modificada")
-					console.log(assignment.doc.data().delivered)
 					if (assignment.doc.data().delivered) {
 						selectWhichTask(assignment.doc.data(), assignment.doc.id)
 					}

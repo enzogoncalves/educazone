@@ -21,7 +21,7 @@ onAuthStateChanged(auth, async authUser => {
 
 		const unsubscribe = onSnapshot(isProfessor ? qProfessor : qStudent, querySnapshot => {
 			querySnapshot.forEach(user => {
-				createHeader(authUser.photoURL, user.data().firstName, user.data().lastName, isProfessor === false)
+				createHeader(user.data().pictureUrl, user.data().firstName, user.data().lastName, isProfessor === false)
 			})
 		})
 	} else {
@@ -30,6 +30,42 @@ onAuthStateChanged(auth, async authUser => {
 })
 
 function createHeader(imageUrl, firstName, lastName, isStudent) {
+	const navigationUl = document.querySelector("header nav ul")
+
+	if (document.querySelector(".connected-navigation")) {
+		if (imageUrl) {
+			if (document.querySelector("img.profilePicture")) {
+				document.querySelector("img.profilePicture").setAttribute("src", imageUrl)
+			} else {
+				document.querySelector(".profilePicture").remove()
+
+				const userPictureLink = document.createElement("a")
+				userPictureLink.addEventListener("click", e => {
+					e.preventDefault()
+
+					document.querySelector("header nav ul.nav-links").classList.toggle("active")
+				})
+				userPictureLink.innerHTML = `<img src="${imageUrl}" alt="Foto de perfil" class="profilePicture">`
+				navigationUl.append(userPictureLink)
+			}
+		} else {
+			if (document.querySelector("img.profilePicture")) {
+				document.querySelector("img.profilePicture").parentElement.remove()
+
+				const image = createProfilePicture(firstName, lastName)
+				image.addEventListener("click", () => document.querySelector("header nav ul.nav-links").classList.toggle("active"))
+				navigationUl.append(image)
+			} else {
+				document.querySelector(".profilePicture").remove()
+
+				const image = createProfilePicture(firstName, lastName)
+				image.addEventListener("click", () => document.querySelector("header nav ul.nav-links").classList.toggle("active"))
+				navigationUl.append(image)
+			}
+		}
+		return
+	}
+
 	body.style.overflowY = "visible"
 	body.style.pointerEvents = "all"
 
@@ -37,7 +73,6 @@ function createHeader(imageUrl, firstName, lastName, isStudent) {
 
 	document.querySelector("header nav").classList.add("connected-navigation")
 
-	const navigationUl = document.querySelector("header nav ul")
 	navigationUl.classList.add("profile-links")
 	navigationUl.innerHTML = ""
 
@@ -76,7 +111,7 @@ function createHeader(imageUrl, firstName, lastName, isStudent) {
 	})
 	signOutBtn.textContent = "Sair"
 
-	if (imageUrl !== null) {
+	if (imageUrl) {
 		const userPictureLink = document.createElement("a")
 		userPictureLink.addEventListener("click", e => {
 			e.preventDefault()
