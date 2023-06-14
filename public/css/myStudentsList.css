@@ -1,0 +1,25 @@
+#students {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+#students .student {
+  display: flex;
+  align-items: center;
+}
+
+.student .profilePicture {
+  width: 32px;
+	height: 32px;
+	font-size: 1.25rem;
+	color: black;
+	border: 1px solid var(--primary-color);
+	border-radius: 50%;
+	object-fit: cover;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+}
