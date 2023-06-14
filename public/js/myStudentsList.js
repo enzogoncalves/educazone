@@ -61,19 +61,21 @@ async function retrieveStudents(teacherId) {
 }
 
 function displayStudentsTable(students) {
-	const container = document.getElementById("studentTableContainer")
+	const container = document.getElementById("students")
 	container.innerHTML = ""
 
 	students.forEach(student => {
 		const { firstName, lastName, profilePicture, taskCount, studentId } = student
 
 		const row = document.createElement("div")
+		row.classList.add("student")
 
 		const pictureCell = document.createElement("div")
 		if (profilePicture) {
 			const pictureImg = document.createElement("img")
 			pictureImg.src = profilePicture
 			pictureImg.alt = "Profile Picture"
+			pictureImg.classList.add("profilePicture")
 			pictureCell.appendChild(pictureImg)
 		} else {
 			row.appendChild(createProfilePicture(firstName, lastName))
@@ -87,14 +89,19 @@ function displayStudentsTable(students) {
 		taskCountCell.textContent = taskCount + " Tarefas entregues"
 		row.appendChild(taskCountCell)
 
-		const deleteBtn = document.createElement("a")
-		deleteBtn.href = "#"
-		deleteBtn.textContent = "Delete button"
+		const deleteBtn = document.createElement("div")
+		deleteBtn.innerHTML = `
+			<i class="fa-solid fa-trash"></i>
+		`
 		row.appendChild(deleteBtn)
 
-		const studentProfile = document.createElement("a")
-		studentProfile.href = `/professor/${studentId}`
-		studentProfile.textContent = "Profile button"
+		const studentProfile = document.createElement("div")
+		studentProfile.addEventListener("click", () => {
+			window.location = `/professor/${studentId}/`
+		})
+		studentProfile.innerHTML = `
+			<i class="fa-solid fa-expand"></i>
+		`
 		row.appendChild(studentProfile)
 
 		container.appendChild(row)
