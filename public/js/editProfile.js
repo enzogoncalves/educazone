@@ -55,7 +55,6 @@ const editModal = document.createElement("div")
 editModal.classList.add("editModal")
 body.appendChild(editModal)
 
-// função para carregar o dado do usuário na página
 function showUserData(dbUserData, authUserData, fields) {
 	fields.forEach(field => {
 		if (field == "fullname") {
@@ -74,13 +73,11 @@ function showUserData(dbUserData, authUserData, fields) {
 				createEditButton(field)
 				return
 			}
-			// pega o dado do authentication
 			document.querySelector(`#${field}`).value = authUserData[field]
 			createEditButton(field)
 			return
 		}
 
-		// pega o dado do banco de dados
 		document.querySelector(`#${field}`).value = dbUserData[field]
 		createEditButton(field)
 	})

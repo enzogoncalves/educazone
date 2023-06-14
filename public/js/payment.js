@@ -43,7 +43,6 @@ onAuthStateChanged(auth, async authUser => {
 			loadProfessorData(doc.data())
 		})
 	} else {
-		// Caso não tiver um usuário conectado, ele vai para a página de login
 		redirectToLoginPage()
 	}
 })

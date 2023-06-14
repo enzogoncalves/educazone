@@ -22,35 +22,34 @@ onAuthStateChanged(auth, async authUser => {
 	if (authUser) {
 		userId = authUser.uid
 
-		// const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
-		// const queryProfessor = await getDocs(qProfessor)
-		// const isProfessor = !queryProfessor.empty
+		const qProfessor = query(collection(firestoreDb, "professors"), where("__name__", "==", userId))
+		const queryProfessor = await getDocs(qProfessor)
+		const isProfessor = !queryProfessor.empty
 
-		// if (isProfessor === false) {
-		// 	window.location = "/building"
-		// 	return
-		// }
+		if (isProfessor === false) {
+			window.location = "/building"
+			return
+		}
 
-		// let qStudent
-		// qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", studentId))
+		const qStudent = query(collection(firestoreDb, "students"), where("__name__", "==", studentId))
 
-		// const studentDoc = await getDocs(qStudent)
+		const studentDoc = await getDocs(qStudent)
 
-		// if (studentDoc.empty) {
-		// 	window.location = "/building"
-		// 	return
-		// }
+		if (studentDoc.empty) {
+			window.location = "/building"
+			return
+		}
 
-		// studentDoc.forEach(user => {
-		// 	document.querySelector("#fullName").textContent = `${user.data().firstName} ${user.data().lastName}`
-		// 	if (user.data().pictureUrl === undefined) {
-		// 		document.querySelector("#side-navigation").appendChild(createProfilePicture(user.data().firstName, user.data().lastName))
-		// 	} else {
-		// 		document.querySelector("#side-navigation").innerHTML += `
-		// 			<img src="${user.data().pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
-		// 		`
-		// 	}
-		// })
+		studentDoc.forEach(user => {
+			document.querySelector("#fullName").textContent = `${user.data().firstName} ${user.data().lastName}`
+			if (user.data().pictureUrl === undefined) {
+				document.querySelector("#side-navigation").appendChild(createProfilePicture(user.data().firstName, user.data().lastName))
+			} else {
+				document.querySelector("#side-navigation").innerHTML += `
+					<img src="${user.data().pictureUrl}" alt="Imagem de perfil" class="profilePicture"/>
+				`
+			}
+		})
 
 		const qTasks = query(collection(firestoreDb, "tasks"), where("studentId", "==", studentId), orderBy("expireDate"))
 
@@ -256,7 +255,11 @@ function selectTask(task, taskId) {
 	}
 
 	if (task.status == "Corrigida") {
-		a(".fixTask-actions").style.display = "none"
+		a("#submitGrade").style.display = "none"
+		a("#resubmit").style.display = "none"
+	} else {
+		a("#submitGrade").style.display = "inline-block"
+		a("#resubmit").style.display = "inline-block"
 	}
 }
 

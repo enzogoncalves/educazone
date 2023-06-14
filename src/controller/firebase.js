@@ -53,7 +53,6 @@ module.exports = {
 			nextYear = year
 		}
 
-		// batch é uma função do firestore para realizar múltiplas transações simultaneamente
 		const batch = writeBatch(firestoreDb)
 
 		const nextDate = `${nextDay}-${nextMonth}-${nextYear}`
