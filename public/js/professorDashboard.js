@@ -179,19 +179,19 @@ async function getPaymentDate(teacherId) {
 			financies.innerHTML += `
 				<div id="total">
 					<h5>Total</h5>
-					<p>${totalAmountMonth}</p>
+					<p>R$ ${totalAmountMonth}</p>
 				</div>
 				<div class="recebido" id="recebido">
 						<h5>Recebidos</h5>
-						<p>${received}</p>
+						<p>R$ ${received}</p>
 				</div>
 				<div class="faltante" id="upcomingPayment">
 						<h5>A receber até o fim do mês</h5>
-						<p>${toReceive}</p>
+						<p>R$ ${toReceive}</p>
 				</div>
 				<div class="late" id="late">
 						<h5>Atrasado</h5>
-						<p>${late}</p>
+						<p>R$ ${late}</p>
 				</div>
 			`
 		}
