@@ -68,10 +68,9 @@ main {
 	border-radius: 7px;
 }
 
-#payment .payment-loyalty svg {
+#payment .payment-loyalty i {
 	color: var(--primary-color);
-	height: 1.5rem;
-	width: 1.5rem;
+	font-size: 1.25rem;
 }
 
 #payment .payment-safety {
@@ -87,7 +86,7 @@ main {
 	gap: 0.75rem;
 }
 
-#payment .payment-safety svg {
+#payment .payment-safety i {
 	color: var(--primary-color);
 }
 
@@ -100,9 +99,8 @@ main {
 	border-radius: 7px;
 }
 
-#payment .payment-method svg {
-	width: 2rem;
-	height: 2rem;
+#payment .payment-method i {
+	font-size: 3rem;
 	color: var(--primary-color);
 	cursor: pointer;
 }

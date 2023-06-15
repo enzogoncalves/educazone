@@ -101,11 +101,11 @@ header nav ul.navigation.active .login {
 	color: var(--primary-color);
 }
 
-header nav svg {
+header nav i {
 	display: block;
 	color: var(--primary-color);
 	cursor: pointer;
-	height: 1.5rem !important;
+	font-size: 1.5rem;
 }
 
 /* Header for connected users*/
