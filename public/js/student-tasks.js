@@ -120,7 +120,14 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 		</div>
 	`
 
-	if (task.delivered) {
+	if (task.status == "Corrigida") {
+		document.querySelector(".task-body").innerHTML = `
+			<p>Nota: ${task.correctedTask.grade}</p>
+			<p>Comentário do professor: "${task.correctedTask.commentary}"</p>
+		`
+
+		return
+	} else if (task.delivered) {
 		document.querySelector(".task-body").innerHTML = `
 			<p>Tarefa entregue</p>
 		`
@@ -148,7 +155,7 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 
 			document.querySelector(".task-files").appendChild(taskFile)
 		})
-	} else if (task.files.length !== 0) {
+	} else if (task.files.length > 0) {
 		task.files.forEach(fileName => {
 			const fileReference = ref(storage, `assignments/${taskId}/professor/${fileName}`)
 

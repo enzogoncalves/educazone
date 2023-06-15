@@ -29,7 +29,7 @@ form.addEventListener("submit", e => {
 				if (isStudent) {
 					window.location = "/studentProfile"
 				} else {
-					window.location = "/professorProfile"
+					window.location = "/professorDashboard"
 				}
 			})
 			.catch(error => {
@@ -62,7 +62,7 @@ form.addEventListener("submit", e => {
 				} else if (isStudent) {
 					window.location = "/studentProfile"
 				} else {
-					window.location = "/professorProfile"
+					window.location = "/professorDashboard"
 				}
 			})
 			.catch(error => {

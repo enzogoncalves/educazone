@@ -80,9 +80,11 @@ onAuthStateChanged(auth, async authUser => {
 				if (change.type === "added") {
 					const assignment = change.doc.data()
 					const tr = document.createElement("tr")
-					tr.addEventListener("click", () => {
-						selectTask(assignment, change.doc.id)
-					})
+					if(assignment.delivered) {
+						tr.addEventListener("click", () => {
+							selectTask(assignment, change.doc.id)
+						})
+					}
 					tr.setAttribute("id", change.doc.id)
 					tr.innerHTML = `
 							<td>${assignment.title}</td>
@@ -202,6 +204,7 @@ cancelFixTaskBtn.addEventListener("click", e => {
 
 	document.querySelectorAll(".grade").forEach(othersBtn => {
 		othersBtn.previousElementSibling.classList.remove("taskGradeActive")
+		othersBtn.checked = false;
 	})
 
 	a("#commentary").value = ""
@@ -252,25 +255,63 @@ function selectTask(task, taskId) {
 					console.error(error)
 				})
 		})
+	} else {
+		a("#studentFiles").innerHTML = "<p>Nenhum arquivo anexado</p>"
 	}
 
 	if (task.status == "Corrigida") {
+		if(a(".professor-feedback")) {
+			a(".professor-feedback").remove()
+		}
+
+		document.querySelectorAll("form .fixTask-item").forEach(formItem => {
+			formItem.style.display = "none"
+		})
+
 		a("#submitGrade").style.display = "none"
 		a("#resubmit").style.display = "none"
+		a("#cancelFixTask").textContent = "Voltar"
+
+		const correctedTemplate = document.createElement("div")
+		correctedTemplate.classList.add("professor-feedback")
+		correctedTemplate.innerHTML = `
+			<p>Sua devolução: </p>
+			<p>Nota: ${task.correctedTask.grade}</p>
+			<p>Seu comentário: "${task.correctedTask.commentary}"</p>
+		`
+
+		document.querySelector("#fixTaskForm").insertBefore(correctedTemplate, a("#cancelFixTask").parentNode)
 	} else {
+		// clearInputs();
+
+		document.querySelectorAll("form .fixTask-item").forEach(formItem => {
+			formItem.style.display = "flex"
+		})
+		
+		if(a(".professor-feedback")) {
+			a(".professor-feedback").remove()
+		}
+
 		a("#submitGrade").style.display = "inline-block"
 		a("#resubmit").style.display = "inline-block"
+		a("#cancelFixTask").textContent = "Cancelar"
 	}
 }
 
 a("#submitGrade").addEventListener("click", () => {
 	const taskId = document.querySelector("#fixTaskModal").dataset.taskId
 	let selectedGrade
+
 	document.querySelectorAll(".grade").forEach(button => {
 		if (button.checked) {
 			selectedGrade = button.value
 		}
 	})
+
+	if (selectedGrade == undefined) {
+		alert("Selecione a nota")
+		return;
+	}
 
 	const commentary = a("#commentary").value
 
@@ -283,7 +324,25 @@ a("#submitGrade").addEventListener("click", () => {
 		},
 		status: "Corrigida",
 	})
-		.then(() => {})
+		.then(() => {
+			document.querySelectorAll("form .fixTask-item").forEach(formItem => {
+				formItem.style.display = "none"
+			})
+	
+			a("#submitGrade").style.display = "none"
+			a("#resubmit").style.display = "none"
+			a("#cancelFixTask").textContent = "Voltar"
+	
+			const correctedTemplate = document.createElement("div")
+			correctedTemplate.classList.add("professor-feedback")
+			correctedTemplate.innerHTML = `
+				<p>Sua devolução: </p>
+				<p>Nota: ${selectedGrade}</p>
+				<p>Seu comentário: "${commentary}"</p>
+			`
+	
+			document.querySelector("#fixTaskForm").insertBefore(correctedTemplate, a("#cancelFixTask").parentNode)
+		})
 		.catch(error => {
 			console.log(error)
 		})

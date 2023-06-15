@@ -44,16 +44,6 @@ header {
 	z-index: 999;
 }
 
-header nav #title {
-	color: black;
-	font-size: 1.5rem;
-	font-weight: 700;
-}
-
-header nav #title span {
-	color: var(--primary-color);
-}
-
 header nav {
 	max-width: 1000px;
 	height: var(--header-height);
@@ -62,7 +52,18 @@ header nav {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	gap: 1rem;
 	padding-inline: 1rem;
+}
+
+header nav #title {
+	color: black;
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+header nav #title span {
+	color: var(--primary-color);
 }
 
 header nav ul.navigation {

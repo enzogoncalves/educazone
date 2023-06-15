@@ -25,7 +25,7 @@ onAuthStateChanged(auth, async authUser => {
 
 		querySnapshot.forEach(doc => {
 			const studentData = doc.data()
-			students.push(studentData)
+			students.push({...studentData, studentId: doc.id})
 		})
 
 		document.querySelector(".page-skeleton").classList.remove("active")
