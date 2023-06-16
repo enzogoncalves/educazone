@@ -64,6 +64,12 @@ function displayStudentsTable(students) {
 	const container = document.getElementById("students")
 	container.innerHTML = ""
 
+	if(students.length == 0) {
+		container.innerHTML += `
+			<p>Nenhum aluno cadastrado</p>
+		`
+	}	
+
 	students.forEach(student => {
 		const { firstName, lastName, profilePicture, taskCount, studentId } = student
 
@@ -89,18 +95,12 @@ function displayStudentsTable(students) {
 		taskCountCell.textContent = taskCount + " Tarefas entregues"
 		row.appendChild(taskCountCell)
 
-		const deleteBtn = document.createElement("div")
-		deleteBtn.innerHTML = `
-			<i class="fa-solid fa-trash"></i>
-		`
-		row.appendChild(deleteBtn)
-
-		const studentProfile = document.createElement("div")
+		const studentProfile = document.createElement("button")
 		studentProfile.addEventListener("click", () => {
 			window.location = `/professor/${studentId}/`
 		})
 		studentProfile.innerHTML = `
-			<i class="fa-solid fa-expand"></i>
+			Acessar Aluno
 		`
 		row.appendChild(studentProfile)
 
