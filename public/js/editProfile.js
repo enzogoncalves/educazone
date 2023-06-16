@@ -57,6 +57,11 @@ body.appendChild(editModal)
 
 function showUserData(dbUserData, authUserData, fields) {
 	fields.forEach(field => {
+		if (field == "email") {
+			document.querySelector("#email").value = authUserData.email;
+			return
+		}
+
 		if (field == "fullname") {
 			document.querySelector(`#${field}`).textContent = `${dbUserData.firstName} ${dbUserData.lastName}`
 			return

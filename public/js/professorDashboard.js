@@ -34,21 +34,19 @@ onAuthStateChanged(auth, async authUser => {
 		const tasksStatus = {
 			total: 0,
 			corrigida: 0,
-			visualizado: 0,
 			falta_entregar: 0,
 			falta_corrigir: 0,
 		}
 
 		tasksSnapshot.forEach(task => {
 			const professorTask = task.data()
+			console.log(task)
 			tasksStatus.total++
 
 			if (professorTask.delivered && professorTask.status == "Entregue") {
 				tasksStatus.falta_corrigir++
 			} else if (professorTask.status == "Corrigida") {
 				tasksStatus.corrigida++
-			} else if (professorTask.status == "Visualizado") {
-				tasksStatus.visualizado++
 			} else if (!professorTask.delivered) {
 				tasksStatus.falta_entregar++
 			}

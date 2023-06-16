@@ -112,7 +112,7 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 		<div class="task-header">
 			<h2 id="taskTitle">${task.title}</h2>
 			<p id="expireDate">Vence em ${taskDate}</p>
-			<p id="description">${task.description}</p>
+			<p id="description"><span>Descrição: </span>${task.description}</p>
 			<div class="task-files"></div>
 		</div>
 		<div class="task-body">
@@ -122,26 +122,30 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 
 	if (task.status == "Corrigida") {
 		document.querySelector(".task-body").innerHTML = `
-			<p>Nota: ${task.correctedTask.grade}</p>
-			<p>Comentário do professor: "${task.correctedTask.commentary}"</p>
+			<h3>Devolução do professor</h3>
+			<p><span>Nota:</span> ${task.correctedTask.grade}</p>
+			<p><span>Comentário do professor:</span> ${task.correctedTask.commentary}</p>
 		`
 
 		return
 	} else if (task.delivered) {
 		document.querySelector(".task-body").innerHTML = `
-			<p>Tarefa entregue</p>
+			<p><span>Tarefa entregue</span> Esperando a correção do professor.</p>
 		`
 		return
 	} else {
 		document.querySelector(".task-body").innerHTML = `
-			<p>Adicione sua resposta</p>
+			<h3>Adicione sua resposta</h3>
+			<div>
 				<div>
-					<button id="write-task">Escrever</button>
-					<label for="add-docs">Adicionar arquivo</label>
-					<input type="file" id="add-docs" multiple style="display:none;"></button>
-					<div class="student-task-files"></div>
-					<button id="send-task">Entregar</button>
+					<label for="write-task">Escrever</label>
+					<textarea id="write-task"></textarea>
 				</div>
+				<label for="add-docs" id="add-docs-label">Adicionar arquivo</label>
+				<input type="file" id="add-docs" multiple style="display:none;"></button>
+				<div class="student-task-files"></div>
+				<button id="send-task">Entregar</button>
+			</div>
 		`
 	}
 
@@ -176,9 +180,6 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 		})
 	}
 
-	const writeTaskBtn = document.querySelector("#write-task")
-	writeTaskBtn.addEventListener("click", () => {})
-
 	const addDocsBtn = document.querySelector("#add-docs")
 
 	const taskFiles = studentTaskFiles
@@ -207,7 +208,7 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 			delivered: true,
 			studentAnswer: {
 				deliveredAt: serverTimestamp(),
-				written: document.querySelector(".writeTask textarea").value,
+				written: document.querySelector("#write-task").value,
 				files: taskFilesName,
 			},
 			status: "Entregue",
@@ -221,17 +222,6 @@ function selectTask(task, taskId, studentTaskFiles, professorTaskFiles) {
 			taskFiles.forEach(file => {
 				const storageRef = ref(storage, `assignments/${taskId}/student/${file.name}`)
 				const uploadTaskFile = uploadBytesResumable(storageRef, file)
-
-				uploadTaskFile.on(
-					"state_changed",
-					snapshot => {
-						const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-						document.querySelector("progress").value = progress
-					},
-					error => {
-						console.error(error)
-					}
-				)
 			})
 		}
 	})

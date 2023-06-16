@@ -242,6 +242,7 @@ function selectTask(task, taskId) {
 	a("#studentTaskTitle").textContent = task.title
 	a("#deliveredAt").textContent = task.studentAnswer.deliveredAt.toDate().toLocaleDateString()
 	a("#studentFiles").innerHTML = ""
+	a("#taskResponse").innerHTML = task.studentAnswer.written == "" ? "Não adicionada" : task.studentAnswer.written ;
 
 	if (task.studentAnswer.files.length !== 0) {
 		const storage = getStorage()
