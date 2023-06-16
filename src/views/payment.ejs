@@ -19,10 +19,21 @@
 		<link rel="stylesheet" href="/css/payment.css" />
 
 		<!-- Javascript -->
+		<script src="/js/footer.js" defer></script>
 		<script src="/js/initializeFirebase.js" type="module"></script>
+		<script src="/js/areUserConnected.js" type="module"></script>
 		<script src="/js/payment.js" type="module"></script>
 	</head>
 	<body id="<%= professorId %>">
+		<header>
+			<nav>
+				<a href="/" id="title">Educa<span>Zone</span></a>
+				<ul role="navigation">
+					<a href="/signup">Cadastrar</a>
+					<a href="/login">Entrar</a>
+				</ul>
+			</nav>
+		</header>
 		<main>
 			<section id="professorPicture">
 				<p id="fullname"></p>
@@ -46,10 +57,10 @@
 				<div class="payment-method">
 					<i class="icon-credit-card"></i>
 				</div>
-				<div class="payment-form">
+				<!-- <div class="payment-form">
 					<label for="cpf">Insira o seu CPF ou CNPJ</label>
 					<input type="text" name="cpf" id="cpf" placeholder="Insira o seu CPF ou CNPJ" />
-				</div>
+				</div> -->
 				<button type="submit" title="Avançar para o pagamento" id="pay">Avançar para o pagamento</button>
 			</section>
 		</main>

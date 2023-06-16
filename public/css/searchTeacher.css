@@ -1,10 +1,13 @@
 main {
-	display: grid;
-	grid-template-columns: 275px 1fr;
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: .75rem;
+	/* display: grid;
+	grid-template-columns: 275px 1fr; */
 }
 
 /* Filter */
-
+/* 
 #filter {
 	display: flex;
 	flex-direction: column;
@@ -62,22 +65,21 @@ main {
 	height: 1rem;
 	width: 1rem;
 	accent-color: var(--primary-color);
-}
+} */
 
 /* Teachers */
-#results {
-	padding: 0 1rem 1rem 1rem;
-}
-
-#results #professors {
+#professors {
 	padding-top: 1rem;
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: 1fr;
 	gap: 1.5rem;
 }
 
 .professor {
+	width: 100%;
 	display: flex;
+	flex-direction: column;
+	align-items: center;
 	max-width: 600px;
 	background-color: white;
 	box-shadow: var(--default-box-shadow);
@@ -121,6 +123,7 @@ main {
 }
 
 .professor .info {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -152,6 +155,21 @@ main {
 	border: none;
 	outline: none;
 	border-radius: 7px;
-	width: 250px;
+	width: 100%;
+	max-width: 300px;
 	cursor: pointer;
+	align-self: center;
+}
+
+@media (min-width: 400px) {
+	.professor {
+		flex-direction: row;
+		align-items: normal;
+	}
+}
+
+@media (min-width: 800px) {
+	#professors {
+		grid-template-columns: 1fr 1fr;
+	}
 }

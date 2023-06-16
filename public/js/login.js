@@ -58,7 +58,7 @@ form.addEventListener("submit", e => {
 				const isStudent = !queryStudents.empty
 
 				if (isStudent === isProfessor) {
-					alert("Você precisa criar uma conta primeiro.")
+					window.location = "/signup"
 				} else if (isStudent) {
 					window.location = "/studentProfile"
 				} else {

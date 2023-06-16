@@ -61,21 +61,6 @@ function loadProfessorData(professorData) {
 	}
 }
 
-function createPageSkeleton() {
-	const skeleton = document.createElement("div")
-	skeleton.classList.add("page-skeleton", "active")
-
-	skeleton.innerHTML = `
-		<div class="loading"></div>
-	`
-
-	body.style.overflowY = "hidden"
-	body.style.pointerEvents = "none"
-	body.appendChild(skeleton)
-}
-
-createPageSkeleton()
-
 document.querySelector("#pay").addEventListener("click", () => {
 	fetch("/create-checkout-session", {
 		method: "POST",

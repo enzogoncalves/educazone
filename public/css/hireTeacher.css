@@ -1,5 +1,11 @@
 main {
+	max-width: 1000px;
+	margin: 0 auto;
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	padding: .75rem;
 }
 
 #hire {
@@ -7,7 +13,6 @@ main {
 	display: flex;
 	gap: 0.5rem;
 	flex-direction: column;
-	padding: 0 1rem;
 	align-items: center;
 }
 
@@ -106,11 +111,20 @@ main {
 
 #info .contact > div {
 	display: grid;
-	grid-template-columns: 75px 1fr;
+	grid-template-columns: 75px auto;
 	gap: 1.5rem;
 }
 
 #info .contact > div p:nth-child(2) {
 	color: var(--primary-color);
 	font-weight: 500;
+	width: fit-content;
+	word-break: break-all;
+}
+		
+@media (min-width: 600px) {
+	main {
+		flex-direction: row;
+		align-items: normal;
+	}
 }
