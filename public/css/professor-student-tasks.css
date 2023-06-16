@@ -81,10 +81,6 @@ main {
 	border-radius: 3px;
 }
 
-#tasksContainer table {
-	/* width: 100%; */
-}
-
 #tasksContainer table thead {
 	pointer-events: none;
 }
@@ -131,17 +127,20 @@ main {
 
 #createTaskModal.active {
 	position: fixed;
-	inset: 0;
+	top: var(--header-height);
+	left: 0;
+	right: 0;
+	bottom: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	z-index: 100;
 	/* From https://css.glass */
-	background: rgba(255, 255, 255, 0.3);
+	background: rgba(0, 0, 0, 0.7);
 	border-radius: 16px;
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	/* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(3px);
-	-webkit-backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(3px); */
 }
 
 #createTaskModal.active form {
@@ -152,7 +151,7 @@ main {
 
 #createTaskModal.active form .form-item {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	padding: 1rem;
 }
 
@@ -231,19 +230,21 @@ main {
 
 #fixTaskModal.active .fixTask-item {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	gap: .5rem;
 	padding-block: 0.5rem;
 }
 
 #fixTaskModal.active .fixTask-item h3 {
-	font-weight: 400;
+	font-weight: 500;
 	width: 120px;
 	font-size: 1.15rem;
 	color: var(--dark-grey);
 }
 
 #fixTaskModal.active form .fixTask-item textarea {
-	width: 350px;
+	width: 100%;
+	max-width: 350px;
 	resize: vertical;
 }
 
@@ -273,7 +274,9 @@ main {
 
 .grades {
 	display: flex;
-	gap: 0.25rem;
+	flex-wrap: wrap;
+	column-gap: 0.5rem;
+	row-gap: .5rem;
 }
 
 .grades label {
@@ -283,10 +286,16 @@ main {
 	padding: 0.75rem;
 	cursor: pointer;
 	background-color: white;
+	border: 2px solid transparent;
 }
 
-.taskGradeActive {
-	border: var(--primary-color);
+.grades .taskGradeActive {
+	border-color: var(--primary-color);
+	font-weight: 600;
+}
+
+.professor-feedback span{
+	font-size: 1.1rem;
 	font-weight: 500;
 }
 
@@ -308,10 +317,18 @@ main {
 		margin-bottom: 1rem;
 	}
 
+	#tasksContainer table tbody tr {
+		background-color: white;
+	}
+
 	table tbody tr td {
 		text-align: right;
 		padding-left: 50%;
 		position: relative;
+	}
+
+	table tbody tr {
+		box-shadow: var(--default-box-shadow)
 	}
 
 	table td::before {
@@ -332,4 +349,13 @@ main {
 		column-gap: 1.5rem;
 		max-width: 1000px;
 	}
+
+	#createTaskModal.active form .form-item {
+		flex-direction: row;
+	}
+
+	#fixTaskModal.active .fixTask-item {
+		display: flex;
+		flex-direction: row;
+	}	
 }

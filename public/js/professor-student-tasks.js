@@ -282,9 +282,9 @@ function selectTask(task, taskId) {
 		const correctedTemplate = document.createElement("div")
 		correctedTemplate.classList.add("professor-feedback")
 		correctedTemplate.innerHTML = `
-			<p>Sua devolução: </p>
-			<p>Nota: ${task.correctedTask.grade}</p>
-			<p>Seu comentário: "${task.correctedTask.commentary}"</p>
+			<h3>Sua devolução: </h3>
+			<p><span>Nota:</span> ${task.correctedTask.grade}</p>
+			<p><span>Seu comentário:</span> "${task.correctedTask.commentary}"</p>
 		`
 
 		document.querySelector("#fixTaskForm").insertBefore(correctedTemplate, a("#cancelFixTask").parentNode)
