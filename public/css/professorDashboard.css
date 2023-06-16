@@ -115,6 +115,7 @@ section h2 {
 	outline: none;
 	border-radius: 7px;
 	justify-self: flex-end;
+	cursor: pointer;
 }
 
 /* Financies */

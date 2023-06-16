@@ -1,9 +1,11 @@
 main {
 	padding: 0.75rem;
 	display: grid;
-	grid-template-columns: 175px 1fr;
+	grid-template-columns: 1fr;
 	align-items: flex-start;
-	column-gap: 1.5rem;
+	row-gap: 1.5rem;
+	max-width: 400px;
+	margin: 0 auto;
 }
 
 #side-navigation {
@@ -80,17 +82,21 @@ main {
 }
 
 #tasksContainer table {
-	width: 900px;
+	/* width: 100%; */
+}
+
+#tasksContainer table thead {
+	pointer-events: none;
+}
+
+#tasksContainer table tbody tr:nth-child(even) {
+	background-color: white;
 }
 
 #tasksContainer table tr {
 	position: relative;
 	text-align: left;
 	cursor: pointer;
-}
-
-#tasksContainer table tr:nth-child(even) {
-	background-color: white;
 }
 
 #tasksContainer table td {
@@ -110,13 +116,11 @@ main {
 	width: 100%;
 	height: 100%;
 	background-color: transparent;
+	/* box-shadow: var(--default-box-shadow);
+	border: 1px solid rgba(0 0 0 / 0.3); */
 }
 
-#tasksContainer table tr:nth-child(1) {
-	pointer-events: none;
-}
-
-#tasksContainer table tr:hover::before {
+#tasksContainer table tbody tr:hover::before {
 	box-shadow: var(--default-box-shadow);
 	border: 1px solid rgba(0 0 0 / 0.3);
 }
@@ -284,4 +288,48 @@ main {
 .taskGradeActive {
 	border: var(--primary-color);
 	font-weight: 500;
+}
+
+@media (max-width: 799px) {
+	#tasksContainer table thead {
+		display: none;
+		pointer-events: none;
+	}
+
+	table,
+	table tbody,
+	table tr,
+	table td {
+		display: block;
+		width: 100%;
+	}
+
+	table tr {
+		margin-bottom: 1rem;
+	}
+
+	table tbody tr td {
+		text-align: right;
+		padding-left: 50%;
+		position: relative;
+	}
+
+	table td::before {
+		content: attr(data-label);
+		position: absolute;
+		left: 0;
+		width: 50%;
+		padding-left: 1rem;
+		font-weight: 600;
+		font-size: 14px;
+		text-align: left;
+	}
+}
+
+@media (min-width: 800px) {
+	main {
+		grid-template-columns: auto 1fr;
+		column-gap: 1.5rem;
+		max-width: 1000px;
+	}
 }

@@ -30,7 +30,7 @@ module.exports = {
 		const year = d.getFullYear()
 		let nextYear
 
-		const date = `${day}-${month}-${year}`
+		const date = `${month}-${day}-${year}`
 		const datetime = `${hour}:${minutes}:${seconds}`
 
 		if (month == "12") {
@@ -55,7 +55,7 @@ module.exports = {
 
 		const batch = writeBatch(firestoreDb)
 
-		const nextDate = `${nextDay}-${nextMonth}-${nextYear}`
+		const nextDate = `${nextMonth}-${nextDay}-${nextYear}`
 
 		const newPaymentKey = doc(collection(firestoreDb, "payments"))
 		const newNextPaymentKey = doc(collection(firestoreDb, "payments"))
@@ -74,6 +74,7 @@ module.exports = {
 		})
 
 		batch.set(newNextPaymentKey, {
+			amount: req.params.amount,
 			studentId: studentId,
 			professorId: professorId,
 			date: nextDate,

@@ -62,39 +62,46 @@ onAuthStateChanged(auth, async authUser => {
 				p.textContent = "Nenhuma tarefa foi criada ainda"
 				tasksContainer.appendChild(p)
 			} else if (i == 0) {
-				const tableHeader = document.createElement("tr")
+				const tableHeader = document.createElement("thead")
 				tableHeader.innerHTML = `
+				<tr>
 					<th>Nome</th>
 					<th>Status</th>
 					<th>Criado em</th>
 					<th>Entregue em</th>
 					<th>Expira em</th>
 					<th>Descrição</th>
+				<tr>
 				`
 				table.appendChild(tableHeader)
+				table.innerHTML += `
+					<tbody></tbody>
+				`
 				tasksContainer.appendChild(table)
 				i++
 			}
+
+			const tableBody = document.querySelector("tbody")
 
 			querySnapshot.docChanges().forEach(change => {
 				if (change.type === "added") {
 					const assignment = change.doc.data()
 					const tr = document.createElement("tr")
-					if(assignment.delivered) {
+					if (assignment.delivered) {
 						tr.addEventListener("click", () => {
 							selectTask(assignment, change.doc.id)
 						})
 					}
 					tr.setAttribute("id", change.doc.id)
 					tr.innerHTML = `
-							<td>${assignment.title}</td>
-							<td>${assignment.status}</td>
-							<td id="createdAt-${change.doc.id}">${assignment.createdAt ? assignment.createdAt.toDate().toLocaleDateString() : ""}</td>
-							<td>${assignment.delivered ? (assignment.studentAnswer.deliveredAt ? assignment.studentAnswer.deliveredAt.toDate().toLocaleDateString() : "aguardando") : "Não entregue"}</td>
-							<td>${assignment.expireDate.toDate().toLocaleDateString()}</td>
-							<td>${assignment.description}</td>
+							<td data-label="Nome">${assignment.title}</td>
+							<td data-label="Status">${assignment.status}</td>
+							<td data-label="Criado em" id="createdAt-${change.doc.id}">${assignment.createdAt ? assignment.createdAt.toDate().toLocaleDateString() : ""}</td>
+							<td data-label="Entregue em">${assignment.delivered ? (assignment.studentAnswer.deliveredAt ? assignment.studentAnswer.deliveredAt.toDate().toLocaleDateString() : "aguardando") : "Não entregue"}</td>
+							<td data-label="Expira em">${assignment.expireDate.toDate().toLocaleDateString()}</td>
+							<td data-label="Descrição">${assignment.description.length >= 20 ? assignment.description.slice(0, 20) + "..." : assignment.description}</td>
 					`
-					table.appendChild(tr)
+					tableBody.appendChild(tr)
 
 					if (assignment) {
 						if (!assignment.createdAt && change.doc.metadata.hasPendingWrites) {
@@ -204,7 +211,7 @@ cancelFixTaskBtn.addEventListener("click", e => {
 
 	document.querySelectorAll(".grade").forEach(othersBtn => {
 		othersBtn.previousElementSibling.classList.remove("taskGradeActive")
-		othersBtn.checked = false;
+		othersBtn.checked = false
 	})
 
 	a("#commentary").value = ""
@@ -260,7 +267,7 @@ function selectTask(task, taskId) {
 	}
 
 	if (task.status == "Corrigida") {
-		if(a(".professor-feedback")) {
+		if (a(".professor-feedback")) {
 			a(".professor-feedback").remove()
 		}
 
@@ -287,8 +294,8 @@ function selectTask(task, taskId) {
 		document.querySelectorAll("form .fixTask-item").forEach(formItem => {
 			formItem.style.display = "flex"
 		})
-		
-		if(a(".professor-feedback")) {
+
+		if (a(".professor-feedback")) {
 			a(".professor-feedback").remove()
 		}
 
@@ -310,7 +317,7 @@ a("#submitGrade").addEventListener("click", () => {
 
 	if (selectedGrade == undefined) {
 		alert("Selecione a nota")
-		return;
+		return
 	}
 
 	const commentary = a("#commentary").value
@@ -328,11 +335,11 @@ a("#submitGrade").addEventListener("click", () => {
 			document.querySelectorAll("form .fixTask-item").forEach(formItem => {
 				formItem.style.display = "none"
 			})
-	
+
 			a("#submitGrade").style.display = "none"
 			a("#resubmit").style.display = "none"
 			a("#cancelFixTask").textContent = "Voltar"
-	
+
 			const correctedTemplate = document.createElement("div")
 			correctedTemplate.classList.add("professor-feedback")
 			correctedTemplate.innerHTML = `
@@ -340,7 +347,7 @@ a("#submitGrade").addEventListener("click", () => {
 				<p>Nota: ${selectedGrade}</p>
 				<p>Seu comentário: "${commentary}"</p>
 			`
-	
+
 			document.querySelector("#fixTaskForm").insertBefore(correctedTemplate, a("#cancelFixTask").parentNode)
 		})
 		.catch(error => {

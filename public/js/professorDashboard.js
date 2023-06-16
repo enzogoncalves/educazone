@@ -129,16 +129,6 @@ function displayStudentsTable(students) {
 	})
 }
 
-function formatDate(dateString) {
-	const parts = dateString.split("-")
-	const day = parts[0]
-	const month = parts[1]
-	const year = parts[2]
-
-	const formattedDate = `${month}-${day}-${year}`
-	return formattedDate
-}
-
 async function getPaymentDate(teacherId) {
 	const paymentCollection = query(collection(firestoreDb, "payments"), where("professorId", "==", teacherId))
 
@@ -159,10 +149,10 @@ async function getPaymentDate(teacherId) {
 			`
 		} else {
 			snapshot.forEach(doc => {
-				const paid = doc.data()
+				const paid = doc.data().paid
 				const paymentDate = doc.data().date
 				const paymentAmount = doc.data().amount
-				const firebaseFormatted = new Date(formatDate(paymentDate))
+				const firebaseFormatted = new Date(paymentDate)
 
 				if (currentDate < firebaseFormatted) {
 					toReceive += paymentAmount
