@@ -64,7 +64,7 @@ module.exports = {
 		const professorRef = doc(firestoreDb, "professors", professorId)
 
 		batch.set(newPaymentKey, {
-			amount: req.params.amount,
+			amount: Number(req.params.amount),
 			studentId: studentId,
 			professorId: professorId,
 			date: date,
@@ -74,7 +74,7 @@ module.exports = {
 		})
 
 		batch.set(newNextPaymentKey, {
-			amount: req.params.amount,
+			amount: Number(req.params.amount),
 			studentId: studentId,
 			professorId: professorId,
 			date: nextDate,
