@@ -57,7 +57,7 @@ onAuthStateChanged(auth, async authUser => {
 		const table = document.createElement("table")
 
 		const tasksListener = onSnapshot(qTasks, { includeMetadataChanges: true }, querySnapshot => {
-			if (querySnapshot.docChanges().length == 0) {
+			if (querySnapshot.empty) {
 				const p = document.createElement("p")
 				p.textContent = "Nenhuma tarefa foi criada ainda"
 				tasksContainer.appendChild(p)
@@ -242,7 +242,7 @@ function selectTask(task, taskId) {
 	a("#studentTaskTitle").textContent = task.title
 	a("#deliveredAt").textContent = task.studentAnswer.deliveredAt.toDate().toLocaleDateString()
 	a("#studentFiles").innerHTML = ""
-	a("#taskResponse").innerHTML = task.studentAnswer.written == "" ? "Não adicionada" : task.studentAnswer.written ;
+	a("#taskResponse").innerHTML = task.studentAnswer.written == "" ? "Não adicionada" : task.studentAnswer.written
 
 	if (task.studentAnswer.files.length !== 0) {
 		const storage = getStorage()

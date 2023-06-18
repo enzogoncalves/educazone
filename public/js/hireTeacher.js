@@ -1,10 +1,27 @@
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"
 import { getFirestore, doc, getDocs, collection, query, where, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"
 
 import { app } from "./initializeFirebase.js"
 
-import { createProfilePicture } from "./modules.js"
+import { createProfilePicture, redirectToLoginPage } from "./modules.js"
 
+const auth = getAuth()
 const firestoreDb = getFirestore(app)
+
+onAuthStateChanged(auth, async authUser => {
+	if (authUser) {
+		const qProfessor = query(collection(firestoreDb, "students"), where("professors", "array-contains", professorId))
+		const queryProfessor = await getDocs(qProfessor)
+
+		queryProfessor.forEach(doc => {
+			if (doc.id === authUser.uid) {
+				document.querySelector("#hire-btn").remove()
+			}
+		})
+	} else {
+		redirectToLoginPage()
+	}
+})
 
 const professorId = document.querySelector("body").getAttribute("id")
 

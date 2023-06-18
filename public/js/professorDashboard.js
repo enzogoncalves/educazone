@@ -40,7 +40,6 @@ onAuthStateChanged(auth, async authUser => {
 
 		tasksSnapshot.forEach(task => {
 			const professorTask = task.data()
-			console.log(task)
 			tasksStatus.total++
 
 			if (professorTask.delivered && professorTask.status == "Entregue") {

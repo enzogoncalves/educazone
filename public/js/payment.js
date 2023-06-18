@@ -52,7 +52,7 @@ function loadProfessorData(professorData) {
 	document.getElementById("fullname").textContent = `${professorData.firstName} ${professorData.lastName}`
 	document.getElementById("firstName").textContent = `Contratar ${professorData.firstName}`
 
-	if (professorData.pictureUrl === undefined) {
+	if (professorData.pictureUrl) {
 		document.getElementById("professorPicture").innerHTML += `
 			<img src="${professorData.pictureUrl}" alt="Imagem do professor" class="profilePicture"/>
 		`
@@ -76,7 +76,7 @@ document.querySelector("#pay").addEventListener("click", () => {
 			},
 		}),
 	})
-		.then(res => {
+		.then(async res => {
 			if (res.ok) return res.json()
 			return res.json().then(json => Promise.reject(json))
 		})

@@ -1,11 +1,11 @@
 main {
-	max-width: 1000px;
+	max-width: 1100px;
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 1rem;
-	padding: .75rem;
+	padding: 0.75rem;
 }
 
 #hire {
@@ -81,18 +81,18 @@ main {
 	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
 }
 
-#hire .btn-actions button:nth-child(1) {
+#hire .btn-actions button#hire-btn {
 	background-color: var(--primary-color);
 }
 
-#hire .btn-actions button:nth-child(2) {
+#hire .btn-actions button#send-message {
 	background-color: var(--dark-grey);
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
 }
 
-#hire .btn-actions button:nth-child(3) {
+#hire .btn-actions button#denounce {
 	background-color: var(--dark-grey);
 }
 
@@ -121,7 +121,7 @@ main {
 	width: fit-content;
 	word-break: break-all;
 }
-		
+
 @media (min-width: 600px) {
 	main {
 		flex-direction: row;

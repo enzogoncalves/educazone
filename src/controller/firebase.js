@@ -93,11 +93,11 @@ module.exports = {
 		batch
 			.commit()
 			.then(() => {
-				res.redirect(`${process.env.SERVER_URL}/success`)
+				res.redirect(`${process.env.SERVER_URL}/studentProfile`)
 			})
 			.catch(error => {
 				console.log(error)
-				res.redirect(`${process.env.SERVER_URL}/cancel`)
+				res.redirect(`${process.env.SERVER_URL}/cancel/${professorId}`)
 			})
 	},
 }

@@ -44,4 +44,8 @@ route.get("/student/building", (req, res) => {
 	res.render("building")
 })
 
+route.get("/cancel/:professorId", (req, res) => {
+	res.render("cancel", { professorId: req.params.professorId })
+})
+
 module.exports = route
